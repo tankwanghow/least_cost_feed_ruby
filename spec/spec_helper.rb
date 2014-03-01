@@ -15,6 +15,7 @@ ActiveRecord::Migration.maintain_test_schema! if defined?(ActiveRecord::Base)
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
+  config.include Helpers
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
