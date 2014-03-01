@@ -7,6 +7,11 @@ FactoryGirl.define do
     name { Faker::Name.name }
     password "secret"
     password_confirmation "secret"
+    is_admin false
+    
+    factory :admin_user do
+      is_admin true
+    end
 
     factory :invalid_user do
       password_confirmation { 'mama' }

@@ -35,12 +35,15 @@ ActiveRecord::Schema.define(version: 20140227021212) do
   end
 
   create_table "users", force: true do |t|
-    t.string  "username",                            null: false
-    t.string  "email"
-    t.string  "name"
-    t.string  "password_digest",                     null: false
-    t.string  "status",          default: "pending"
-    t.integer "lock_version",    default: 0
+    t.string   "username",                            null: false
+    t.string   "email"
+    t.string   "name"
+    t.string   "password_digest",                     null: false
+    t.string   "status",          default: "pending", null: false
+    t.boolean  "is_admin",        default: false,     null: false
+    t.integer  "lock_version",    default: 0,         null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
