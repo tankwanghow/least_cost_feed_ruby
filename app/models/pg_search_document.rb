@@ -44,11 +44,11 @@ class PgSearchDocument < ActiveRecord::Base
   end
 
   def self.by_date start_date, end_date
-    if start_date and end_date
+    if start_date && end_date
       date_between start_date, end_date
-    elsif start_date and !end_date
+    elsif start_date && !end_date
       date_larger_eq start_date
-    elsif !start_date and end_date
+    elsif !start_date && end_date
       date_smaller_eq end_date
     else
       where "1=1"
@@ -56,11 +56,11 @@ class PgSearchDocument < ActiveRecord::Base
   end
 
   def self.by_amount larger, smaller
-    if larger and smaller
+    if larger && smaller
       amount_between larger, smaller
-    elsif larger and !smaller
+    elsif larger && !smaller
       amount_larger_eq larger
-    elsif !larger and smaller
+    elsif !larger && smaller
       amount_smaller_eq smaller
     else
       where "1=1"
