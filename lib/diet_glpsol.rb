@@ -1,5 +1,6 @@
 class DietGlpsol
-  def self.solution_for_formula formula, filename, solver='glpsol --math'
+  def self.solution_for_formula formula, filename, solver=Rails.root.to_s + '/lib/bin/glpsol --math'
+    filename = Rails.root.to_s + "/tmp/glpk_mod_files/" + filename
     gmpl_for_formula formula, filename
     solution_for_gmpl filename, solver
   end
@@ -104,11 +105,11 @@ class DietGlpsol
 private
 
   def self.constraint object, expression=""
-    if object.max and object.min
+    if object.max && object.min
       gt_lt_constraint(object, expression)
-    elsif object.max and !object.min
+    elsif object.max && !object.min
       lt_constraint(object, expression)
-    elsif object.min and !object.max
+    elsif object.min && !object.max
       gt_constraint(object, expression)
     else
       gt_zero_constraint(object, expression)
