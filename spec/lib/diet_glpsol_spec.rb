@@ -60,7 +60,7 @@ describe DietGlpsol do
 
   it "should find the solution for formula" do
     filename = "abc#{rand(5000)}xyz.mod"
-    DietGlpsol.solution_for_formula(@formula, filename, 'glpsol --math').should == {
+    DietGlpsol.solution_for_formula(@formula, filename).should == {
       formula: ["p_1,0.700000,0.000000", "p_2,0.167552,0.000000", "p_3,0.034230,0.000000", "p_4,0.098219,0.000000", "p_5,0.000000,1.903611"],
       specs:   ["n_1,2800.000000", "n_2,14.282146", "n_3,3.800000", "n_4,1.663116"]
     }
@@ -68,21 +68,18 @@ describe DietGlpsol do
 
   it "should delete the solved file" do
     filename = "abc#{rand(5000)}xyz.mod"
-    DietGlpsol.gmpl_for_formula(@formula, filename)
-    DietGlpsol.solution_for_gmpl(filename, 'glpsol --math')
+    DietGlpsol.solution_for_formula(@formula, filename)
     Proc.new { File.open(filename) }.should raise_error
   end
 
   it "should return nil, if solution not found" do
     filename = "abc#{rand(5000)}xyz.mod"
-    DietGlpsol.gmpl_for_formula(@formula1, filename)
-    DietGlpsol.solution_for_gmpl(filename, 'glpsol --math').should == nil
+    DietGlpsol.solution_for_formula(@formula1, filename).should == nil
   end
 
   it "should be return the solution, if soultion found" do
     filename = "abc#{rand(5000)}xyz.mod"
-    DietGlpsol.gmpl_for_formula(@formula, filename)
-    DietGlpsol.solution_for_gmpl(filename, 'glpsol --math').should == {
+    DietGlpsol.solution_for_formula(@formula, filename).should == {
       formula: ["p_1,0.700000,0.000000", "p_2,0.167552,0.000000", "p_3,0.034230,0.000000", "p_4,0.098219,0.000000", "p_5,0.000000,1.903611"],
       specs:   ["n_1,2800.000000", "n_2,14.282146", "n_3,3.800000", "n_4,1.663116"] }
   end
