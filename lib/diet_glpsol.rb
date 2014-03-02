@@ -1,6 +1,6 @@
 class DietGlpsol
   def self.solution_for_formula formula, filename, solver=Rails.root.to_s + '/lib/bin/glpsol --math'
-    filename = Rails.root.to_s + "/tmp/glpk_mod_files/" + filename
+    filename = Rails.root.to_s + "/tmp/" + filename
     gmpl_for_formula formula, filename
     solution_for_gmpl filename, solver
   end
