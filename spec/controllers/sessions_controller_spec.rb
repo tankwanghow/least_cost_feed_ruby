@@ -8,7 +8,7 @@ describe SessionsController do
   context "POST create" do
     context "logged in" do
       before(:each) do
-        controller.should_receive(:current_user).and_return user
+        controller.should_receive(:current_user).at_least(:once).and_return user
         post :create
       end
       it { should_not_receive :login_required }
@@ -17,7 +17,7 @@ describe SessionsController do
     end
 
     context "not log in" do
-      before(:each) { controller.should_receive(:current_user).and_return nil }
+      before(:each) { controller.should_receive(:current_user).at_least(:once).and_return nil }
 
       context "valid username, invalid password" do
         before(:each) do
@@ -69,7 +69,7 @@ describe SessionsController do
   context "GET new" do
     context "logged in" do
       before(:each) do
-        controller.should_receive(:current_user).and_return user
+        controller.should_receive(:current_user).at_least(:once).and_return user
         get :new
       end
       it { should_not_receive :login_required }
@@ -79,7 +79,7 @@ describe SessionsController do
 
     context "not log in" do
       before(:each) do
-        controller.should_receive(:current_user).and_return nil
+        controller.should_receive(:current_user).at_least(:once).and_return nil
         get :new
       end
       it { should_not_receive :login_required }
@@ -90,7 +90,7 @@ describe SessionsController do
   context "DELETE destroy" do
     context "logged in" do
       before(:each) do
-        controller.should_receive(:current_user).and_return user
+        controller.should_receive(:current_user).at_least(:once).and_return user
         controller.session[:user_id] = user.id
         delete :destroy
       end

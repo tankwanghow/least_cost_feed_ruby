@@ -12,6 +12,13 @@ describe TestBeforeFilterInApplicationController do
     get :haha
   end
   it { expect(response).to redirect_to :login }
+
+  it "should include SentientController" do
+    user = create(:user)
+    login_as user
+    get :haha
+    expect(User.current).to eq user
+  end
 end
 
 describe ApplicationController do

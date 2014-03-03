@@ -32,7 +32,7 @@ describe UsersController do
     let(:attrs_invalid_user) { attributes_for :invalid_user }
     it { should_not_receive :login_required }
     context "any user" do
-      before(:each) { controller.should_receive(:current_user).and_return any_user }
+      before(:each) { controller.should_receive(:current_user).at_least(:once).and_return any_user }
 
       context "should protect from mass-assigment" do
         before(:each) { post :create, user: attrs_user }
@@ -59,7 +59,7 @@ describe UsersController do
 
     context "admin user" do
       before(:each) do
-        controller.should_receive(:current_user).and_return admin_user
+        controller.should_receive(:current_user).at_least(:once).and_return admin_user
         post :create, user: attrs_user
       end
       context "should not protect from mass-assigment" do
