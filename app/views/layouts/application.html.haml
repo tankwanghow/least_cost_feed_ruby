@@ -1,0 +1,59 @@
+!!! 5
+%html
+  %head
+    %meta{:charset => "utf-8"}
+    %meta{"http-equiv" => "X-UA-Compatible", :content => "IE=edge,chrome=1"}
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
+    %title= content_for?(:title) ? yield(:title) : "GLPK Feed"
+    %meta{:content => "", :name => "description"}
+    %meta{:content => "", :name => "author"}
+    = stylesheet_link_tag 'application', :media => 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+    = yield(:head)
+  %body
+    .navbar.navbar-inverse.navbar-fixed-top
+      .container
+        .navbar-header
+          %a.navbar-brand{href:"#"}Project name
+        .navbar-collapse.collapse
+          %ul.nav.navbar-nav
+            %li.active
+              %a{href:"#"}>
+                Home
+            %li
+              %a{href:"#about"}
+                About
+            %li
+              %a{href:"#contact"}
+                Contact
+            %li.dropdown
+              %a.dropdown-toggle{href:"#", "data-toggle" => "dropdown"}
+                Dropdown 
+                %b.caret
+              %ul.dropdown-menu
+                %li
+                  %a{href:"#"}
+                    Action
+                %li
+                  %a{href:"#"}
+                    Another action
+                %li
+                  %a{href:"#"}
+                    Something else here
+                %li.divider
+                %li.dropdown-header
+                  Nav header
+                %li
+                  %a{href:"#"}
+                    Separated link
+                %li
+                  %a{href:"#"}
+                    One more separated link
+          = simple_form_for :session, html: { class: 'navbar-form navbar-right' } do |f|
+            = f.input_field :username, placeholder: 'Username', class: 'form-control'
+            = f.password_field :password, placeholder: 'Password', class: 'form-control'
+            = f.button :submit, "Login", class: "btn btn-success"
+            = link_to 'or Sign Up', signup_path
+    .container
+      = yield
