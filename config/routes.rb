@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#index'
 
-  get    'dashboard' => 'formulas#index'
-  get    'login'   => 'sessions#new'
+  get    'dashboard' => 'welcome#index'
+  get    'login'   => 'welcome#index'
   delete 'logout'  => 'sessions#destroy'
   get    'signup' => 'users#new'
   
