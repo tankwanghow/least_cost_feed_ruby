@@ -44,7 +44,7 @@ describe UsersController do
         before(:each) { post :create, user: attrs_invalid_user }
         it { expect(assign_user.class).to be User }
         it { expect(assign_user).to be_new_record }
-        it { expect(flash[:error]).to include "Ooppps" }
+        it { expect(flash[:danger]).to include "Ooppps" }
         it { expect(response).to render_template :new }
       end
 
