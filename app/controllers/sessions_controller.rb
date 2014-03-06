@@ -1,13 +1,9 @@
 class SessionsController < ApplicationController
   skip_before_action :login_required
-  
-  def new
-    redirect_logged_in_user if current_user
-  end
 
   def create
     if current_user
-      redirect_logged_in_user
+      redirect_to :back, flash: { warning: "Already logged in." }
     else
       @user = User.find_by_username params[:session][:username]
       if !@user
@@ -20,7 +16,8 @@ class SessionsController < ApplicationController
             redirect_pending_user
           else
             session[:user_id] = @user.id
-            redirect_to :dashboard, flash: { success: "Logged in successfully." }
+            flash[:success] = "Logged in successfully."
+            redirect_to_target_or_default :dashboard
           end
         end
       end
@@ -29,20 +26,21 @@ class SessionsController < ApplicationController
 
   def destroy
     session.clear if current_user
-    redirect_to :root, notice: "Logged Out."
+    redirect_to :root, flash: { success: "Logged Out." }
   end
 
   private
 
   def redirect_logged_in_user
-    redirect_to :back, notice: "Already logged in."
+    flash[:warning] = "Already logged in."
+    redirect_to_target_or_default :dashboard
   end
 
   def redirect_pending_user
-    redirect_to :root, flash: { notice: "Your account is pending approval." }
+    redirect_to :root, flash: { warning: "Your account is pending approval." }
   end
 
   def redirect_invalid_user
-    redirect_to :login, flash: { error: "Invalid username or password." }
+    redirect_to :login, flash: { danger: "Invalid username or password." }
   end
 end

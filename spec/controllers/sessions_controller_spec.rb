@@ -2,7 +2,10 @@ require 'spec_helper'
 
 describe SessionsController do
   let(:user) { create :active_user }
-  before(:each) do request.env['HTTP_REFERER'] = 'http://test.host/mama/bapa'
+  before(:each) do
+    @return_to = 'http://test.host/return_to'
+    request.env['HTTP_REFERER'] = 'http://test.host/HTTP_REFERER'
+    controller.session[:return_to] = @return_to
   end
 
   context "POST create" do
@@ -13,7 +16,7 @@ describe SessionsController do
       end
       it { should_not_receive :login_required }
       it { expect(response).to redirect_to :back }
-      it { expect(flash["notice"]).to include "logged in" }
+      it { expect(flash[:warning]).to include "logged in" }
     end
 
     context "not log in" do
@@ -27,10 +30,10 @@ describe SessionsController do
         end
         it { should_not_receive :login_required }
         it { expect(response).to redirect_to :login }
-        it { expect(flash[:error]).to include "Invalid" }
+        it { expect(flash[:danger]).to include "Invalid" }
       end
 
-      context "valid user" do 
+      context "valid user" do
         before(:each) do
           User.should_receive(:find_by_username).with(user.username).and_return user
           user.should_receive(:authenticate).with('secret').and_return true
@@ -38,8 +41,21 @@ describe SessionsController do
         end
         it { should_not_receive :login_required }
         it { expect(session[:user_id]).to eq user.id }
-        it { expect(response).to redirect_to :dashboard }
         it { expect(flash[:success]).to include "success" }
+        it { expect(response).to redirect_to @return_to }
+      end
+
+      context "valid user no return url" do
+        before(:each) do
+          User.should_receive(:find_by_username).with(user.username).and_return user
+          user.should_receive(:authenticate).with('secret').and_return true
+          controller.session[:return_to] = nil
+          post :create, session: { username: user.username, password: 'secret' }
+        end
+        it { should_not_receive :login_required }
+        it { expect(session[:user_id]).to eq user.id }
+        it { expect(flash[:success]).to include "success" }
+        it { expect(response).to redirect_to :dashboard }
       end
 
       context "pending user" do
@@ -51,7 +67,7 @@ describe SessionsController do
         end
         it { should_not_receive :login_required }
         it { expect(response).to redirect_to :root }
-        it { expect(flash[:notice]).to include "pending" }
+        it { expect(flash[:warning]).to include "pending" }
       end
 
       context "invalid username" do 
@@ -61,29 +77,8 @@ describe SessionsController do
         end
         it { should_not_receive :login_required }
         it { expect(response).to redirect_to :login }
-        it { expect(flash[:error]).to include "Invalid" }
+        it { expect(flash[:danger]).to include "Invalid" }
       end
-    end
-  end
-  
-  context "GET new" do
-    context "logged in" do
-      before(:each) do
-        controller.should_receive(:current_user).at_least(:once).and_return user
-        get :new
-      end
-      it { should_not_receive :login_required }
-      it { expect(response).to redirect_to :back }
-      it { expect(flash["notice"]).to include "logged in" }
-    end
-
-    context "not log in" do
-      before(:each) do
-        controller.should_receive(:current_user).at_least(:once).and_return nil
-        get :new
-      end
-      it { should_not_receive :login_required }
-      it { expect(response).to render_template :new }
     end
   end
 
@@ -96,7 +91,7 @@ describe SessionsController do
       end
       it { should_not_receive :login_required }
       it { expect(response).to redirect_to :root }
-      it { expect(flash["notice"]).to include 'Logged Out' }
+      it { expect(flash[:success]).to include 'Logged Out' }
       it { expect(session[:user_id]).to be_nil }
     end
   end
