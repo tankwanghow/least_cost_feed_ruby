@@ -1,0 +1,14 @@
+= render_flash
+= simple_form_for @user, html: { class: 'center form-horizontal well col-lg-5' }, wrapper: :hows_horizontal do |f|
+  %legend User Signup
+  = f.input :username, autofocus: true
+  = f.input :name
+  = f.input :email
+  = f.input :password
+  = f.input :password_confirmation, label: 'Confirmation'
+  - if current_user.is_admin
+    = f.input :is_admin
+    = f.input :status, collection: ['active', 'pending', 'locked'], include_blank: false
+  %div.col-lg-offset-1
+    = f.button :submit, 'Save', class: 'btn btn-primary'
+    = link_to 'Cancel', session[:return_to] || root_path, class: 'btn btn-success'
