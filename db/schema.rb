@@ -19,10 +19,15 @@ ActiveRecord::Schema.define(version: 20140227021212) do
   enable_extension "fuzzystrmatch"
 
   create_table "ingredients", force: true do |t|
-    t.integer "user_id_id"
-    t.string  "name"
-    t.decimal "cost"
+    t.integer  "user_id",                                             null: false
+    t.string   "name",                                                null: false
+    t.decimal  "cost",         precision: 12, scale: 4, default: 0.0, null: false
+    t.integer  "lock_version",                          default: 0,   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
+
+  add_index "ingredients", ["user_id", "name"], name: "index_ingredients_on_user_id_and_name", unique: true, using: :btree
 
   create_table "pg_search_documents", force: true do |t|
     t.date     "doc_date"

@@ -7,4 +7,5 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: true
   validates :name, :username, presence: true
   searchable content: [:name, :username, :email, :status]
+  has_many :ingredients
 end

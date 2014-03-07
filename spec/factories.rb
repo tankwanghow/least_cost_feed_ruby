@@ -1,6 +1,13 @@
 require 'ffaker'
 
 FactoryGirl.define do
+  
+  factory :ingredient do
+    user { create :user }
+    name { Faker::Name.name }
+    cost { rand(99999)/100 }
+  end
+
   factory :user do
     username { Faker::Internet.user_name }
     email { Faker::Internet.email }    
@@ -8,7 +15,7 @@ FactoryGirl.define do
     password "secret"
     password_confirmation "secret"
     is_admin false
-    
+
     factory :admin_user do
       is_admin true
     end
@@ -21,6 +28,6 @@ FactoryGirl.define do
     factory :active_user do
       status { :active }
     end
-
   end
+
 end

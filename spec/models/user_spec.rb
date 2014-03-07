@@ -10,6 +10,9 @@ describe User do
   it { should have_db_column(:status).with_options(default: 'pending', null: false) }
   it { should have_db_column(:lock_version).with_options(default: 0, null: false) }
   it { should have_db_column(:is_admin).with_options(null: false, default: false) }
+
+  it { should have_many(:ingredients) }
+
   it { should have_db_index(:username) }
 
   it "should be timestamped" do
