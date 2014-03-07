@@ -6,7 +6,18 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    @user = fetch_user
+  end
+
+  def update
+    @user = fetch_user
+    if @user.update_attributes user_params
+      flash[:success] = "#{@user.name} Profile updated successfully. Will be reflect next login."
+      redirect_to root_path
+    else
+      flash[:danger] = "Failed to updated User Profile."
+      render :edit
+    end
   end
 
   def create
@@ -21,8 +32,16 @@ class UsersController < ApplicationController
   
 private
 
+  def fetch_user
+    if params[:id].to_i == current_user.try(:id) || current_user.is_admin
+      User.find(params[:id])
+    else
+      redirect_to :back, flash: { danger: "Cannot edit other user." }
+    end
+  end
+
   def user_params
-    if current_user && !current_user.is_admin
+    if !current_user.try(:is_admin)
       params.require(:user).permit(:username, :email, :name, :password, :password_confirmation)
     else
       params.require(:user).permit(:username, :email, :name, :password, :password_confirmation, :status, :is_admin)  
