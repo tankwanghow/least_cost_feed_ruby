@@ -33,7 +33,6 @@ gem 'prawn'
 gem 'simple_form'
 gem 'haml'
 gem 'haml-rails'
-gem 'pg_search'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby'

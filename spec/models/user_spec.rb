@@ -35,9 +35,4 @@ describe User do
     it { expect(User.respond_to?(:current)).to be_true }
   end
 
-  context "searchable" do
-    it { expect(user.respond_to?(:searchable_options)).to be_true }
-    it { expect(user.searchable_options[:content]).to eq([:name, :username, :email, :status]) }
-  end
-
 end
