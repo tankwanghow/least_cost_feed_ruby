@@ -30,7 +30,7 @@ module Authentication
   def login_required
     unless logged_in?
       store_target_location
-      redirect_to login_url
+      redirect_to login_url, flash: { warning: 'Login Required.' }
     end
   end
 
