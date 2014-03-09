@@ -1,6 +1,15 @@
 class UsersController < ApplicationController
   skip_before_action :login_required, only: [:new, :create]
   
+  def index
+    if current_user.is_admin
+      @terms = params[:search] ? params[:search][:terms] : nil
+      @users = User.find_users(@terms).page(params[:page])
+    else
+      redirect_to :root, flash: { danger: "Unauthorize access!" }
+    end
+  end
+
   def new
     @user = User.new
   end

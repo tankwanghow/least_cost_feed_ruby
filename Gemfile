@@ -33,6 +33,8 @@ gem 'prawn'
 gem 'simple_form'
 gem 'haml'
 gem 'haml-rails'
+gem 'kaminari'
+gem 'bootstrap-kaminari-views'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby'

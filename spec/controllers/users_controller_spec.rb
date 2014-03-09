@@ -6,6 +6,47 @@ describe UsersController do
   let(:any_user) { create :user, name: 'mama' }
   before(:each) { request.env['HTTP_REFERER'] = 'http://test.host/HTTP_REFERER' }
 
+  context "GET index" do
+    it "should authenticate" do
+      get :index
+      expect(response).to redirect_to :login
+    end
+
+    context "Authenticated" do
+      context "Not Admin" do
+        before(:each) do
+          login_as any_user
+          get :index
+        end
+        it { expect(response).to redirect_to :root }
+        it { expect(flash[:danger]).to include 'Unauthorize' }
+      end
+    end
+
+    context "Authenticated" do
+      let(:assign_users) { assigns :users }
+      let(:dbl) { double }
+      before(:each) { login_as admin_user }
+      context "Is Admin and has terms" do
+        before(:each) do
+          expect(User).to receive(:find_users).with('xxx').and_return dbl
+          expect(dbl).to receive(:page).with '10'
+          get :index, search: { terms: 'xxx' }, page: 10
+        end
+        it { expect(response).to render_template :index }
+      end
+      context "Is Admin and has no terms" do
+        before(:each) do
+          expect(User).to receive(:find_users).with(nil).and_return dbl
+          expect(dbl).to receive(:page).with '10'
+          get :index, page: 10
+        end
+        it { expect(response).to render_template :index }
+      end
+    end
+
+  end
+
   context "PATCH update" do
     let(:edit_user) { create :user, name: 'haha' }
     
