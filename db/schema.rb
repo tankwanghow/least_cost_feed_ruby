@@ -11,12 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140227021212) do
+ActiveRecord::Schema.define(version: 20140226085438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pg_trgm"
-  enable_extension "fuzzystrmatch"
 
   create_table "ingredients", force: true do |t|
     t.integer  "user_id",                                             null: false
@@ -28,16 +26,6 @@ ActiveRecord::Schema.define(version: 20140227021212) do
   end
 
   add_index "ingredients", ["user_id", "name"], name: "index_ingredients_on_user_id_and_name", unique: true, using: :btree
-
-  create_table "pg_search_documents", force: true do |t|
-    t.date     "doc_date"
-    t.text     "content"
-    t.integer  "searchable_id"
-    t.string   "searchable_type"
-    t.decimal  "doc_amount",      precision: 12, scale: 2
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "users", force: true do |t|
     t.string   "username",                            null: false
