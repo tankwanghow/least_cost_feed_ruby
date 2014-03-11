@@ -40,8 +40,8 @@ describe User do
       10.times { create :active_user }
       10.times { create :user }
     end
-    it { expect(User.find_users('al')).to eq User.where("username || name || email || status ilike '%al%'").paginate(page: 1, per_page: 25).order(:name) }
-    it { expect(User.find_users).to eq User.all.paginate(page: 1, per_page: 25).order(:name) }
+    it { expect(User.find_users('al')).to eq User.where("username || name || email || status ilike '%al%'").page(1).per(25).order(:name) }
+    it { expect(User.find_users).to eq User.all.page(1).per(25).order(:name) }
   end
 
 end
