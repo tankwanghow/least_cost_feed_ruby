@@ -2,7 +2,7 @@
 SimpleForm.setup do |config|
   config.boolean_style = :nested
 
-  config.wrappers :hows_horizontal, tag: 'div', class: 'form-group', error_class: 'has-error', label_html: { class: 'col-md-3' } do |b|
+  config.wrappers :hows_horizontal, tag: 'div', class: 'form-group', error_class: 'has-error', label_html: { class: 'col-sm-3' } do |b|
     
     b.use :html5
     b.use :min_max
@@ -13,7 +13,7 @@ SimpleForm.setup do |config|
     b.optional :readonly
 
     b.use :label
-    b.use :input, wrap_with: { tag: 'div', class: 'col-md-9' }
+    b.use :input, wrap_with: { tag: 'div', class: 'col-sm-9' }
     b.use :hint,  wrap_with: { tag: 'span', class: 'help-block' }
     b.use :error, wrap_with: { tag: 'span', class: 'help-block has-error' }
   end
