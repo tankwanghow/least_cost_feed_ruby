@@ -1,0 +1,26 @@
+= render_flash
+= simple_form_for :search, url: ingredients_path, html: { class: 'form-horizontal', method: :get } do |f|
+  = content_tag :div, class: 'col-sm-5' do  
+    = f.input_field :terms, autofocus: true, value: @terms, placeholder: 'Search Terms...'
+  = f.button :submit, 'search', class: 'btn btn-primary'
+  = link_to "New Ingredient", new_ingredient_path, class: 'btn btn-success'
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Batch No
+      %th Cost
+      %th Status
+      %th Note
+      %th
+  %tbody
+    - @ingredients.each do |i|
+      %tr
+        %td
+          = link_to i.name, edit_ingredient_path(i.id)
+        %td= i.batch_no
+        %td= i.cost.to_money.format
+        %td= i.status
+        %td= i.note
+        %td= link_to "Delete", i, method: :delete, data: { confirm: 'Are You Sure!' }, class: 'label label-danger'
+= paginate @ingredients, params: { search: params[:search] }, theme: 'twitter-bootstrap-3'

@@ -1,6 +1,6 @@
 = render_flash
 = simple_form_for @ingredient, html: { class: 'col-sm-5' } do |f|
-  %legend New Ingredient
+  %legend Edit Ingredient
   = render 'fields', f: f
   = f.button :submit, 'Save', class: 'btn btn-primary'
-  = link_to 'Index', ingredients_path, class: 'btn btn-info'
+  = link_to 'Cancel', edit_ingredient_path(@ingredient), class: 'btn btn-warning'
