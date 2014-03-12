@@ -17,15 +17,18 @@ ActiveRecord::Schema.define(version: 20140226085438) do
   enable_extension "plpgsql"
 
   create_table "ingredients", force: true do |t|
-    t.integer  "user_id",                                             null: false
-    t.string   "name",                                                null: false
-    t.decimal  "cost",         precision: 12, scale: 4, default: 0.0, null: false
-    t.integer  "lock_version",                          default: 0,   null: false
+    t.integer  "user_id",                                                   null: false
+    t.string   "name",                                                      null: false
+    t.decimal  "cost",         precision: 12, scale: 4, default: 0.0,       null: false
+    t.string   "batch_no"
+    t.text     "note"
+    t.string   "status",                                default: "pending", null: false
+    t.integer  "lock_version",                          default: 0,         null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "ingredients", ["user_id", "name"], name: "index_ingredients_on_user_id_and_name", unique: true, using: :btree
+  add_index "ingredients", ["user_id", "name", "batch_no"], name: "index_ingredients_on_user_id_and_name_and_batch_no", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "username",                            null: false
