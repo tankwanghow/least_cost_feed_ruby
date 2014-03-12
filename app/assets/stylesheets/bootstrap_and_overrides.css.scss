@@ -14,3 +14,7 @@ input[type='checkbox'].form-control {
   height: 20px;
   width: 20px;
 }
+
+input.numeric.form-control {
+  text-align: right;
+}
