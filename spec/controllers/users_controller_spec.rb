@@ -62,7 +62,7 @@ describe UsersController do
       end
       context "update success" do
         before(:each) do
-          edit_user.should_receive(:update_attributes).with(permitted_params(edit_user.attributes, ["username", "email", "name", "password", "password_confirmation"])).and_return true
+          edit_user.should_receive(:update_attributes).with(permitted_params(edit_user.attributes, [:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit])).and_return true
           patch :update, id: edit_user.id, user: edit_user.attributes
         end
         it { expect(assign_user).to eq edit_user }
@@ -87,7 +87,7 @@ describe UsersController do
       end
       context "update success" do
         before(:each) do
-          edit_user.should_receive(:update_attributes).with(permitted_params(edit_user.attributes, ["username", "email", "name", "password", "password_confirmation", :is_admin, :status])).and_return true
+          edit_user.should_receive(:update_attributes).with(permitted_params(edit_user.attributes, [:password, :password_confirmation, :is_admin, :status])).and_return true
           patch :update, id: edit_user.id, user: edit_user.attributes
         end
         it { expect(assign_user).to eq edit_user }

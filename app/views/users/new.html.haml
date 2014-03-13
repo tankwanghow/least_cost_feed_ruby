@@ -6,6 +6,9 @@
   = f.input :email
   = f.input :password
   = f.input :password_confirmation, label: 'Confirmation'
+  = f.input :currency
+  = f.input :time_zone
+  = f.input :weight_unit
   %div.col-lg-offset-1
     = f.button :submit, 'Sign up', class: 'btn btn-primary'
     = link_to 'Already have an account, go back to Login', login_path, class: 'btn btn-success'

@@ -14,7 +14,7 @@
   %tbody
     - @users.each do |u|
       %tr
-        %td= u.name
+        %td= link_to u.name, edit_user_path(u)
         %td= u.email
         %td= u.username
         %td= u.status

@@ -22,7 +22,10 @@ FactoryGirl.define do
     name { Faker::Name.name }
     password "secret"
     password_confirmation "secret"
-    is_admin false
+    is_admin { false }
+    currency { ["USD", "MYR", "EUR", "SGD"][rand(4)] }
+    time_zone { ["UTC", "Kuala Lumpur", "London", "Hong Kong"][rand(4)] }
+    weight_unit { ["Kg", "lb", "Mt"][rand(3)] }
 
     factory :admin_user do
       is_admin true

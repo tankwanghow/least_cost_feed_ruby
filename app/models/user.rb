@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   has_secure_password
   include SentientUser
   validates :username, uniqueness: true
-  validates :name, :username, presence: true
+  validates :name, :username, :time_zone, :currency, :weight_unit, :status, :email , presence: true
   has_many :ingredients
 
   def self.find_users terms=nil, page=1

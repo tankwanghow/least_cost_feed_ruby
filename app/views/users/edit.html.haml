@@ -1,11 +1,15 @@
 = render_flash
+- disable = (@user.id != current_user.id)
 = simple_form_for @user, html: { class: 'center form-horizontal well col-sm-5' }, wrapper: :hows_horizontal do |f|
-  %legend User Signup
-  = f.input :username, autofocus: true
-  = f.input :name
-  = f.input :email
+  %legend Edit User Profile
+  = f.input :username, autofocus: true, input_html: { disabled: disable }
+  = f.input :name, input_html: { disabled: disable }
+  = f.input :email, input_html: { disabled: disable }
   = f.input :password
   = f.input :password_confirmation, label: 'Confirmation'
+  = f.input :currency, input_html: { disabled: disable }
+  = f.input :time_zone, input_html: { disabled: disable }
+  = f.input :weight_unit, input_html: { disabled: disable }
   - if current_user.is_admin
     = f.input :is_admin
     = f.input :status, collection: ['active', 'pending', 'locked'], include_blank: false
