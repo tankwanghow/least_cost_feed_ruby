@@ -2,7 +2,7 @@
 = simple_form_for :search, url: users_path, html: { class: 'form-horizontal', method: :get } do |f|
   = content_tag :div, class: 'col-sm-5' do  
     = f.input_field :terms, autofocus: true, value: @terms, placeholder: 'Search Terms...'
-  = f.button :submit, 'search', class: 'btn btn-primary'
+  = f.button :submit, 'Search', class: 'btn btn-primary'
 %table.table
   %thead
     %tr
