@@ -2,7 +2,7 @@
   .col-sm-8
     = f.input :name, autofocus: true
   .col-sm-4
-    = f.input :cost, label: 'Cost(Kg)'
+    = f.input :cost, label: "Cost(#{current_user.weight_unit})"
 .row
   .col-sm-8
     = f.input :batch_no
