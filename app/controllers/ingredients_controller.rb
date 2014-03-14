@@ -28,7 +28,7 @@ class IngredientsController < ApplicationController
     @ingredient.user_id = current_user.id
     if @ingredient.save
       flash[:success] = "Ingredient created successfully."
-      render :index
+      redirect_to ingredients_path
     else
       flash[:danger] = "Ooppps, fail to create Ingredient."
       render :new

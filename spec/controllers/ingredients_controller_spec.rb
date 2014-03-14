@@ -188,7 +188,7 @@ describe IngredientsController do
         post :create, ingredient: ingredient_attrs
       end
       it { expect(flash[:success]).to include "success" }
-      it { expect(response).to render_template :index }
+      it { expect(response).to redirect_to ingredients_path }
     end
 
     context "invalid record" do
