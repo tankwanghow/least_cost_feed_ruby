@@ -26,8 +26,9 @@ gem 'capistrano-rails', group: :development
 
 gem 'pg'
 
-gem "money"
-gem "sentient_user"
+gem 'monetize'
+gem 'money', '6.1.0.beta1'
+gem 'sentient_user'
 gem 'nested_form'
 gem 'prawn'
 gem 'simple_form'
