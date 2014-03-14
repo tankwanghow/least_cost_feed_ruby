@@ -41,6 +41,7 @@ describe SessionsController do
         end
         it { should_not_receive :login_required }
         it { expect(session[:user_id]).to eq user.id }
+        it { expect(Time.zone.name).to eq user.time_zone }
         it { expect(flash[:success]).to include "success" }
         it { expect(response).to redirect_to @return_to }
       end
