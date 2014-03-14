@@ -50,7 +50,9 @@ private
   end
 
   def user_params
-    if !current_user.try(:is_admin)
+    if current_user.try(:is_admin) && current_user.id == @user.id
+      params.require(:user).permit(:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit, :is_admin, :status)
+    elsif !current_user.try(:is_admin)
       params.require(:user).permit(:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit)
     else
       params.require(:user).permit(:password, :password_confirmation, :status, :is_admin)

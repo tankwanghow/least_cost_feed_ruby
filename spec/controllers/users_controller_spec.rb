@@ -6,6 +6,27 @@ describe UsersController do
   let(:any_user) { create :user, name: 'mama' }
   before(:each) { request.env['HTTP_REFERER'] = 'http://test.host/HTTP_REFERER' }
 
+
+  context "permitted_params" do
+    let(:edit_user) { create :user, name: 'haha' }
+    context "normal user, editing self" do
+      it "should allow all params but :is_admin and :status" do
+        login_as edit_user
+        controller.should_receive(:fetch_user).and_return edit_user
+        edit_user.should_receive(:update_attributes).with(permitted_params(edit_user.attributes, [:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit])).and_return true
+        patch :update, id: edit_user.id, user: edit_user.attributes
+      end
+    end
+    context "admin user, editing self" do
+      it "should allow all params" do
+        login_as admin_user
+        controller.should_receive(:fetch_user).and_return admin_user
+        admin_user.should_receive(:update_attributes).with(permitted_params(admin_user.attributes, [:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit, :is_admin, :status])).and_return true
+        patch :update, id: admin_user.id, user: admin_user.attributes
+      end
+    end
+  end    
+
   context "GET index" do
     it "should authenticate" do
       get :index
@@ -186,17 +207,6 @@ describe UsersController do
         it { expect(assign_user).not_to be_new_record }
         it { expect(flash[:success]).to include "success" }
         it { expect(response).to redirect_to :login }
-      end
-    end
-
-    context "admin user" do
-      before(:each) do
-        controller.should_receive(:current_user).at_least(:once).and_return admin_user
-        post :create, user: attrs_user
-      end
-      context "should not protect from mass-assigment" do
-        it { expect(assign_user.status).to eq 'active' }
-        it { expect(assign_user.is_admin).to be_true }
       end
     end
   end
