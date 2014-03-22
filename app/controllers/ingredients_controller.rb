@@ -6,8 +6,8 @@ class IngredientsController < ApplicationController
   end
 
   def update
-    @ingredient = fetch_ingredient
-    if @ingredient.update_attributes ingredient_params
+    fetch_ingredient
+    if @ingredient.update(ingredient_params)
       flash[:success] = "Ingredient updated successfully."
     else
       flash[:danger] = "Ooppps, fail to update Ingredient."
@@ -16,7 +16,7 @@ class IngredientsController < ApplicationController
   end
 
   def edit
-    @ingredient = fetch_ingredient
+    fetch_ingredient
   end 
 
   def new
@@ -36,7 +36,7 @@ class IngredientsController < ApplicationController
   end
 
   def destroy
-    @ingredient = fetch_ingredient
+    fetch_ingredient
     @ingredient.destroy
     flash[:success] = "Ingredient destroyed successfully."
     redirect_to ingredients_path
@@ -49,11 +49,6 @@ private
   end
 
   def fetch_ingredient
-    begin
-      @ingredient = current_user.ingredients.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      flash[:danger] = 'Record Not Found or Unauthorize!'
-      redirect_to :root
-    end
+    @ingredient = current_user.ingredients.find(params[:id])
   end
 end
