@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: true
   validates :name, :username, :time_zone, :currency, :weight_unit, :status, :email , presence: true
   has_many :ingredients
+  has_many :nutrients
 
   def self.find_users terms=nil, page=1
     if terms.blank?

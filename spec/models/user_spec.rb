@@ -15,6 +15,7 @@ describe User do
   it { should have_db_column(:is_admin).with_options(null: false, default: false) }
 
   it { should have_many(:ingredients) }
+  it { should have_many(:nutrients) }
 
   it { should have_db_index(:username) }
 
