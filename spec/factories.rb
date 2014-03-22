@@ -1,6 +1,18 @@
 require 'ffaker'
 
 FactoryGirl.define do
+
+  factory :nutrient do
+    user { create :user }
+    name { Faker::Name.name }
+    unit { Faker::Name.name }
+    note { Faker::Lorem.sentence }
+
+    factory :invalid_nutrient do
+      name { nil }
+      unit { nil }
+    end
+  end
   
   factory :ingredient do
     user { create :user }
