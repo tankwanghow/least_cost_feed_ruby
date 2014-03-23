@@ -14,8 +14,8 @@ describe IngredientsController do
   it_should_authorize_access_own_data_on :delete, :destroy
   it_should_authorize_access_own_data_on :patch,  :update
 
-  it_should_protect_mass_assigment_on_create :name, :cost, :status,:note, :batch_no
-  it_should_protect_mass_assigment_on_update :name, :cost, :status,:note, :batch_no
+  it_should_protect_mass_assigment_on_create :name, :cost, :status, :note, :batch_no
+  it_should_protect_mass_assigment_on_update :name, :cost, :status, :note, :batch_no
 
   it_should_behave_like_destory
   it_should_behave_like_index
