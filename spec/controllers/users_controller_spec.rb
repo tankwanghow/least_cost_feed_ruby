@@ -3,36 +3,46 @@ require 'spec_helper'
 describe UsersController do
 	let(:assign_user) { assigns :user }
   let(:admin_user) { create :admin_user }
-  let(:any_user) { create :user, name: 'mama' }
+  let(:any_user) { create :user, username: 'mama' }
   before(:each) { request.env['HTTP_REFERER'] = 'http://test.host/HTTP_REFERER' }
 
+  it_should_not_be_authenticated_on :get, :new
+  it_should_not_be_authenticated_on :post, :create
+  it_should_be_authenticated_on :get, :edit, id: 1
+  it_should_be_authenticated_on :patch, :update, id: 2
+  it_should_be_authenticated_on :get, :index
 
   context "permitted_params" do
-    let(:edit_user) { create :user, name: 'haha' }
-    context "normal user, editing self" do
+    context "any user, editing self" do
       it "should allow all params but :is_admin and :status" do
-        login_as edit_user
-        controller.should_receive(:fetch_user).and_return edit_user
-        edit_user.should_receive(:update_attributes).with(permitted_params(edit_user.attributes, [:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit])).and_return true
-        patch :update, id: edit_user.id, user: edit_user.attributes
+        login_as any_user
+        User.stub(:find).and_return any_user
+        any_user.should_receive(:update).with(permitted_params(any_user.attributes, [:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit]))
+        patch :update, id: any_user.id, user: any_user.attributes
       end
     end
+
+    context "admin user, editing other user" do
+      it "should allow :password, :password_confirmation, :is_admin, :status" do
+        login_as admin_user
+        User.stub(:find).with(admin_user.id).and_return admin_user
+        User.stub(:find).with(any_user.id).and_return any_user
+        any_user.should_receive(:update).with(permitted_params(any_user.attributes, [:password, :password_confirmation, :is_admin, :status]))
+        patch :update, id: any_user.id, user: any_user.attributes
+      end
+    end
+    
     context "admin user, editing self" do
       it "should allow all params" do
         login_as admin_user
-        controller.should_receive(:fetch_user).and_return admin_user
-        admin_user.should_receive(:update_attributes).with(permitted_params(admin_user.attributes, [:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit, :is_admin, :status])).and_return true
+        User.stub(:find).and_return admin_user
+        admin_user.should_receive(:update).with(permitted_params(admin_user.attributes, [:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit, :is_admin, :status]))
         patch :update, id: admin_user.id, user: admin_user.attributes
       end
     end
   end    
 
   context "GET index" do
-    it "should authenticate" do
-      get :index
-      expect(response).to redirect_to :login
-    end
-
     context "Authenticated" do
       context "Not Admin" do
         before(:each) do
@@ -69,58 +79,53 @@ describe UsersController do
   end
 
   context "PATCH update" do
-    let(:edit_user) { create :user, name: 'haha' }
-    
-    it "should authenticate" do
-      patch :update, id: edit_user.id
-      expect(response).to redirect_to :login
-    end
-
-    context "Permitted to update user, login normal user" do
+    context "Permitted to update self when login as normal user" do
       before(:each) do
-        login_as edit_user
-        controller.should_receive(:fetch_user).and_return edit_user
+        login_as any_user
+        User.stub(:find).and_return any_user
       end
       context "update success" do
         before(:each) do
-          edit_user.should_receive(:update_attributes).with(permitted_params(edit_user.attributes, [:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit])).and_return true
-          patch :update, id: edit_user.id, user: edit_user.attributes
+          any_user.should_receive(:update).and_return true
+          patch :update, id: any_user.id, user: any_user.attributes
         end
-        it { expect(assign_user).to eq edit_user }
+        it { expect(assign_user).to eq any_user }
         it { expect(flash[:success]).to include "success", "updated" }
         it { expect(response).to redirect_to :root }
       end
+
       context "update failure" do
         before(:each) do
-          edit_user.should_receive(:update_attributes).and_return false
-          patch :update, id: edit_user.id, user: edit_user.attributes
+          any_user.should_receive(:update).and_return false
+          patch :update, id: any_user.id, user: any_user.attributes
         end
-        it { expect(assign_user).to eq edit_user }
+        it { expect(assign_user).to eq any_user }
         it { expect(flash[:danger]).to include "Failed" }
         it { expect(response).to render_template :edit }
       end
     end
 
-    context "Permitted to update user, login admin user" do
+    context "Permitted to update other user when login as admin user" do
       before(:each) do
         login_as admin_user
-        controller.should_receive(:fetch_user).and_return edit_user
+        User.stub(:find).with(admin_user.id).and_return admin_user
+        User.stub(:find).with(any_user.id).and_return any_user
       end
       context "update success" do
         before(:each) do
-          edit_user.should_receive(:update_attributes).with(permitted_params(edit_user.attributes, [:password, :password_confirmation, :is_admin, :status])).and_return true
-          patch :update, id: edit_user.id, user: edit_user.attributes
+          any_user.should_receive(:update).and_return true
+          patch :update, id: any_user.id, user: any_user.attributes
         end
-        it { expect(assign_user).to eq edit_user }
+        it { expect(assign_user).to eq any_user }
         it { expect(flash[:success]).to include "success", "updated" }
         it { expect(response).to redirect_to :root }
       end
       context "update failure" do
         before(:each) do
-          edit_user.should_receive(:update_attributes).and_return false
-          patch :update, id: edit_user.id, user: edit_user.attributes
+          any_user.should_receive(:update).and_return false
+          patch :update, id: any_user.id, user: any_user.attributes
         end
-        it { expect(assign_user).to eq edit_user }
+        it { expect(assign_user).to eq any_user }
         it { expect(flash[:danger]).to include "Failed" }
         it { expect(response).to render_template :edit }
       end
@@ -137,11 +142,6 @@ describe UsersController do
 
   context "GET edit" do
     let(:edit_user) { create :user, name: 'haha' }
-
-    it "should authenticate" do
-      get :edit, id: edit_user.id
-      expect(response).to redirect_to :login
-    end
 
     context "Logged in as normal user" do
       before(:each) { login_as edit_user }
@@ -179,11 +179,6 @@ describe UsersController do
     let(:attrs_user) { attributes_for :user, status: 'active', is_admin: true }
     let(:attrs_invalid_user) { attributes_for :invalid_user }
     
-    it "should not authenticate" do
-      controller.should_not_receive(:login_required)
-      post :create, user: attrs_user
-    end
-
     context "any user" do
       before(:each) { controller.should_receive(:current_user).at_least(:once).and_return any_user }
 
