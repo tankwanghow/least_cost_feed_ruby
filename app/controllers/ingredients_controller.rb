@@ -2,7 +2,7 @@ class IngredientsController < ApplicationController
 
   def index
     @terms = params[:search] ? params[:search][:terms] : nil
-    @ingredients = Ingredient.find_ingredients @terms
+    @ingredients = Ingredient.find_ingredients(@terms).page(params[:page])
   end
 
   def update
