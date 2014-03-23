@@ -1,5 +1,10 @@
 class NutrientsController < ApplicationController
 
+  def index
+    @terms = params[:search] ? params[:search][:terms] : nil
+    @nutrients = Nutrient.find_nutrients(@terms).page(params[:page])
+  end
+
   def edit
     fetch_nutrient
   end
