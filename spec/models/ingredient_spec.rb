@@ -25,7 +25,7 @@ describe Ingredient do
   it { i; should validate_uniqueness_of(:name).scoped_to(:user_id, :batch_no) }
   it { should belong_to :user }
 
-    context "self.find_ingredients" do
+  context "self.find_ingredients" do
     let(:user_1) { create :active_user }
     let(:user_2) { create :active_user }
     before(:each) do
