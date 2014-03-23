@@ -2,6 +2,29 @@ module ControllerMacros
   extend ActiveSupport::Concern
 
   module ClassMethods
+    def it_should_behave_like_index
+      context "GET :index" do
+        let(:dbl) { double }
+        before(:each) { login_as create :user }
+        context "has terms" do
+          before(:each) do
+            expect(klass).to receive("find_#{klass_pluralize_sym.to_s}").with('xxx').and_return dbl
+            expect(dbl).to receive(:page).with '10'
+            get :index, search: { terms: 'xxx' }, page: 10
+          end
+          it { expect(response).to render_template :index }
+        end
+        context "no terms" do
+          before(:each) do
+            expect(klass).to receive("find_#{klass_pluralize_sym.to_s}").with(nil).and_return dbl
+            expect(dbl).to receive(:page).with '10'
+            get :index, page: 10
+          end
+          it { expect(response).to render_template :index }
+        end
+      end
+    end
+
     def it_should_behave_like_update
       context "PATCH :update" do
         before(:each) do
@@ -22,7 +45,7 @@ module ControllerMacros
           @klass_instance = create(klass_sym, user_id: user.id)
           login_as user
           params =  { id: @klass_instance.id, "#{klass_sym}" => @klass_instance.attributes }
-          expect(controller.current_user).to receive(klass_sym.to_s.pluralize).and_return dbl
+          expect(controller.current_user).to receive(klass_pluralize_sym).and_return dbl
           expect(dbl).to receive(:find).and_return @klass_instance
           patch :update, params
         end        
@@ -38,7 +61,7 @@ module ControllerMacros
           @invalid_klass_attributes = attributes_for("invalid_#{klass_sym}")
           login_as user
           params =  { id: @klass_instance.id, "#{klass_sym}" => @klass_instance.attributes }
-          expect(controller.current_user).to receive(klass_sym.to_s.pluralize).and_return dbl
+          expect(controller.current_user).to receive(klass_pluralize_sym).and_return dbl
           expect(dbl).to receive(:find).and_return @klass_instance
           patch :update, params
         end        
@@ -69,7 +92,7 @@ module ControllerMacros
           post :create, params
         end
         it { expect(flash[:success]).to include 'success' }
-        it { expect(response).to redirect_to redirect_to send("#{klass_sym.to_s.pluralize}_path")  }
+        it { expect(response).to redirect_to redirect_to send("#{klass_pluralize_sym.to_s}_path")  }
       end
 
       context "POST :create, save fail" do
@@ -122,7 +145,7 @@ module ControllerMacros
         end
         it { expect(assign_klass.destroyed?).to be_true }
         it { expect(flash[:success]).to include "success" }
-        it { expect(response).to redirect_to send("#{klass_sym.to_s.pluralize}_path") }
+        it { expect(response).to redirect_to send("#{klass_pluralize_sym.to_s}_path") }
       end
     end
 
@@ -167,7 +190,7 @@ module ControllerMacros
         login_as user
         klass_instance = create(klass_sym, user_id: user.id)
         params = { id: klass_instance.id, "#{klass_sym}" => klass_instance.attributes }
-        expect(controller.current_user).to receive(klass_sym.to_s.pluralize).and_return dbl
+        expect(controller.current_user).to receive(klass_pluralize_sym).and_return dbl
         expect(dbl).to receive(:find).and_return klass_instance
         klass_instance.should_receive(:update).with(permitted_params(klass_instance.attributes, permitted_param_keys)).and_return klass_instance
         do_request :patch, :update, params
@@ -196,6 +219,10 @@ module ControllerMacros
 
   def klass_sym
     controller.class.name.sub("Controller", "").singularize.underscore.to_sym
+  end
+
+  def klass_pluralize_sym
+    controller.class.name.sub("Controller", "").underscore.to_sym
   end
 
   def permitted_params params, keys
