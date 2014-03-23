@@ -20,4 +20,16 @@ describe Nutrient do
   it { n; should validate_uniqueness_of :name }
 
   it { should belong_to :user }
+
+  context "self.find_nutrients" do
+    let(:user_1) { create :active_user }
+    let(:user_2) { create :active_user }
+    before(:each) do
+      9.times { create :nutrient, user_id: user_1.id }
+      7.times { create :nutrient, user_id: user_2.id }
+      expect(User).to receive(:current).and_return user_1
+    end
+    it { expect(Nutrient.find_nutrients('al', 1)).to eq user_1.nutrients.where("name || unit || note ilike '%al%'").page(1).per(25).order(:name) }
+    it { expect(Nutrient.find_nutrients).to eq user_1.nutrients.page(1).per(25).order(:name) }
+  end
 end
