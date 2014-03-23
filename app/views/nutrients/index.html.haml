@@ -1,0 +1,17 @@
+%h1 Listing nutrients
+
+%table
+  %tr
+    %th
+    %th
+    %th
+
+  - @nutrients.each do |nutrient|
+    %tr
+      %td= link_to 'Show', nutrient
+      %td= link_to 'Edit', edit_nutrient_path(nutrient)
+      %td= link_to 'Destroy', nutrient, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Nutrient', new_nutrient_path
