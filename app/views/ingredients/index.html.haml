@@ -23,6 +23,6 @@
         %td.numeric= number_with_precision i.cost, precision: 4
         %td= i.status
         %td= i.note
-        %td= i.updated_at.in_time_zone
+        %td= i.updated_at.in_time_zone(current_user.time_zone).to_s(:long)
         %td= link_to "Delete", i, method: :delete, data: { confirm: 'Are You Sure!' }, class: 'label label-danger'
 = paginate @ingredients, params: { search: params[:search] }, theme: 'twitter-bootstrap-3'

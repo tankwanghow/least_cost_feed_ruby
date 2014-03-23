@@ -1,7 +1,7 @@
-%h1 Editing nutrient
-
-= render 'form'
-
-= link_to 'Show', @nutrient
-\|
-= link_to 'Back', nutrients_path
+= render_flash
+= simple_form_for @nutrient, html: { class: 'col-sm-5' } do |f|
+  %legend Edit Nutrient
+  = render 'fields', f: f
+  = f.button :submit, 'Save Changes', class: 'btn btn-primary'
+  = link_to 'Cancel Changes', edit_nutrient_path(@nutrient), class: 'btn btn-warning'
+  = link_to 'Back to Index', nutrients_path, class: 'btn btn-info'

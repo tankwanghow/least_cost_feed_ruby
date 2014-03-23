@@ -1,17 +1,24 @@
-%h1 Listing nutrients
-
-%table
-  %tr
-    %th
-    %th
-    %th
-
-  - @nutrients.each do |nutrient|
+= render_flash
+= simple_form_for :search, url: nutrients_path, html: { class: 'form-horizontal', method: :get } do |f|
+  = content_tag :div, class: 'col-sm-5' do  
+    = f.input_field :terms, autofocus: true, value: @terms, placeholder: 'Search Terms...'
+  = f.button :submit, 'Search', class: 'btn btn-primary'
+  = link_to "New Nutrient", new_nutrient_path, class: 'btn btn-success'
+%table.table
+  %thead
     %tr
-      %td= link_to 'Show', nutrient
-      %td= link_to 'Edit', edit_nutrient_path(nutrient)
-      %td= link_to 'Destroy', nutrient, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Nutrient', new_nutrient_path
+      %th Name
+      %th Unit
+      %th Note
+      %th Changed Date
+      %th
+  %tbody
+    - @nutrients.each do |n|
+      %tr
+        %td
+          = link_to n.name, edit_nutrient_path(n.id)
+        %td= n.unit
+        %td= n.note
+        %td= n.updated_at.in_time_zone(current_user.time_zone).to_s(:long)
+        %td= link_to "Delete", n, method: :delete, data: { confirm: 'Are You Sure!' }, class: 'label label-danger'
+= paginate @nutrients, params: { search: params[:search] }, theme: 'twitter-bootstrap-3'
