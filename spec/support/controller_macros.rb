@@ -133,7 +133,9 @@ module ControllerMacros
         klass_instance = create(klass_sym, user_id: other.id)
         login_as user
         params = { id: klass_instance.id, "#{klass_sym}" => klass_instance.attributes }
-        expect { do_request http_method, action, params }.to raise_error ActiveRecord::RecordNotFound
+        do_request http_method, action, params
+        expect(response).to redirect_to :root
+        expect(flash[:danger]).not_to be_blank
       end
 
       it "#{http_method.upcase} :#{action} should allow access user own data" do
@@ -177,6 +179,13 @@ module ControllerMacros
       it "#{http_method.upcase} :#{action} should be authenticated" do
         do_request http_method, action, params
         expect(response).to redirect_to :login
+      end
+    end  
+
+    def it_should_not_be_authenticated_on http_method, action, params=nil
+      it "#{http_method.upcase} :#{action} should be authenticated" do
+        do_request http_method, action, params
+        expect(response).not_to redirect_to :login
       end
     end  
   end
