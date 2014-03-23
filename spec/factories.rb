@@ -29,7 +29,7 @@ FactoryGirl.define do
   end
 
   factory :user do
-    username { Faker::Internet.user_name }
+    username { Faker::Internet.user_name + rand(999).to_s }
     email { Faker::Internet.email }    
     name { Faker::Name.name }
     password "secret"
