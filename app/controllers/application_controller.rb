@@ -7,4 +7,11 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :login_required
+
+  rescue_from Exception do |e|
+    msg = "#{e.class.name} -> #{e.message}"
+    flash[:danger] = msg.html_safe
+    redirect_to :root
+  end
+
 end

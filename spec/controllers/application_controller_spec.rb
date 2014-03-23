@@ -30,4 +30,19 @@ describe ApplicationController do
     it { should respond_to :redirect_to_target_or_default }
   end
 
+  context "Exception" do
+    controller do 
+      def index
+        raise StandardError
+      end 
+    end
+
+    before(:each) do
+      login_as create :user
+      get :index
+    end
+    it { expect(response).to redirect_to :root }
+    it { expect(flash[:danger]).not_to be_nil }
+  end
+
 end
