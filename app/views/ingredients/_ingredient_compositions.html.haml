@@ -1,0 +1,10 @@
+.col-sm-7
+  %table.table.lcf-table
+    %thead
+      %tr
+        %th Nutrient
+        %th.col-sm-3 Value
+        %th.col-sm-3 Unit
+    %tbody
+      = f.fields_for :ingredient_compositions do |builder|
+        = render 'compositions', f: builder

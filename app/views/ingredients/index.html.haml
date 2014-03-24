@@ -4,14 +4,14 @@
     = f.input_field :terms, autofocus: true, value: @terms, placeholder: 'Search Terms...'
   = f.button :submit, 'Search', class: 'btn btn-primary'
   = link_to "New Ingredient", new_ingredient_path, class: 'btn btn-success'
-%table.table
+%table.table.table-striped
   %thead
     %tr
       %th Name
       %th Batch No
       %th.right-align= "Cost(#{current_user.weight_unit})"
       %th Status
-      %th Note
+      %th Category
       %th Changed Date
       %th
   %tbody
@@ -22,7 +22,7 @@
         %td= i.batch_no
         %td.numeric= number_with_precision i.cost, precision: 4
         %td= i.status
-        %td= i.note
+        %td= i.category
         %td= i.updated_at.in_time_zone(current_user.time_zone).to_s(:long)
         %td= link_to "Delete", i, method: :delete, data: { confirm: 'Are You Sure!' }, class: 'label label-danger'
 = paginate @ingredients, params: { search: params[:search] }, theme: 'twitter-bootstrap-3'

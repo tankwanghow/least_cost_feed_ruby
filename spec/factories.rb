@@ -1,11 +1,17 @@
 require 'ffaker'
 
 FactoryGirl.define do
+  factory :ingredient_composition do
+    ingredient { create :ingredient }
+    nutrient   { create :nutrient }
+    value      { rand(99999) }
+  end
 
   factory :nutrient do
     user { create :user }
     name { Faker::Name.name }
     unit { Faker::Name.name }
+    category { ['private', 'public', 'sample'][rand(3)] }
     note { Faker::Lorem.sentence }
 
     factory :invalid_nutrient do
@@ -20,6 +26,7 @@ FactoryGirl.define do
     cost { rand(99999)/100 }
     batch_no { rand(2014123111).to_s }
     note { Faker::Lorem.sentence }
+    category { ['private', 'public', 'sample'][rand(3)] }
     status { ['pending', 'using', 'finished', 'canceled'][rand(4)] }
 
     factory :invalid_ingredient do

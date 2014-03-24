@@ -176,9 +176,8 @@ module ControllerMacros
       it "POST :create should protect mass-assigment" do
         user = create :user
         login_as user
-        klass_instance = build(klass_sym)
-        klass.should_receive(:new).with(permitted_params(klass_instance.attributes, permitted_param_keys)).and_return klass_instance
-        params = { "#{klass_sym}" => klass_instance.attributes }
+        klass.should_receive(:new).with(permitted_params(klass_attributes, permitted_param_keys))
+        params = { "#{klass_sym}" => klass_attributes }
         do_request :post, :create, params
       end
     end
@@ -189,10 +188,10 @@ module ControllerMacros
         user = create :user
         login_as user
         klass_instance = create(klass_sym, user_id: user.id)
-        params = { id: klass_instance.id, "#{klass_sym}" => klass_instance.attributes }
+        params = { id: klass_instance.id, "#{klass_sym}" => klass_attributes }
         expect(controller.current_user).to receive(klass_pluralize_sym).and_return dbl
         expect(dbl).to receive(:find).and_return klass_instance
-        klass_instance.should_receive(:update).with(permitted_params(klass_instance.attributes, permitted_param_keys)).and_return klass_instance
+        klass_instance.should_receive(:update).with(permitted_params(klass_attributes, permitted_param_keys)).and_return klass_instance
         do_request :patch, :update, params
       end
     end
@@ -226,12 +225,7 @@ module ControllerMacros
   end
 
   def permitted_params params, keys
-    keys.map! { |t| t.to_s }
-    params.select do |k, v|
-      keys.include? k.to_s 
-    end.map do |k, v|
-      [k, [TrueClass, FalseClass].include?(v.class) ? v : v.to_s ]
-    end.to_h
+    ActionController::Parameters.new(klass_sym => params).require(klass_sym).permit(keys)
   end
 
   def do_request http_method, action, params

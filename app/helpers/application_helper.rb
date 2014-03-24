@@ -2,7 +2,7 @@ module ApplicationHelper
 
   def render_flash
     a = ''
-    top = 5
+    top = 40
     flash.each do |name, msg|
       a << content_tag(:div, class: "alert alert-dismissable alert-#{name} col-md-offset-2 col-md-6", style: "top: #{top}px;") do
         content_tag(:button, '&times;'.html_safe, class: 'close', data: { dismiss: 'alert' }) +  

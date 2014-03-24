@@ -19,15 +19,13 @@
         .navbar-collapse.collapse
           - if current_user
             %ul.nav.navbar-nav
-              %li.active
-                %a{href:"#"}>
-                  Home
               %li
-                %a{href:"#about"}
-                  About
+                = link_to 'Ingredients', ingredients_path
+              %li
+                = link_to 'Nutrients', nutrients_path
               %li
                 %a{href:"#contact"}
-                  Contact
+                  Formulas
               %li.dropdown
                 %a.dropdown-toggle{href:"#", "data-toggle" => "dropdown"}
                   Dropdown 

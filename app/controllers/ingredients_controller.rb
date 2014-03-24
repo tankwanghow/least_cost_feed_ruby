@@ -20,7 +20,7 @@ class IngredientsController < ApplicationController
   end 
 
   def new
-    @ingredient = Ingredient.new
+    @ingredient = Ingredient.new_with_ingredient_compositions
   end
 
   def create
@@ -45,7 +45,7 @@ class IngredientsController < ApplicationController
 private
 
   def ingredient_params
-    params.require(:ingredient).permit(:name, :cost, :status, :note, :batch_no)
+    params.require(:ingredient).permit(:name, :cost, :status, :note, :batch_no, ingredient_compositions_attributes: [:nutrient_id, :value])
   end
 
   def fetch_ingredient

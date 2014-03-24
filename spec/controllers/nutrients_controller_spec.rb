@@ -3,6 +3,7 @@ require 'spec_helper'
 describe NutrientsController do
 
   let(:assign_klass) { assigns :nutrient } # used by controller macros
+  let(:klass_attributes) { attributes_for :nutrient }
 
   it_should_be_authenticated_on :post,   :create
   it_should_be_authenticated_on :get,    :new
