@@ -225,7 +225,14 @@ module ControllerMacros
   end
 
   def permitted_params params, keys
-    ActionController::Parameters.new(klass_sym => params).require(klass_sym).permit(keys)
+    x = ActionController::Parameters.new(klass_sym => params).require(klass_sym).permit(keys)
+    x.map do |k,v| 
+      if v.class == Array || [TrueClass, FalseClass].include?(v.class)
+        [k, v]
+      else
+        [k, v.to_s]
+      end
+    end.to_h
   end
 
   def do_request http_method, action, params
