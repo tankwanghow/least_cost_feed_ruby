@@ -1,0 +1,22 @@
+%table#select_ingredients.table.table-striped{style: "display:none;"}
+  %thead
+    %tr
+      %th Name
+      %th.right-align= "Cost(#{current_user.weight_unit})"
+      %th Status
+      %th Category
+  %tbody
+    - current_user.ingredients.order(:name).each do |i|
+      %tr
+        %td
+          = check_box_tag "selected", i.id, false, data: { name: i.name, cost: i.cost }
+          = i.name
+        %td.numeric= number_with_precision i.cost, precision: 4
+        %td= i.status
+        %td= i.category
+  %tfoot
+    %tr
+      %td{colspan:4}
+        = link_to "Done", "#", id: "done_selecting_ingredients", class: 'btn btn-success'
+        = link_to "Cancel", "#", id: "cancel_selecting_ingredients", class: 'btn btn-danger'
+

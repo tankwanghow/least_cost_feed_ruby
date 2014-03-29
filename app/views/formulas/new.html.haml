@@ -1,0 +1,10 @@
+= render_flash
+= simple_nested_form_for @formula do |f|
+  %legend New Formula
+  = render 'fields', f: f
+  = render 'formula_ingredients', f: f
+  = render 'formula_nutrients', f: f
+  = f.button :submit, 'Save', class: 'btn btn-primary'
+  = link_to 'Back to Index', formulas_path, class: 'btn btn-info'
+= render 'nutrients/select_nutrients' 
+= render 'ingredients/select_ingredients'

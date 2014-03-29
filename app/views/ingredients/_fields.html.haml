@@ -2,12 +2,9 @@
   .col-sm-8
     = f.input :name, autofocus: true
   .col-sm-4
-    = f.input :cost, label: "Cost(#{current_user.weight_unit})"
+    = f.input :cost, label: "Cost(#{current_user.weight_unit})", input_html: { type: :text }
 .row
-  .col-sm-8
-    = f.input :batch_no
   .col-sm-4 
     = f.input :status, collection: ['using', 'pending', 'cancel', 'finished'], include_blank: false
-.row
-  .col-sm-12
-    = f.input :note, input_html: { rows: 4 }
+  .col-sm-8
+    = f.input :note, input_html: { rows: 3 }

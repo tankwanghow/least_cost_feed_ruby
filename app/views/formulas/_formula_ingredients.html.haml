@@ -1,0 +1,18 @@
+.col-sm-7
+  %table.table.lcf-table
+    %thead
+      %tr
+        %th.col-sm-4 Ingredient
+        %th Cost
+        %th Min %
+        %th Max %
+        %th Actual %
+        %th Weight
+        %th Shadow
+    %tbody#ingredients
+      = f.fields_for :formula_ingredients, :wrapper => false do |builder|
+        = render 'ingredients', f: builder
+    %tfoot
+      %tr
+        %td{colspan:7}
+          = f.link_to_add 'Select Ingredients', :formula_ingredients, id: 'select_ingredients_button', class: 'btn btn-success'

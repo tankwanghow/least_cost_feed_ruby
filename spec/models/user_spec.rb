@@ -16,6 +16,7 @@ describe User do
 
   it { should have_many(:ingredients) }
   it { should have_many(:nutrients) }
+    it { should have_many(:formulas) }
 
   it { should have_db_index(:username) }
 

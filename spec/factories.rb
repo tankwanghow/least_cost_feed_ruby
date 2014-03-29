@@ -1,10 +1,40 @@
 require 'ffaker'
 
 FactoryGirl.define do
+
+  factory :formula_nutrient do
+    formula { create :formula }
+    nutrient { create :nutrient }
+    max { rand(999) }
+    min { rand(999) }
+    actual { rand(999) }
+  end
+
+  factory :formula_ingredient do
+    formula { create :formula }
+    ingredient { create :ingredient }
+    max { rand(999) }
+    min { rand(999) }
+    actual { rand(999) }
+    shadow { rand(999) }
+  end
+
+  factory :formula do
+    user { create :user }
+    name { Faker::Name.name }
+    cost { rand(9999) }
+    batch_size { rand(9999) }
+    note { Faker::Lorem.sentence }
+
+    factory :invalid_formula do
+      name { nil }
+    end
+  end
+
   factory :ingredient_composition do
     ingredient { create :ingredient }
     nutrient   { create :nutrient }
-    value      { rand(99999) }
+    value      { rand(999999)/100 }
   end
 
   factory :nutrient do

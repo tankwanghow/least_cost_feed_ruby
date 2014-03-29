@@ -14,6 +14,16 @@ describe IngredientComposition do
   it { should validate_numericality_of(:value).is_greater_than_or_equal_to(0.0) }
   it { ic; should validate_uniqueness_of(:nutrient_id).scoped_to(:ingredient_id) }
 
-  it { expect(ic.nutrient_name).to eq ic.nutrient.name }
-  it { expect(ic.nutrient_unit).to eq ic.nutrient.unit }
+  it { expect(ic.nutrient_name_unit).to eq "#{ic.nutrient.name}(#{ic.nutrient.unit})" }
+  
+  it "nutrient_name_unit should return nil" do
+    ic.nutrient = nil
+    ic.nutrient_name_unit.should == nil
+  end
+  
+  it "should touch ingredient after_update" do
+    ic.value = 9.0
+    expect(ic.ingredient).to receive(:touch)
+    ic.save
+  end
 end

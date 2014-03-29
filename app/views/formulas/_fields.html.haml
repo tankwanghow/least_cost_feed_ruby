@@ -1,0 +1,8 @@
+.col-sm-3
+  = f.input :name, autofocus: true
+.col-sm-2
+  = f.input :batch_size, label: "Batch Size(#{current_user.weight_unit})", input_html: { type: :text }
+.col-sm-2
+  = f.input :cost, label: "Cost(#{current_user.weight_unit})", input_html: { disabled: true, type: :text }
+.col-sm-5
+  = f.input :note, input_html: { rows: 1 }

@@ -10,6 +10,7 @@ class IngredientsController < ApplicationController
     if @ingredient.update(ingredient_params)
       flash[:success] = "Ingredient updated successfully."
     else
+      p @ingredient.errors
       flash[:danger] = "Ooppps, fail to update Ingredient."
     end
     render :edit
@@ -20,7 +21,7 @@ class IngredientsController < ApplicationController
   end 
 
   def new
-    @ingredient = Ingredient.new_with_ingredient_compositions
+    @ingredient = Ingredient.new
   end
 
   def create
@@ -45,7 +46,7 @@ class IngredientsController < ApplicationController
 private
 
   def ingredient_params
-    params.require(:ingredient).permit(:name, :cost, :status, :note, :batch_no, ingredient_compositions_attributes: [:nutrient_id, :value])
+    params.require(:ingredient).permit(:name, :cost, :status, :note, :batch_no, ingredient_compositions_attributes: [:id, :value, :_destroy, :nutrient_id])
   end
 
   def fetch_ingredient

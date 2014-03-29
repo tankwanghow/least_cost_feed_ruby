@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  resources :nutrients
-
   # You can have the root of your site routed with "root"
   root 'welcome#index'
 
@@ -8,8 +6,12 @@ Rails.application.routes.draw do
   get    'login'   => 'welcome#index'
   delete 'logout'  => 'sessions#destroy'
   get    'signup' => 'users#new'
-  
+
+  get 'select_nutrients/new'
+  get 'select_nutrients/create'
   resources :ingredients
+  resources :formulas
+  resources :nutrients
   resources :users
   resource :sessions, only: [:new, :create, :destroy]
 

@@ -1,5 +1,5 @@
-= f.hidden_field :nutrient_id
-%tr
-  %td= f.input_field :nutrient_name, disabled: true
-  %td= f.input_field :value
-  %td= f.input_field :nutrient_unit, disabled: true
+%tr.fields.nutrient
+  = f.hidden_field :nutrient_id, class: 'nutrient_id'
+  = f.hidden_field :_destroy, class: 'destroy'
+  %td= f.input_field :nutrient_name_unit,disabled: true
+  %td= f.input_field :value, type: :text

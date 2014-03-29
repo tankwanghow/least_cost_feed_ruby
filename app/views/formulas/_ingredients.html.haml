@@ -1,0 +1,10 @@
+%tr.fields.ingredient
+  = f.hidden_field :ingredient_id, class: 'ingredient_id'
+  = f.hidden_field :_destroy, class: 'destroy'
+  %td= f.input_field :ingredient_name, disabled: true
+  %td= f.input_field :ingredient_cost, type: :text, class: :numeric
+  %td= f.input_field :min, type: :text
+  %td= f.input_field :max, type: :text
+  %td= f.input_field :actual, readOnly: true, type: :text
+  %td= f.input_field :weight, disabled: true, type: :text, class: :numeric
+  %td= f.input_field :shadow, disabled: true, type: :text

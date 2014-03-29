@@ -26,24 +26,7 @@ describe Nutrient do
   it { should belong_to :user }
 
   it { should have_many(:ingredient_compositions).dependent(:destroy) }
-
-  context "after_create callback" do
-    let(:user_2) { create :active_user }
-    before(:each) do
-      9.times { create :ingredient, user_id: user_1.id }
-      7.times { create :ingredient, user_id: user_2.id }
-    end
-
-    it "should add it self to all ingredient_compositions current user" do
-      a = create :nutrient, user_id: user_1.id
-      user_1.ingredients.each do |i|
-        expect(i.ingredient_compositions.map { |t| t.nutrient_id }).to include a.id
-      end
-      user_2.ingredients.each do |i|
-        expect(i.ingredient_compositions.map { |t| t.nutrient_id }).to_not include a.id
-      end
-    end
-  end
+  it { should have_many(:formula_nutrients).dependent(:destroy) }
 
   context "self.find_nutrients" do
     let(:user_2) { create :active_user }

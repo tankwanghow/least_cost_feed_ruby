@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   validates :name, :username, :time_zone, :currency, :weight_unit, :status, :email , presence: true
   has_many :ingredients
   has_many :nutrients
+  has_many :formulas
 
   def self.find_users terms=nil, page=1
     if terms.blank?

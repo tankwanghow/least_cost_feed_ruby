@@ -11,10 +11,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140324064007) do
+ActiveRecord::Schema.define(version: 20140325092233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "formula_ingredients", force: true do |t|
+    t.integer "formula_id",                                           null: false
+    t.integer "ingredient_id",                                        null: false
+    t.decimal "max",           precision: 12, scale: 4, default: 0.0, null: false
+    t.decimal "min",           precision: 12, scale: 4, default: 0.0, null: false
+    t.decimal "actual",        precision: 12, scale: 4, default: 0.0, null: false
+    t.decimal "shadow",        precision: 12, scale: 4, default: 0.0, null: false
+  end
+
+  add_index "formula_ingredients", ["ingredient_id", "formula_id"], name: "index_formula_ingredients_on_ingredient_id_and_formula_id", unique: true, using: :btree
+
+  create_table "formula_nutrients", force: true do |t|
+    t.integer "formula_id",                                         null: false
+    t.integer "nutrient_id",                                        null: false
+    t.decimal "max",         precision: 12, scale: 4, default: 0.0, null: false
+    t.decimal "min",         precision: 12, scale: 4, default: 0.0, null: false
+    t.decimal "actual",      precision: 12, scale: 4, default: 0.0, null: false
+  end
+
+  add_index "formula_nutrients", ["nutrient_id", "formula_id"], name: "index_formula_nutrients_on_nutrient_id_and_formula_id", unique: true, using: :btree
+
+  create_table "formulas", force: true do |t|
+    t.integer  "user_id",                                             null: false
+    t.string   "name",                                                null: false
+    t.decimal  "batch_size",   precision: 12, scale: 4, default: 0.0, null: false
+    t.text     "note"
+    t.integer  "lock_version",                          default: 0,   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.decimal  "cost",         precision: 12, scale: 4, default: 0.0
+  end
+
+  add_index "formulas", ["user_id", "name"], name: "index_formulas_on_user_id_and_name", unique: true, using: :btree
 
   create_table "ingredient_compositions", force: true do |t|
     t.integer "ingredient_id",                                        null: false

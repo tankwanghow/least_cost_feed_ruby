@@ -10,7 +10,6 @@ describe Ingredient do
   it { should have_db_column(:cost).with_options(null: false, default: 0.0, precision: 12, scale: 4) }
   it { should have_db_column(:lock_version).with_options(default: 0, null: false) }
 
-  it { should have_db_column(:batch_no) }
   it { should have_db_column(:note) }
   it { should have_db_column(:status).with_options(default: 'using', null: false) }
   it { should have_db_column(:category).with_options(default: 'private', null: false) }
@@ -28,14 +27,9 @@ describe Ingredient do
     should have_db_column :updated_at
   end
 
-  it { i; should validate_uniqueness_of(:name).scoped_to(:user_id, :batch_no) }
+  it { i; should validate_uniqueness_of(:name).scoped_to(:user_id) }
   it { should belong_to :user }
   it { should accept_nested_attributes_for :ingredient_compositions }
-
-  it "new should added default nutrients" do
-    9.times { create :nutrient, user_id: user_1.id }
-    expect(Ingredient.new_with_ingredient_compositions.ingredient_compositions.size).to eq 9
-  end
 
   context "self.find_ingredients" do
     let(:user_2) { create :active_user }
@@ -43,7 +37,7 @@ describe Ingredient do
       9.times { create :ingredient, user_id: user_1.id }
       7.times { create :ingredient, user_id: user_2.id }
     end
-    it { expect(Ingredient.find_ingredients('sam', 1)).to eq user_1.ingredients.where("name || batch_no || status || category ilike '%sam%'").page(1).per(25).order(:name, :batch_no) }
-    it { expect(Ingredient.find_ingredients).to eq user_1.ingredients.page(1).per(25).order(:name, :batch_no) }
+    it { expect(Ingredient.find_ingredients('sam', 1)).to eq user_1.ingredients.where("name || status || category ilike '%sam%'").page(1).per(25).order(:name) }
+    it { expect(Ingredient.find_ingredients).to eq user_1.ingredients.page(1).per(25).order(:name) }
   end
 end

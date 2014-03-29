@@ -1,0 +1,26 @@
+= render_flash
+= simple_form_for :search, url: formulas_path, html: { class: 'form-horizontal', method: :get } do |f|
+  = content_tag :div, class: 'col-sm-5' do  
+    = f.input_field :terms, autofocus: true, value: @terms, placeholder: 'Search Terms...'
+  = f.button :submit, 'Search', class: 'btn btn-primary'
+  = link_to "New Formula", new_formula_path, class: 'btn btn-success'
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name
+      %th.right-align 
+        = "Batch Size(#{current_user.weight_unit})"
+      %th.right-align 
+        = "Cost(#{current_user.weight_unit})"
+      %th Changed Date
+      %th
+  %tbody
+    - @formulas.each do |f|
+      %tr
+        %td
+          = link_to f.name, edit_formula_path(f.id)
+        %td.numeric= number_with_precision f.batch_size, precision: 4
+        %td.numeric= number_with_precision f.cost, precision: 4
+        %td= f.updated_at.in_time_zone(current_user.time_zone).to_s(:long)
+        %td= link_to "Delete", f, method: :delete, data: { confirm: 'Are You Sure!' }, class: 'label label-danger'
+= paginate @formulas, params: { search: params[:search] }, theme: 'twitter-bootstrap-3'
