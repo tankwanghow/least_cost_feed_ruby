@@ -2,7 +2,44 @@ class DietGlpsol
   def self.solution_for_formula formula, filename, solver=Rails.root.to_s + '/lib/bin/glpsol --math'
     filename = Rails.root.to_s + "/tmp/" + filename
     gmpl_for_formula formula, filename
-    solution_for_gmpl filename, solver
+    sol = solution_for_gmpl filename, solver
+    if sol
+      put_soultion_to_formula formula, sol
+    else
+      put_error_to_formula formula
+    end
+  end
+
+  def self.put_error_to_formula formula
+    formula.formula_ingredients.each do |t| 
+      t.actual = -1
+      t.shadow = -1
+    end
+
+    formula.formula_nutrients.each do |t|
+      t.actual = -1
+    end
+  end
+
+  def self.put_soultion_to_formula formula, solution
+    solution[:formula].each do |s|
+      a = s.split(",")
+      ingredient_id = a[0].split('_')[1].to_i
+      actual = a[1].to_d
+      shadow = a[2].to_d
+      formula_ingredient = formula.formula_ingredients.find { |t| t.ingredient_id == ingredient_id }
+      formula_ingredient.actual = actual
+      formula_ingredient.shadow = shadow
+    end
+
+    solution[:specs].each do |s|
+      a = s.split(",")
+      nutrient_id = a[0].split('_')[1].to_i
+      actual = a[1].to_d
+      formula_nutrient = formula.formula_nutrients.find { |t| t.nutrient_id == nutrient_id }
+      formula_nutrient.actual = actual
+    end
+    formula
   end
 
   def self.solution_for_gmpl filename, solver
@@ -19,66 +56,72 @@ class DietGlpsol
 
   def self.gmpl_for_formula formula, filename
     f = File.new filename, 'w'
-    f.puts varibles formula.ingredients
-    f.puts objective_function formula.ingredients
-    f.puts nutrient_expressions_constraints formula.nutrients, formula.ingredients
-    f.puts constraint_100 formula.ingredients
-    f.puts ingredients_constraints formula.ingredients
+    formula_ingredients = formula.formula_ingredients.select { |t| t._destroy == false }
+    formula_nutrients = formula.formula_nutrients.select { |t| t._destroy == false }
+    f.puts varibles formula_ingredients
+    f.puts objective_function formula_ingredients
+    f.puts nutrient_expressions_constraints formula_nutrients, formula_ingredients
+    f.puts constraint_100 formula_ingredients
+    f.puts ingredients_constraints formula_ingredients
     f.puts 'solve;'
     f.puts "printf 'FORMULA_START';\n"
-    f.puts printf_statement_for_ingredients formula.ingredients
+    f.puts printf_statement_for_ingredients formula_ingredients
     f.puts "printf 'FORMULA_END';\n"
     f.puts "printf 'SPECS_START';\n"
-    f.puts printf_statement_for_nutrients formula.nutrients.map { |n| n.nutrient }
+    f.puts printf_statement_for_nutrients formula_nutrients.map { |n| n.nutrient }
     f.puts "printf 'SPECS_END';\n"
     f.puts 'end;'
     f.close
   end
 
-  def self.constraint_100 ingredients
-    "PERC: " + ingredients.map { |i| "+p_#{i.id}"}.join(" ") + " = 1;\n"
+  def self.constraint_100 formula_ingredients
+    "PERC: " + formula_ingredients.map { |i| "+p_#{i.ingredient.id}"}.join(" ") + " = 1;\n"
   end
 
   def self.varible ingredient
     "var p_#{ingredient.id} >= 0;"
   end
 
-  def self.varibles ingredients
-    ingredients.map { |i| varible(i) }.join("\n") + "\n"
+  def self.varibles formula_ingredients
+    formula_ingredients.map { |i| varible(i.ingredient) }.join("\n") + "\n"
   end
 
   def self.ingredient_expression ingredient
     "+#{ingredient.cost}*p_#{ingredient.id}"
   end
 
-  def self.objective_function ingredients
-    "minimize cost: " + ingredients.map { |i| ingredient_expression(i) }.join(" ") + ";\n"
+  def self.objective_function formula_ingredients
+    "minimize cost: " + formula_ingredients.map { |i| ingredient_expression(i.ingredient) }.join(" ") + ";\n"
   end
 
-  def self.ingredient_constraint ingredient
-    constraint = constraint(ingredient, "p_#{ingredient.id}")
-    constraint ? "s.t.pc_#{ingredient.id}: " + constraint(ingredient, "p_#{ingredient.id}") : nil
+  def self.ingredient_constraint formula_ingredient
+    constraint = constraint(formula_ingredient, "p_#{formula_ingredient.ingredient.id}")
+    constraint ? "s.t.pc_#{formula_ingredient.ingredient.id}: " + constraint(formula_ingredient, "p_#{formula_ingredient.ingredient.id}") : nil
   end
 
-  def self.ingredients_constraints ingredients
-    ingredients.map { |i| ingredient_constraint(i) }.compact.join("\n") + "\n"
+  def self.ingredients_constraints formula_ingredients
+    formula_ingredients.map { |i| ingredient_constraint(i) }.compact.join("\n") + "\n"
   end
 
   def self.nutrient_expression nutrient, ingredient
-    innu= ingredient.nutrients.find { |t| t.nutrient.id == nutrient.id }
-    innu.value > 0 ? "+#{innu.value}*p_#{ingredient.id}" : nil
-  end
-
-  def self.nutrient_expressions nutrient, ingredients
-    ingredients.map { |i| nutrient_expression(nutrient, i) }.compact.join(" ")
-  end
-
-  def self.nutrient_expressions_constraint nutrient_spec, ingredients
-    exp = constraint(nutrient_spec, nutrient_expressions(nutrient_spec.nutrient, ingredients))
-    if exp != " >= 0;"
-      "n_#{nutrient_spec.nutrient.id}: " + constraint(nutrient_spec, nutrient_expressions(nutrient_spec.nutrient, ingredients))
+    innu = ingredient.ingredient_compositions.find { |t| t.nutrient.id == nutrient.id }
+    if innu
+      innu.value > 0 ? "+#{innu.value}*p_#{ingredient.id}" : nil
     else
-      "n_#{nutrient_spec.nutrient.id}: " + ingredients.map { |i| "+p_#{i.id}"}.join(" ") + " >= 0;"
+      nil
+    end
+  end
+
+  def self.nutrient_expressions nutrient, formula_ingredients
+    formula_ingredients.map { |i| nutrient_expression(nutrient, i.ingredient) }.compact.join(" ")
+  end
+
+  def self.nutrient_expressions_constraint nutrient_spec, formula_ingredients
+    exp = constraint(nutrient_spec, nutrient_expressions(nutrient_spec.nutrient, formula_ingredients))
+    if exp != " >= 0;"
+      "n_#{nutrient_spec.nutrient.id}: " + constraint(nutrient_spec, nutrient_expressions(nutrient_spec.nutrient, formula_ingredients))
+    else
+      "n_#{nutrient_spec.nutrient.id}: " + formula_ingredients.map { |i| "+p_#{i.id}"}.join(" ") + " >= 0;"
     end
   end
 
@@ -91,7 +134,7 @@ class DietGlpsol
   end
 
   def self.printf_statement_for_ingredients ingredients
-    ingredients.map { |i| printf_statement_for_ingredient(i) }.join("\n") + "\n"
+    ingredients.map { |i| printf_statement_for_ingredient(i.ingredient) }.join("\n") + "\n"
   end
 
   def self.printf_statement_for_nutrient nutrient

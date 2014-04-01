@@ -57,7 +57,7 @@ group :test do
   gem 'shoulda-matchers'
 end
 
-group :test do
+group :test, :development do
   gem 'pry-rails'
 #  gem 'pry-debugger'
   gem 'spring-commands-rspec'

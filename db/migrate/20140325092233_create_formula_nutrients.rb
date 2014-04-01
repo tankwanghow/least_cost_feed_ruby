@@ -3,9 +3,9 @@ class CreateFormulaNutrients < ActiveRecord::Migration
     create_table :formula_nutrients do |t|
       t.belongs_to :formula, null: false
       t.belongs_to :nutrient, null: false
-      t.decimal :max, null: false, default: 0, precision: 12, scale: 4
-      t.decimal :min, null: false, default: 0, precision: 12, scale: 4
-      t.decimal :actual, null: false, default: 0, precision: 12, scale: 4
+      t.decimal :max, precision: 12, scale: 6
+      t.decimal :min, precision: 12, scale: 6
+      t.decimal :actual, null: false, default: 0, precision: 12, scale: 6
     end
     add_index :formula_nutrients, [:nutrient_id, :formula_id], unique: true
   end

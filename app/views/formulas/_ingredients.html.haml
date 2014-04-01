@@ -1,10 +1,10 @@
-%tr.fields.ingredient
+%tr.fields.ingredient{ style: f.object._destroy ? "display:none;" : "" }
   = f.hidden_field :ingredient_id, class: 'ingredient_id'
   = f.hidden_field :_destroy, class: 'destroy'
-  %td= f.input_field :ingredient_name, disabled: true
+  %td.col-sm-4= f.input_field :ingredient_name, disabled: true
   %td= f.input_field :ingredient_cost, type: :text, class: :numeric
-  %td= f.input_field :min, type: :text
-  %td= f.input_field :max, type: :text
-  %td= f.input_field :actual, readOnly: true, type: :text
-  %td= f.input_field :weight, disabled: true, type: :text, class: :numeric
-  %td= f.input_field :shadow, disabled: true, type: :text
+  %td= f.input_field :min_perc, type: :text, class: :numeric
+  %td= f.input_field :max_perc, type: :text, class: :numeric
+  %td= f.input_field :actual_perc, readOnly: true, type: :text, class: :numeric
+  %td= f.input_field :weight, readOnly: true, type: :text, class: :numeric
+  %td= f.input_field :shadow, readOnly: true, type: :text, class: :numeric

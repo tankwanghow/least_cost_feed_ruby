@@ -4,10 +4,9 @@
       %tr
         %th Nutrient
         %th.col-sm-3 Value
-    %tbody#compositions
-      = f.fields_for :ingredient_compositions, :wrapper => false do |builder|
-        = render 'compositions', f: builder
-    %tfoot
-      %tr
-        %td{colspan:3}
-          = f.link_to_add 'Select Nutrients', :ingredient_compositions, id: 'select_nutrients_button'
+  .scrollable
+    %table.table.lcf-table
+      %tbody#compositions
+        = f.fields_for :ingredient_compositions, :wrapper => false do |builder|
+          = render 'compositions', f: builder
+  = f.link_to_add 'Select Nutrients', :ingredient_compositions, id: 'select_nutrients_button', class: 'btn btn-success'

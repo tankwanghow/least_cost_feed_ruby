@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(version: 20140325092233) do
   create_table "formula_ingredients", force: true do |t|
     t.integer "formula_id",                                           null: false
     t.integer "ingredient_id",                                        null: false
-    t.decimal "max",           precision: 12, scale: 4, default: 0.0, null: false
-    t.decimal "min",           precision: 12, scale: 4, default: 0.0, null: false
+    t.decimal "max",           precision: 12, scale: 4
+    t.decimal "min",           precision: 12, scale: 4
     t.decimal "actual",        precision: 12, scale: 4, default: 0.0, null: false
     t.decimal "shadow",        precision: 12, scale: 4, default: 0.0, null: false
   end
@@ -30,8 +30,8 @@ ActiveRecord::Schema.define(version: 20140325092233) do
   create_table "formula_nutrients", force: true do |t|
     t.integer "formula_id",                                         null: false
     t.integer "nutrient_id",                                        null: false
-    t.decimal "max",         precision: 12, scale: 4, default: 0.0, null: false
-    t.decimal "min",         precision: 12, scale: 4, default: 0.0, null: false
+    t.decimal "max",         precision: 12, scale: 4
+    t.decimal "min",         precision: 12, scale: 4
     t.decimal "actual",      precision: 12, scale: 4, default: 0.0, null: false
   end
 
@@ -41,11 +41,11 @@ ActiveRecord::Schema.define(version: 20140325092233) do
     t.integer  "user_id",                                             null: false
     t.string   "name",                                                null: false
     t.decimal  "batch_size",   precision: 12, scale: 4, default: 0.0, null: false
+    t.decimal  "cost",         precision: 12, scale: 4, default: 0.0, null: false
     t.text     "note"
     t.integer  "lock_version",                          default: 0,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "cost",         precision: 12, scale: 4, default: 0.0
   end
 
   add_index "formulas", ["user_id", "name"], name: "index_formulas_on_user_id_and_name", unique: true, using: :btree
@@ -62,16 +62,15 @@ ActiveRecord::Schema.define(version: 20140325092233) do
     t.integer  "user_id",                                                   null: false
     t.string   "name",                                                      null: false
     t.decimal  "cost",         precision: 12, scale: 4, default: 0.0,       null: false
-    t.string   "batch_no"
-    t.text     "note"
     t.string   "status",                                default: "using",   null: false
     t.string   "category",                              default: "private", null: false
+    t.text     "note"
     t.integer  "lock_version",                          default: 0,         null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "ingredients", ["user_id", "name", "batch_no"], name: "index_ingredients_on_user_id_and_name_and_batch_no", unique: true, using: :btree
+  add_index "ingredients", ["user_id", "name"], name: "index_ingredients_on_user_id_and_name", unique: true, using: :btree
 
   create_table "nutrients", force: true do |t|
     t.integer  "user_id",                          null: false

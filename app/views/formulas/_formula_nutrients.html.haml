@@ -6,10 +6,9 @@
         %th.col-sm-2 Min
         %th.col-sm-2 Max
         %th.col-sm-2 Actual
-    %tbody#nutrients
-      = f.fields_for :formula_nutrients, :wrapper => false do |builder|
-        = render 'nutrients', f: builder
-    %tfoot
-      %tr
-        %td{colspan:4}
-          = f.link_to_add 'Select Nutrients', :formula_nutrients, id: 'select_nutrients_button', class: 'btn btn-success'
+  .scrollable
+    %table.table.lcf-table
+      %tbody#nutrients
+        = f.fields_for :formula_nutrients, :wrapper => false do |builder|
+          = render 'nutrients', f: builder
+  = f.link_to_add 'Select Nutrients', :formula_nutrients, id: 'select_nutrients_button', class: 'btn btn-success'

@@ -46,7 +46,7 @@ class IngredientsController < ApplicationController
 private
 
   def ingredient_params
-    params.require(:ingredient).permit(:name, :cost, :status, :note, :batch_no, ingredient_compositions_attributes: [:id, :value, :_destroy, :nutrient_id])
+    params.require(:ingredient).permit(:name, :cost, :package_weight, :status, :note, :batch_no, ingredient_compositions_attributes: [:id, :value, :_destroy, :nutrient_id])
   end
 
   def fetch_ingredient

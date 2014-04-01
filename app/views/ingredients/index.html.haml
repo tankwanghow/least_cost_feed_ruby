@@ -8,7 +8,6 @@
   %thead
     %tr
       %th Name
-      %th Batch No
       %th.right-align= "Cost(#{current_user.weight_unit})"
       %th Status
       %th Category
@@ -19,7 +18,6 @@
       %tr
         %td
           = link_to i.name, edit_ingredient_path(i.id)
-        %td= i.batch_no
         %td.numeric= number_with_precision i.cost, precision: 4
         %td= i.status
         %td= i.category

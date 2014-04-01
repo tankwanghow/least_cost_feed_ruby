@@ -3,10 +3,46 @@ class FormulaIngredient < ActiveRecord::Base
   belongs_to :ingredient
   validates_uniqueness_of :ingredient_id, scope: :formula_id
   validates_presence_of :ingredient_id
-  validates_numericality_of :max, greater_than_or_equal_to: 0.0
-  validates_numericality_of :min, greater_than_or_equal_to: 0.0
   validates_numericality_of :actual, greater_than_or_equal_to: 0.0
   validates_numericality_of :shadow, greater_than_or_equal_to: 0.0
+
+  after_save :save_ingredient_cost
+
+  def min_perc
+    min ? min * 100 : nil
+  end
+
+  def min_perc=value
+    if !value.blank?
+      self.min = value.to_d / 100
+    else
+      self.min = nil
+    end
+  end
+
+  def max_perc
+    max ? max * 100 : nil
+  end
+
+  def max_perc=value
+    if !value.blank?
+      self.max = value.to_d / 100
+    else
+      self.max = nil
+    end
+  end
+
+  def actual_perc
+    actual ? actual * 100 : nil
+  end
+
+  def actual_perc=value
+    if !value.blank?
+      self.actual = value.to_d / 100
+    else
+      self.actual = nil
+    end
+  end
 
   def ingredient_name
     ingredient ? ingredient.name : nil
@@ -20,9 +56,10 @@ class FormulaIngredient < ActiveRecord::Base
     ingredient.cost = value
   end
 
-  def weight
-    bz = formula.try(:batch_size)
-    a = ingredient.try(:actual)
-    bz && a ? bz * a : 0
+private
+
+  def save_ingredient_cost
+    ingredient.save if ingredient.changed?
   end
+
 end

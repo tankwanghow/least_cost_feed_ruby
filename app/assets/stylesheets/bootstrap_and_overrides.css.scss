@@ -25,7 +25,37 @@ input[type='checkbox'].form-control {
   text-align: right;
 }
 
-table.lcf-table tbody tr td {
-  padding: 1px;
+table.lcf-table.table tbody tr td {
+  padding: 0px;
   border-top: 0px;
 }
+
+table.lcf-table {
+  margin-bottom: 2px;
+}
+
+table.lcf-select-table.table tbody tr td, table.lcf-select-table.table thead tr th{
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.scrollable {
+  overflow-y: scroll; 
+  height: 350px; 
+  margin-bottom: 10px;
+  border-bottom: 2px solid #cccccc;
+  padding-bottom: 1px;
+}
+
+.scrollable-big {
+  overflow-y: scroll; 
+  height: 500px; 
+  margin-bottom: 10px;
+  border-bottom: 2px solid #cccccc;
+  padding-bottom: 1px;
+}
+
+.destroy[value=true] {
+  display: none;
+}
+

@@ -44,7 +44,7 @@ window.app = {
     form = null
 
     ($ '#cancel_selecting_ingredients').click (e) ->
-      ($ 'table#select_ingredients').hide()
+      ($ '#scrollable_ingredients').hide()
       form.show()
       e.preventDefault()
 
@@ -52,9 +52,9 @@ window.app = {
       bp_element = ($ "#" + ($ this).attr('data-blueprint-id'))
       bp_element_data = ($ bp_element).attr('data-blueprint')
       form = ($ this).parents('form')
-      app.unselectIngredient()
+      # app.unselectIngredient()
       app.reselectIngredient $('.ingredient_id').parent(':visible').children('.ingredient_id')
-      ($ 'table#select_ingredients').show()
+      ($ '#scrollable_ingredients').show()
       form.hide()
       e.preventDefault()
 
@@ -62,7 +62,7 @@ window.app = {
       app.destroyFormIngredients()
       app.setFormIngredients $('table#select_ingredients input[type=checkbox]:checked'), ingredient_container, bp_element_data, replace_string
       form.show()
-      ($ 'table#select_ingredients').hide()
+      ($ '#scrollable_ingredients').hide()
       e.preventDefault()
 
   unselectNutrient: ->
@@ -108,7 +108,7 @@ window.app = {
     form = null
     
     ($ '#cancel_selecting_nutrients').click (e) ->
-      ($ 'table#select_nutrients').hide()
+      ($ '#scrollable_nutrients').hide()
       form.show()
       e.preventDefault()
 
@@ -119,13 +119,13 @@ window.app = {
       # app.unselectNutrient()
       app.reselectNutrient $('.nutrient_id').parent(':visible').children('.nutrient_id')
       form.hide()
-      ($ 'table#select_nutrients').show()
+      ($ '#scrollable_nutrients').show()
       e.preventDefault()
 
     ($ '#done_selecting_nutrients').click (e) ->  
       app.destroyFormNutrients()
       app.setFormNutrients $('table#select_nutrients input[type=checkbox]:checked'), nutrient_container, bp_element_data, replace_string
-      ($ 'table#select_nutrients').hide()
+      ($ '#scrollable_nutrients').hide()
       form.show()
       e.preventDefault()
 }

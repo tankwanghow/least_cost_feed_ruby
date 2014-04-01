@@ -9,10 +9,9 @@
         %th Actual %
         %th Weight
         %th Shadow
-    %tbody#ingredients
-      = f.fields_for :formula_ingredients, :wrapper => false do |builder|
-        = render 'ingredients', f: builder
-    %tfoot
-      %tr
-        %td{colspan:7}
-          = f.link_to_add 'Select Ingredients', :formula_ingredients, id: 'select_ingredients_button', class: 'btn btn-success'
+  .scrollable
+    %table.table.lcf-table
+      %tbody#ingredients
+        = f.fields_for :formula_ingredients, :wrapper => false do |builder|
+          = render 'ingredients', f: builder
+  = f.link_to_add 'Select Ingredients', :formula_ingredients, id: 'select_ingredients_button', class: 'btn btn-success'

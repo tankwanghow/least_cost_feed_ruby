@@ -1,19 +1,18 @@
-%table#select_nutrients.table.table-striped{style: "display:none;"}
-  %thead
-    %tr
-      %th Nutrient Name
-      %th Unit
-      %th Category
-  %tbody
-    - current_user.nutrients.order(:name).each do |n|
-      %tr
-        %td
-          = check_box_tag "selected", n.id, false, data: { name_unit: "#{n.name}(#{n.unit})" }
-          = n.name
-        %td= n.unit
-        %td= n.category
-  %tfoot
-    %tr
-      %td{colspan:3}
-        = link_to "Done", "#", id: "done_selecting_nutrients", class: 'btn btn-success'
-        = link_to "Cancel", "#", id: "cancel_selecting_nutrients", class: 'btn btn-danger'
+#scrollable_nutrients{style: "display:none;"}
+  .scrollable-big
+    %table#select_nutrients.lcf-select-table.table.table-striped
+      %thead
+        %tr
+          %th Nutrient Name
+          %th Unit
+          %th Category
+      %tbody
+        - current_user.nutrients.order(:name).each do |n|
+          %tr
+            %td
+              = check_box_tag "selected", n.id, false, data: { name_unit: "#{n.name}(#{n.unit})" }
+              = n.name
+            %td= n.unit
+            %td= n.category
+  = link_to "Done", "#", id: "done_selecting_nutrients", class: 'btn btn-success'
+  = link_to "Cancel", "#", id: "cancel_selecting_nutrients", class: 'btn btn-danger'
