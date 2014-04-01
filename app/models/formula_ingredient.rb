@@ -3,8 +3,8 @@ class FormulaIngredient < ActiveRecord::Base
   belongs_to :ingredient
   validates_uniqueness_of :ingredient_id, scope: :formula_id
   validates_presence_of :ingredient_id
-  validates_numericality_of :actual, greater_than_or_equal_to: 0.0
-  validates_numericality_of :shadow, greater_than_or_equal_to: 0.0
+  validates_numericality_of :actual, greater_than_or_equal_to: 0.0, allow_nil: true
+  validates_numericality_of :shadow, greater_than_or_equal_to: 0.0, allow_nil: true
 
   after_save :save_ingredient_cost
 

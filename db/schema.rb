@@ -19,10 +19,11 @@ ActiveRecord::Schema.define(version: 20140325092233) do
   create_table "formula_ingredients", force: true do |t|
     t.integer "formula_id",                                           null: false
     t.integer "ingredient_id",                                        null: false
-    t.decimal "max",           precision: 12, scale: 4
-    t.decimal "min",           precision: 12, scale: 4
-    t.decimal "actual",        precision: 12, scale: 4, default: 0.0, null: false
-    t.decimal "shadow",        precision: 12, scale: 4, default: 0.0, null: false
+    t.decimal "max",           precision: 12, scale: 6
+    t.decimal "min",           precision: 12, scale: 6
+    t.decimal "actual",        precision: 12, scale: 6, default: 0.0, null: false
+    t.decimal "weight",        precision: 12, scale: 6
+    t.decimal "shadow",        precision: 12, scale: 6, default: 0.0, null: false
   end
 
   add_index "formula_ingredients", ["ingredient_id", "formula_id"], name: "index_formula_ingredients_on_ingredient_id_and_formula_id", unique: true, using: :btree
@@ -30,9 +31,9 @@ ActiveRecord::Schema.define(version: 20140325092233) do
   create_table "formula_nutrients", force: true do |t|
     t.integer "formula_id",                                         null: false
     t.integer "nutrient_id",                                        null: false
-    t.decimal "max",         precision: 12, scale: 4
-    t.decimal "min",         precision: 12, scale: 4
-    t.decimal "actual",      precision: 12, scale: 4, default: 0.0, null: false
+    t.decimal "max",         precision: 12, scale: 6
+    t.decimal "min",         precision: 12, scale: 6
+    t.decimal "actual",      precision: 12, scale: 6, default: 0.0, null: false
   end
 
   add_index "formula_nutrients", ["nutrient_id", "formula_id"], name: "index_formula_nutrients_on_nutrient_id_and_formula_id", unique: true, using: :btree
@@ -53,19 +54,20 @@ ActiveRecord::Schema.define(version: 20140325092233) do
   create_table "ingredient_compositions", force: true do |t|
     t.integer "ingredient_id",                                        null: false
     t.integer "nutrient_id",                                          null: false
-    t.decimal "value",         precision: 12, scale: 4, default: 0.0, null: false
+    t.decimal "value",         precision: 14, scale: 6, default: 0.0, null: false
   end
 
   add_index "ingredient_compositions", ["ingredient_id", "nutrient_id"], name: "index_ingredient_compositions_on_ingredient_id_and_nutrient_id", unique: true, using: :btree
 
   create_table "ingredients", force: true do |t|
-    t.integer  "user_id",                                                   null: false
-    t.string   "name",                                                      null: false
-    t.decimal  "cost",         precision: 12, scale: 4, default: 0.0,       null: false
-    t.string   "status",                                default: "using",   null: false
-    t.string   "category",                              default: "private", null: false
+    t.integer  "user_id",                                                     null: false
+    t.string   "name",                                                        null: false
+    t.decimal  "package_weight", precision: 12, scale: 4, default: 0.1
+    t.decimal  "cost",           precision: 12, scale: 4, default: 0.0,       null: false
+    t.string   "status",                                  default: "using",   null: false
+    t.string   "category",                                default: "private", null: false
     t.text     "note"
-    t.integer  "lock_version",                          default: 0,         null: false
+    t.integer  "lock_version",                            default: 0,         null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

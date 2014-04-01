@@ -2,47 +2,10 @@ class DietGlpsol
   def self.solution_for_formula formula, filename, solver=Rails.root.to_s + '/lib/bin/glpsol --math'
     filename = Rails.root.to_s + "/tmp/" + filename
     gmpl_for_formula formula, filename
-    sol = solution_for_gmpl filename, solver
-    if sol
-      put_soultion_to_formula formula, sol
-    else
-      put_error_to_formula formula
-    end
+    solution_for_gmpl filename, solver
   end
 
-  def self.put_error_to_formula formula
-    formula.formula_ingredients.each do |t| 
-      t.actual = -1
-      t.shadow = -1
-    end
-
-    formula.formula_nutrients.each do |t|
-      t.actual = -1
-    end
-  end
-
-  def self.put_soultion_to_formula formula, solution
-    solution[:formula].each do |s|
-      a = s.split(",")
-      ingredient_id = a[0].split('_')[1].to_i
-      actual = a[1].to_d
-      shadow = a[2].to_d
-      formula_ingredient = formula.formula_ingredients.find { |t| t.ingredient_id == ingredient_id }
-      formula_ingredient.actual = actual
-      formula_ingredient.shadow = shadow
-    end
-
-    solution[:specs].each do |s|
-      a = s.split(",")
-      nutrient_id = a[0].split('_')[1].to_i
-      actual = a[1].to_d
-      formula_nutrient = formula.formula_nutrients.find { |t| t.nutrient_id == nutrient_id }
-      formula_nutrient.actual = actual
-    end
-    formula
-  end
-
-  def self.solution_for_gmpl filename, solver
+  def self.solution_for_gmpl filename, solver=Rails.root.to_s + '/lib/bin/glpsol --math'
     a = `#{solver + " " + filename}`
     `rm #{filename}`
     formula = a.scan(/FORMULA_START(.+?)FORMULA_END/)
@@ -56,8 +19,10 @@ class DietGlpsol
 
   def self.gmpl_for_formula formula, filename
     f = File.new filename, 'w'
+
     formula_ingredients = formula.formula_ingredients.select { |t| t._destroy == false }
     formula_nutrients = formula.formula_nutrients.select { |t| t._destroy == false }
+    
     f.puts varibles formula_ingredients
     f.puts objective_function formula_ingredients
     f.puts nutrient_expressions_constraints formula_nutrients, formula_ingredients

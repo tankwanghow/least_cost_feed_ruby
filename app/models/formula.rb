@@ -24,7 +24,12 @@ class Formula < ActiveRecord::Base
   def calculate params=nil
     assign_attributes params if params
     n = User.current ? User.current.username :  random_word
-    DietGlpsol.solution_for_formula self, "#{n}_#{self.id}.mod"
+    sol = DietGlpsol.solution_for_formula self, "#{n}_#{self.id}.mod"
+    if sol
+      put_soultion_to_formula sol
+    else
+      put_error_to_formula
+    end
     count_cost_set_weight
     self.updated_at = DateTime.now
   end
@@ -44,6 +49,37 @@ class Formula < ActiveRecord::Base
   end
 
 private
+
+  def put_error_to_formula
+    self.formula_ingredients.each do |t| 
+      t.actual = -1
+      t.shadow = -1
+    end
+
+    self.formula_nutrients.each do |t|
+      t.actual = -1
+    end
+  end
+
+  def put_soultion_to_formula solution
+    solution[:formula].each do |s|
+      a = s.split(",")
+      ingredient_id = a[0].split('_')[1].to_i
+      actual = a[1].to_d
+      shadow = a[2].to_d
+      formula_ingredient = self.formula_ingredients.find { |t| t.ingredient_id == ingredient_id }
+      formula_ingredient.actual = actual
+      formula_ingredient.shadow = shadow
+    end
+
+    solution[:specs].each do |s|
+      a = s.split(",")
+      nutrient_id = a[0].split('_')[1].to_i
+      actual = a[1].to_d
+      formula_nutrient = self.formula_nutrients.find { |t| t.nutrient_id == nutrient_id }
+      formula_nutrient.actual = actual
+    end
+  end
 
   def random_word
     a = ""

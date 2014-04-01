@@ -8,9 +8,9 @@ describe FormulaNutrient do
 
   it { should have_db_column(:formula_id).with_options(null: false) }
   it { should have_db_column(:nutrient_id).with_options(null: false) }
-  it { should have_db_column(:max).with_options(null: false, default: 0.0, precision: 12, scale: 4) }
-  it { should have_db_column(:min).with_options(null: false, default: 0.0, precision: 12, scale: 4) }
-  it { should have_db_column(:actual).with_options(null: false, default: 0.0, precision: 12, scale: 4) }
+  it { should have_db_column(:max).with_options(precision: 12, scale: 6) }
+  it { should have_db_column(:min).with_options(precision: 12, scale: 6) }
+  it { should have_db_column(:actual).with_options(null: false, default: 0.0, precision: 12, scale: 6) }
 
   it { should validate_numericality_of(:max).is_greater_than_or_equal_to(0.0) }
   it { should validate_numericality_of(:min).is_greater_than_or_equal_to(0.0) }

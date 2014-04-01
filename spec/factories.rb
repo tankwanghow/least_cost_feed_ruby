@@ -17,6 +17,7 @@ FactoryGirl.define do
     min { rand(999) }
     actual { rand(999) }
     shadow { rand(999) }
+    weight { rand(999) }
   end
 
   factory :formula do
@@ -53,8 +54,8 @@ FactoryGirl.define do
   factory :ingredient do
     user { create :user }
     name { Faker::Name.name }
+    package_weight { rand(444) }
     cost { rand(99999)/100 }
-    batch_no { rand(2014123111).to_s }
     note { Faker::Lorem.sentence }
     category { ['private', 'public', 'sample'][rand(3)] }
     status { ['pending', 'using', 'finished', 'canceled'][rand(4)] }

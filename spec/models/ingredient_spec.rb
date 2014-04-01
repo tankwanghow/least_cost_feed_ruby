@@ -15,7 +15,7 @@ describe Ingredient do
   it { should have_db_column(:category).with_options(default: 'private', null: false) }
   it { should validate_numericality_of(:cost).is_greater_than_or_equal_to(0.0) } 
 
-  it { should have_db_index([:user_id, :name, :batch_no]).unique(true) }
+  it { should have_db_index([:user_id, :name]).unique(true) }
   it { should validate_presence_of :name }
   it { should validate_presence_of :cost }
   it { should validate_presence_of :status }
