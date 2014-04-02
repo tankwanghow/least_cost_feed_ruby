@@ -9,39 +9,27 @@ class FormulaIngredient < ActiveRecord::Base
   after_save :save_ingredient_cost
 
   def min_perc
-    min ? min * 100 : nil
+    perc :min
   end
 
   def min_perc=value
-    if !value.blank?
-      self.min = value.to_d / 100
-    else
-      self.min = nil
-    end
+    set_perc :min, value
   end
 
   def max_perc
-    max ? max * 100 : nil
+    perc :max
   end
 
   def max_perc=value
-    if !value.blank?
-      self.max = value.to_d / 100
-    else
-      self.max = nil
-    end
+    set_perc :max, value
   end
 
   def actual_perc
-    actual ? actual * 100 : nil
+    perc :actual
   end
 
   def actual_perc=value
-    if !value.blank?
-      self.actual = value.to_d / 100
-    else
-      self.actual = nil
-    end
+    set_perc :actual, value
   end
 
   def ingredient_name
@@ -57,6 +45,18 @@ class FormulaIngredient < ActiveRecord::Base
   end
 
 private
+
+  def perc attr
+    send(attr) ? send(attr) * 100 : nil
+  end
+
+  def set_perc attr, value
+    if !value.blank?
+      send("#{attr}=", value.to_d / 100)
+    else
+      send("#{attr}=", nil)
+    end
+  end
 
   def save_ingredient_cost
     ingredient.save if ingredient.changed?

@@ -3,6 +3,7 @@ class Ingredient < ActiveRecord::Base
   validates_presence_of :name, :cost, :status, :category
   validates_uniqueness_of :name, scope: :user_id
   validates_numericality_of :cost, greater_than_or_equal_to: 0
+  validates_numericality_of :package_weight, greater_than_or_equal_to: 0, allow_nil: true
   has_many :ingredient_compositions, -> { includes(:nutrient).order("nutrients.name") }, dependent: :destroy
   accepts_nested_attributes_for :ingredient_compositions, allow_destroy: true
 

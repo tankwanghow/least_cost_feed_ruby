@@ -34,6 +34,12 @@ class Formula < ActiveRecord::Base
     self.updated_at = DateTime.now
   end
 
+  def savings
+    @prev_cost ? self.cost - @prev_cost : 0
+  end
+
+private
+
   def count_cost_set_weight
     amt = 0
     formula_ingredients.each do |t|
@@ -43,12 +49,6 @@ class Formula < ActiveRecord::Base
     @prev_cost = self.cost
     self.cost = (amt/batch_size).round 4
   end
-
-  def savings
-    @prev_cost ? self.cost - @prev_cost : 0
-  end
-
-private
 
   def put_error_to_formula
     self.formula_ingredients.each do |t| 

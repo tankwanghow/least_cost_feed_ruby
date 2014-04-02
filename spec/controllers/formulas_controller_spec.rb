@@ -73,4 +73,7 @@ describe FormulasController do
   it_should_behave_like_create
   it_should_behave_like_update
 
+  it "PUT :calculate"
+  it "POST :calculate"
+
 end

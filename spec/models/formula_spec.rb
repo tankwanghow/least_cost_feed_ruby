@@ -41,4 +41,8 @@ describe Formula do
     it { expect(Formula.find_formulas).to eq user_1.formulas.page(1).per(25).order(:name) }
   end
 
+  it "calculate"
+  it "savings"
+  it "prev_cost"
+
 end

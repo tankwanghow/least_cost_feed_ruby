@@ -9,11 +9,13 @@ describe Ingredient do
   it { should have_db_column(:name).with_options(null: false) }
   it { should have_db_column(:cost).with_options(null: false, default: 0.0, precision: 12, scale: 4) }
   it { should have_db_column(:lock_version).with_options(default: 0, null: false) }
-
+  it { should have_db_column(:package_weight).with_options(default: 0.1) }
   it { should have_db_column(:note) }
   it { should have_db_column(:status).with_options(default: 'using', null: false) }
   it { should have_db_column(:category).with_options(default: 'private', null: false) }
+
   it { should validate_numericality_of(:cost).is_greater_than_or_equal_to(0.0) } 
+it { should validate_numericality_of(:package_weight).is_greater_than_or_equal_to(0.0) } 
 
   it { should have_db_index([:user_id, :name]).unique(true) }
   it { should validate_presence_of :name }
