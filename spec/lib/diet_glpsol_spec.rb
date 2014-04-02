@@ -26,37 +26,63 @@ describe DietGlpsol do
   let(:ingredients) { [corn, soyabean, wheatbran, limestone, mdcp, ricebran] }
 
   let(:formula1_nutrients) { [ 
-    double(nutrient: me,      max: nil, min: 2800, _destroy: false, actual: nil), 
-    double(nutrient: protein, max: 16,  min:  nil, _destroy: false, actual: nil), 
-    double(nutrient: calcium, max: 4.1, min:  3.8, _destroy: false, actual: nil), 
-    double(nutrient: nothing, max: nil, min:  nil, _destroy: false, actual: nil)
+    double(nutrient: me,      max: nil, min: 2800, _destroy: false), 
+    double(nutrient: protein, max: 16,  min:  nil, _destroy: false), 
+    double(nutrient: calcium, max: 4.1, min:  3.8, _destroy: false), 
+    double(nutrient: nothing, max: nil, min:  nil, _destroy: false)
   ] }
   
   let(:formula2_nutrients) { [ 
-    double(nutrient: me,      max: nil, min: 8000, _destroy: false, actual: nil), 
-    double(nutrient: protein, max: 50,  min:  nil, _destroy: false, actual: nil), 
-    double(nutrient: calcium, max: 4.1, min:  3.8, _destroy: false, actual: nil), 
-    double(nutrient: nothing, max: nil, min:  nil, _destroy: false, actual: nil)
+    double(nutrient: me,      max: nil, min: 8000, _destroy: false), 
+    double(nutrient: protein, max: 50,  min:  nil, _destroy: false), 
+    double(nutrient: calcium, max: 4.1, min:  3.8, _destroy: false), 
+    double(nutrient: nothing, max: nil, min:  nil, _destroy: false)
   ] }
 
   let(:formula1_ingredients) { [ 
-    double(ingredient: corn,      max: 0.70, min: 0.40, _destroy: false, actual: nil, shadow: nil), 
-    double(ingredient: soyabean,  max:  nil, min: 0.15, _destroy: false, actual: nil, shadow: nil), 
-    double(ingredient: wheatbran, max: 0.50, min:  nil, _destroy: false, actual: nil, shadow: nil),
-    double(ingredient: limestone, max:  nil, min:  nil, _destroy: false, actual: nil, shadow: nil),
-    double(ingredient: mdcp,      max:  nil, min:  nil, _destroy: false, actual: nil, shadow: nil)
+    double(ingredient: corn,      max: 0.70, min: 0.40, _destroy: false), 
+    double(ingredient: soyabean,  max:  nil, min: 0.15, _destroy: false), 
+    double(ingredient: wheatbran, max: 0.50, min:  nil, _destroy: false),
+    double(ingredient: limestone, max:  nil, min:  nil, _destroy: false),
+    double(ingredient: mdcp,      max:  nil, min:  nil, _destroy: false)
   ] }
 
   let(:formula2_ingredients) { [ 
-    double(ingredient: corn,      max: 0.70, min: 0.60, _destroy: false, actual: nil, shadow: nil), 
-    double(ingredient: soyabean,  max:  nil, min: 0.20, _destroy: false, actual: nil, shadow: nil), 
-    double(ingredient: wheatbran, max: 0.30, min:  nil, _destroy: false, actual: nil, shadow: nil),
-    double(ingredient: limestone, max:  nil, min:  nil, _destroy: false, actual: nil, shadow: nil),
-    double(ingredient: mdcp,      max:  nil, min:  nil, _destroy: false, actual: nil, shadow: nil)
+    double(ingredient: corn,      max: 0.70, min: 0.60, _destroy: false), 
+    double(ingredient: soyabean,  max:  nil, min: 0.20, _destroy: false), 
+    double(ingredient: wheatbran, max: 0.30, min:  nil, _destroy: false),
+    double(ingredient: limestone, max:  nil, min:  nil, _destroy: false),
+    double(ingredient: mdcp,      max:  nil, min:  nil, _destroy: false)
   ] }
 
   let(:formula1)  { double(id: 1, name: 'Layer', formula_ingredients: formula1_ingredients, formula_nutrients: formula1_nutrients) }
   let(:formula2)  { double(id: 2, name: 'Swine', formula_ingredients: formula2_ingredients, formula_nutrients: formula2_nutrients) }
+  let(:formula3)  { double(id: 3, name: 'Swine1', formula_ingredients: formula3_ingredients, formula_nutrients: formula3_nutrients) }
+
+  let(:formula3_ingredients) { [ 
+    double(ingredient: corn,      max: 0.70, min: 0.40, _destroy: false), 
+    double(ingredient: soyabean,  max:  nil, min: 0.15, _destroy: false), 
+    double(ingredient: wheatbran, max: 0.50, min:  nil, _destroy: false),
+    double(ingredient: limestone, max:  nil, min:  nil, _destroy: false),
+    double(ingredient: mdcp,      max:  nil, min:  nil, _destroy: false),
+    double(ingredient: ricebran,  max:   99, min:  nil, _destroy: true)
+  ] }
+
+  let(:formula3_nutrients) { [ 
+    double(nutrient: me,      max: nil, min: 2800, _destroy: false), 
+    double(nutrient: protein, max:  16,  min:  nil, _destroy: false), 
+    double(nutrient: calcium, max: 4.1, min:  3.8, _destroy: false), 
+    double(nutrient: nothing, max: nil, min:  nil, _destroy: false),
+    double(nutrient: lysine,  max:   5, min:  nil, _destroy: true)
+  ] }
+
+  it "should ignore destroyed formula_nutrients and formula_ingredients" do
+    filename = "abc#{rand(5000)}xyz.mod"
+    DietGlpsol.gmpl_for_formula formula3, filename
+    DietGlpsol.solution_for_gmpl(filename).should == {
+      formula: ["p_1,0.700000,0.000000", "p_2,0.167552,0.000000", "p_3,0.034230,0.000000", "p_4,0.098219,0.000000", "p_5,0.000000,1.903611"],
+      specs:   ["n_1,2800.000000", "n_2,14.282146", "n_3,3.800000", "n_4,1.663116"] }    
+  end
 
   it "should find the solution for formula" do
     filename = "abc#{rand(5000)}xyz.mod"

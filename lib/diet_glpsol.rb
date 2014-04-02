@@ -19,10 +19,8 @@ class DietGlpsol
 
   def self.gmpl_for_formula formula, filename
     f = File.new filename, 'w'
-
     formula_ingredients = formula.formula_ingredients.select { |t| t._destroy == false }
-    formula_nutrients = formula.formula_nutrients.select { |t| t._destroy == false }
-    
+    formula_nutrients   = formula.formula_nutrients.select { |t| t._destroy == false }
     f.puts varibles formula_ingredients
     f.puts objective_function formula_ingredients
     f.puts nutrient_expressions_constraints formula_nutrients, formula_ingredients
