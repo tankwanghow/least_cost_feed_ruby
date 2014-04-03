@@ -40,7 +40,7 @@ class FormulaPdf < Prawn::Document
           text @view.number_with_precision(i.ingredient_cost, precision: 4), size: 12, overflow: :shrink_to_fit, valign: :center, align: :right
         end
         bounding_box [75.mm, @py], height: @detail_height, width: 20.mm do
-          text @view.number_with_precision(i.actual_perc, precision: 2), size: 12, overflow: :shrink_to_fit, valign: :center, align: :right
+          text @view.number_with_precision(i.actual_perc, precision: 4), size: 12, overflow: :shrink_to_fit, valign: :center, align: :right
         end
         bounding_box [95.mm, @py], height: @detail_height, width: 20.mm do
           text @view.number_with_precision(i.weight, precision: 2), size: 12, overflow: :shrink_to_fit, valign: :center, align: :right
