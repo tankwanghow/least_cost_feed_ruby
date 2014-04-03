@@ -1,4 +1,9 @@
 class FormulasController < ApplicationController
+
+  def show
+    fetch_formula
+  end
+
   def index
     @terms = params[:search] ? params[:search][:terms] : nil
     @formulas = Formula.find_formulas(@terms).page(params[:page])

@@ -8,9 +8,7 @@
     = link_to 'Cancel Changes', edit_formula_path(@formula), class: 'btn btn-warning'
     = link_to 'Back to Index', formulas_path, class: 'btn btn-info'
     - if !@formula.changed?
-      = link_to 'Print', '#', class: 'btn btn-info'
-      = link_to 'Print In Feedmill Format', '#', class: 'btn btn-info'
-      = link_to 'Do Premix', '#', class: 'btn btn-info'
+      = link_to 'Print', formula_path(@formula, format: :pdf), target: '_blank', class: 'btn btn-info'  
   = render 'formula_ingredients', f: f
   = render 'formula_nutrients', f: f
 = render 'nutrients/select_nutrients'
