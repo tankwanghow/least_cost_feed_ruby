@@ -1,7 +1,9 @@
 %tr.fields.nutrient
   = f.hidden_field :nutrient_id, class: 'nutrient_id'
   = f.hidden_field :_destroy, class: 'destroy'
-  %td= f.input_field :nutrient_name_unit, disabled: true
+  %td.check-text-box
+    = f.check_box :use
+    = f.input_field :nutrient_name_unit, disabled: true
   %td.col-sm-2= f.input_field :min, type: :text
   %td.col-sm-2= f.input_field :max, type: :text
   %td.col-sm-2= f.input_field :actual, readOnly: true, type: :text

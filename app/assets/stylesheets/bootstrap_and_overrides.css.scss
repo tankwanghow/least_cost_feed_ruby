@@ -59,3 +59,12 @@ table.lcf-select-table.table tbody tr td, table.lcf-select-table.table thead tr 
   display: none;
 }
 
+.check-text-box input[type=checkbox] {
+  float: left;
+  margin-top: 8px;
+}
+
+.check-text-box input[type=text] {
+  float: right;
+  width: 92%;
+}

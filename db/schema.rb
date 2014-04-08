@@ -17,23 +17,25 @@ ActiveRecord::Schema.define(version: 20140325092233) do
   enable_extension "plpgsql"
 
   create_table "formula_ingredients", force: true do |t|
-    t.integer "formula_id",                                           null: false
-    t.integer "ingredient_id",                                        null: false
+    t.integer "formula_id",                                            null: false
+    t.integer "ingredient_id",                                         null: false
     t.decimal "max",           precision: 12, scale: 6
     t.decimal "min",           precision: 12, scale: 6
-    t.decimal "actual",        precision: 12, scale: 6, default: 0.0, null: false
+    t.decimal "actual",        precision: 12, scale: 6, default: 0.0,  null: false
     t.decimal "weight",        precision: 12, scale: 6
-    t.decimal "shadow",        precision: 12, scale: 6, default: 0.0, null: false
+    t.boolean "use",                                    default: true, null: false
+    t.decimal "shadow",        precision: 12, scale: 6, default: 0.0,  null: false
   end
 
   add_index "formula_ingredients", ["ingredient_id", "formula_id"], name: "index_formula_ingredients_on_ingredient_id_and_formula_id", unique: true, using: :btree
 
   create_table "formula_nutrients", force: true do |t|
-    t.integer "formula_id",                                         null: false
-    t.integer "nutrient_id",                                        null: false
+    t.integer "formula_id",                                          null: false
+    t.integer "nutrient_id",                                         null: false
     t.decimal "max",         precision: 12, scale: 6
     t.decimal "min",         precision: 12, scale: 6
-    t.decimal "actual",      precision: 12, scale: 6, default: 0.0, null: false
+    t.decimal "actual",      precision: 12, scale: 6, default: 0.0,  null: false
+    t.boolean "use",                                  default: true, null: false
   end
 
   add_index "formula_nutrients", ["nutrient_id", "formula_id"], name: "index_formula_nutrients_on_nutrient_id_and_formula_id", unique: true, using: :btree
