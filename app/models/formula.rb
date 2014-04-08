@@ -27,6 +27,7 @@ class Formula < ActiveRecord::Base
     sol = DietGlpsol.solution_for_formula self, "#{n}_#{self.id}.mod"
     if sol
       put_soultion_to_formula sol
+      set_unused_stuff_actual_to_zero
     else
       put_error_to_formula
     end
@@ -79,6 +80,11 @@ private
       formula_nutrient = self.formula_nutrients.find { |t| t.nutrient_id == nutrient_id }
       formula_nutrient.actual = actual
     end
+  end
+
+  def set_unused_stuff_actual_to_zero
+    self.formula_ingredients.select { |i| i.use == false}.each { |t| t.actual = 0 }
+    self.formula_nutrients.select { |i| i.use == false}.each { |t| t.actual = 0 }
   end
 
   def random_word
