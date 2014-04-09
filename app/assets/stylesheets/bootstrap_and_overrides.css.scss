@@ -52,6 +52,8 @@ table.lcf-select-table.table tbody tr td, table.lcf-select-table.table thead tr 
   height: 500px; 
   margin-bottom: 10px;
   border-bottom: 2px solid #cccccc;
+  border-left: 2px solid #cccccc;
+  border-right: 2px solid #cccccc;
   padding-bottom: 1px;
 }
 
@@ -67,4 +69,10 @@ table.lcf-select-table.table tbody tr td, table.lcf-select-table.table thead tr 
 .check-text-box input[type=text] {
   float: right;
   width: 92%;
+}
+
+.center {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
 }
