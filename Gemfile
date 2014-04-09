@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '4.1.0.rc1'
-gem 'rails', github: 'rails/rails', branch: '4-1-stable'
+gem 'rails', '>= 4.1.0.rc2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.1'
 # Use Uglifier as compressor for JavaScript assets
@@ -36,11 +36,11 @@ end
 gem 'pg'
 
 gem 'monetize'
-gem 'money', '6.1.0.beta1'
+gem 'money', '~> 6.1.0.beta1'
 gem 'sentient_user'
 gem 'nested_form'
 gem 'prawn'
-gem 'simple_form'
+gem 'simple_form', '~> 3.0.1'
 gem 'haml'
 gem 'haml-rails'
 gem 'kaminari'
@@ -54,7 +54,7 @@ gem 'unicorn'
 
 gem 'therubyracer', :platforms => :ruby
 gem 'bootstrap-sass'
-gem 'jquery-ui-rails'
+# gem 'jquery-ui-rails'
 
 group :test do
   gem 'minitest'
@@ -67,7 +67,7 @@ end
 
 group :test, :development do
   gem 'pry-rails'
-#  gem 'pry-debugger'
+  gem 'pry-debugger'
   gem 'spring-commands-rspec'
   gem 'guard-rspec'
 end
