@@ -1,0 +1,66 @@
+Nutrient,Unit,Type,Code
+A.D. Fiber,%,Fiber,2
+Arginine,%,Protein,61
+Avail. Phos.,%,Minerals,60
+Biotin,mg/kg,Protein,44
+Calcium,%,Minerals,1
+Chlorine,%,Minerals,34
+Choline,mg/g,Vitamins,42
+Cobalt,mg/kg,Minerals,
+Concentrate,kg/kg,Unclassified,27
+Copper,mg/kg,Minerals,16
+Crude Fiber,%,Fiber,22
+Crude Protein,%,Protein,10
+Cystine,%,Protein,13
+D.I. Protein,%,Protein,9
+Digest. Energy,kcal/kg,Energy,5
+Dry Matter Fed,%,Unclassified,6
+Ether extract,%,Unclassified,11
+Fish Protein,%,Protein,40
+Folic Acid,mg/kg,Protein,39
+Forage,kg/kg,Unclassified,12
+Gly + Ser,%,Protein,4
+Glycine,%,Protein,3
+Hay Activity,%,Unclassified,30
+Histidine,%,Protein,8
+Iodine,mg/kg,Minerals,
+Iron,mg/g,Minerals,14
+Isoleucine,%,Protein,43
+Leucine,%,Protein,41
+Linoleic Acid,%,Protein,35
+Lysine,%,Protein,15
+Magnesium,%,Minerals,23
+Manganese,mg/kg,Minerals,7
+Menadione,mg/kg,Vitamins,
+Met + Cys,%,Protein,25
+Metab. Energy,kcal/g,Energy,20
+Methionine,%,Protein,17
+N.E. Lactation,Mcal/kg,Energy,19
+NE-g,Mcal/kg,Energy,33
+NE-m,Mcal/kg,Energy,31
+Niacin,mg/kg,Protein,32
+Pantothenic Acd,mg/kg,Protein,24
+Phe + Tyr,%,Protein,45
+Phenylalanine,%,Protein,37
+Phosphorous,%,Minerals,28
+Potassium,%,Minerals,36
+Protein,%,Protein,62
+Pyridoxine,mg/kg,Protein,18
+Riboflavin,mg/kg,Protein,26
+Selenium,mg/kg,Minerals,58
+Serine,%,Protein,57
+Silage Activity,%,Unclassified,59
+Sodium,%,Minerals,53
+Sulfur,%,Minerals,52
+Thiamin,mg/kg,Protein,55
+Threonine,%,Protein,51
+Total Phos.,%,Minerals,54
+Tryptophan,%,Protein,38
+Tyrosine,%,Protein,50
+U.I. Protein,%,Protein,46
+Valine,%,Protein,56
+Vitamin A,kIU/kg,Vitamins,21
+Vitamin B-12,ug/kg,Vitamins,48
+Vitamin D,kIU/kg,Vitamins,47
+Vitamin E,mg/kg,Vitamins,29
+Zinc,mg/kg,Minerals,49
