@@ -45,6 +45,7 @@ gem 'haml'
 gem 'haml-rails'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
+gem 'country_select'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby'
