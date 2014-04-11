@@ -9,6 +9,6 @@
   .scrollable
     %table.table.lcf-table
       %tbody#nutrients
-        = f.fields_for :formula_nutrients, :wrapper => false do |builder|
+        = f.fields_for :formula_nutrients, f.object.formula_nutrients.sort_by { |t| t.min ? -t.min : -t.actual }, :wrapper => false do |builder|
           = render 'nutrients', f: builder
   = f.link_to_add 'Select Nutrients', :formula_nutrients, id: 'select_nutrients_button', class: 'btn btn-success'

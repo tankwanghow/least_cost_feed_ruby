@@ -12,6 +12,6 @@
   .scrollable
     %table.table.lcf-table
       %tbody#ingredients
-        = f.fields_for :formula_ingredients, :wrapper => false do |builder|
+        = f.fields_for :formula_ingredients, f.object.formula_ingredients.sort_by { |t| -t.actual }, :wrapper => false do |builder|
           = render 'ingredients', f: builder
   = f.link_to_add 'Select Ingredients', :formula_ingredients, id: 'select_ingredients_button', class: 'btn btn-success'
