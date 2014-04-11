@@ -25,6 +25,9 @@
                 = link_to 'Nutrients', nutrients_path
               %li
                 = link_to 'Formulas', formulas_path
+              - if current_user.is_admin
+                %li
+                  = link_to 'Users', users_path
           - if !logged_in?
             - if !@user
               = simple_form_for :session, url: sessions_path, html: { class: 'navbar-form navbar-right' } do |f|
