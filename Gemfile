@@ -27,10 +27,7 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-rbenv'
   gem 'capistrano-bundler'
-  gem 'capistrano-unicorn-nginx'  
-  gem 'capistrano-rbenv-install'
-  gem 'capistrano-safe-deploy-to'
-  gem 'capistrano-postgresql'
+  gem 'capistrano-fiftyfive', :require => false, :github => '55minutes/capistrano-fiftyfive', :branch => :master
 end
 
 gem 'pg'

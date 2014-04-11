@@ -15,16 +15,15 @@ require 'capistrano/deploy'
 #   https://github.com/capistrano/rails
 #
 # require 'capistrano/rvm'
-require 'capistrano/rbenv'
+# require 'capistrano/rbenv'
 # require 'capistrano/chruby'
-require 'capistrano/bundler'
+# require 'capistrano/bundler'
 # require 'capistrano/rails/assets'
 # require 'capistrano/rails/migrations'
-require 'capistrano/nginx_unicorn'
-require 'capistrano/postgresql'
-require 'capistrano/rbenv_install'
-require 'capistrano/safe_deploy_to'
 
 # Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
 Dir.glob('lib/capistrano/tasks/*.cap').each { |r| import r }
-Dir.glob('lib/capistrano/**/*.rb').each { |r| import r }
+
+require 'capistrano/bundler'
+require 'capistrano/rails'
+require 'capistrano/fiftyfive'
