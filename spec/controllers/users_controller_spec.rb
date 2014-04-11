@@ -17,7 +17,7 @@ describe UsersController do
       it "should allow all params but :is_admin and :status" do
         login_as any_user
         User.stub(:find).and_return any_user
-        any_user.should_receive(:update).with(permitted_params(any_user.attributes, [:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit]))
+        any_user.should_receive(:update).with(permitted_params(any_user.attributes, [:username, :email, :name, :password, :password_confirmation, :country, :time_zone, :weight_unit]))
         patch :update, id: any_user.id, user: any_user.attributes
       end
     end
@@ -36,7 +36,7 @@ describe UsersController do
       it "should allow all params" do
         login_as admin_user
         User.stub(:find).and_return admin_user
-        admin_user.should_receive(:update).with(permitted_params(admin_user.attributes, [:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit, :is_admin, :status]))
+        admin_user.should_receive(:update).with(permitted_params(admin_user.attributes, [:username, :email, :name, :password, :password_confirmation, :country, :time_zone, :weight_unit, :is_admin, :status]))
         patch :update, id: admin_user.id, user: admin_user.attributes
       end
     end
@@ -178,9 +178,8 @@ describe UsersController do
     let(:assign_user) { assigns :user }
     let(:attrs_user) { attributes_for :user, status: 'active', is_admin: true }
     let(:attrs_invalid_user) { attributes_for :invalid_user }
-    
-    context "any user" do
-      before(:each) { controller.should_receive(:current_user).at_least(:once).and_return any_user }
+    context "any user, User.count gt 200" do
+      before(:each) { expect(User).to receive(:count).and_return 201 }
 
       context "should protect from mass-assigment" do
         before(:each) { post :create, user: attrs_user }
@@ -200,7 +199,33 @@ describe UsersController do
         before(:each) { post :create, user: attrs_user }
         it { expect(assign_user.class).to be User }
         it { expect(assign_user).not_to be_new_record }
-        it { expect(flash[:success]).to include "success" }
+        it { expect(flash[:success]).to include "Pending" }
+        it { expect(response).to redirect_to :login }
+      end
+    end
+
+    context "any user, User.count lt 200" do
+      before(:each) { expect(User).to receive(:count).and_return 10 }
+
+      context "should protect from mass-assigment" do
+        before(:each) { post :create, user: attrs_user }
+        it { expect(assign_user.status).to eq 'active' }
+        it { expect(assign_user.is_admin).to be_false }
+      end
+
+      context "invalid user" do
+        before(:each) { post :create, user: attrs_invalid_user }
+        it { expect(assign_user.class).to be User }
+        it { expect(assign_user).to be_new_record }
+        it { expect(flash[:danger]).to include "Ooppps" }
+        it { expect(response).to render_template :new }
+      end
+
+      context 'valid user' do
+        before(:each) { post :create, user: attrs_user }
+        it { expect(assign_user.class).to be User }
+        it { expect(assign_user).not_to be_new_record }
+        it { expect(flash[:success]).to include "Please Login" }
         it { expect(response).to redirect_to :login }
       end
     end

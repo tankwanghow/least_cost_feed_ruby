@@ -31,8 +31,18 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new user_params
+    if User.count < 200
+      @user.status = 'active'
+    else
+      @user.status = 'pending'
+    end
     if @user.save
-      redirect_to login_path, flash: { success: 'Yeah! Signed up successfully. Pending approval by System Administrator.' }
+      if @user.status == 'active'
+        flash[:success] = 'Yeah! Signed up successfully. Please Login.'
+      else
+        flash[:success] = 'Yeah! Signed up successfully. Pending approval by System Administrator.'
+      end
+      redirect_to login_path
     else
       flash[:danger] = 'Ooppps! Failed to signup'
       render :new
@@ -51,9 +61,9 @@ private
 
   def user_params
     if current_user.try(:is_admin) && current_user.id == @user.id
-      params.require(:user).permit(:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit, :is_admin, :status)
+      params.require(:user).permit(:username, :email, :name, :password, :password_confirmation, :country, :time_zone, :weight_unit, :is_admin, :status)
     elsif !current_user.try(:is_admin)
-      params.require(:user).permit(:username, :email, :name, :password, :password_confirmation, :currency, :time_zone, :weight_unit)
+      params.require(:user).permit(:username, :email, :name, :password, :password_confirmation, :country, :time_zone, :weight_unit)
     else
       params.require(:user).permit(:password, :password_confirmation, :status, :is_admin)
     end
