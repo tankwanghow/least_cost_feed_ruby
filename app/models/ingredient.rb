@@ -17,14 +17,8 @@ class Ingredient < ActiveRecord::Base
 
   def self.create_like id
     like = find id
-    a = new do |i|
-      i.name = like.name + " Copy #{DateTime.now.in_time_zone(User.current.time_zone).strftime('%Y%m%d%H%M%S')}"
-      i.user_id = like.user_id
-      i.cost = like.cost
-      i.package_weight = like.package_weight
-      i.note = like.note
-      i.category = like.category
-    end
+    a = like.dup
+    a.name = like.name + " Copy #{DateTime.now.in_time_zone(User.current.time_zone).strftime('%Y%m%d%H%M%S')}"
     like.ingredient_compositions.each do |t|
       a.ingredient_compositions.build nutrient: t.nutrient, value: t.value
     end

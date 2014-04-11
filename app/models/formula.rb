@@ -41,13 +41,8 @@ class Formula < ActiveRecord::Base
 
   def self.create_like id
     like = find id
-    a = new do |i|
-      i.name = like.name + " Copy #{DateTime.now.in_time_zone(User.current.time_zone).strftime('%Y%m%d%H%M%S')}"
-      i.user_id = like.user_id
-      i.cost = like.cost
-      i.batch_size = like.batch_size
-      i.note = like.note
-    end
+    a = like.dup
+    a.name = like.name + " Copy #{DateTime.now.in_time_zone(User.current.time_zone).strftime('%Y%m%d%H%M%S')}"
     like.formula_ingredients.each do |t|
       a.formula_ingredients.build ingredient: t.ingredient, max: t.max, min: t.min, actual: t.actual, shadow: t.shadow, use: t.use
     end
