@@ -7,8 +7,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string     :password_digest,    null: false
       t.string     :status,          default: 'pending', null: false
       t.boolean    :is_admin,        default: false, null: false
-      t.string     :currency,        default: 'MYR', null: false
-      t.string     :time_zone,        default: 'Kuala Lumpur', null: false
+      t.string     :country,         default: 'Malaysia', null: false
+      t.string     :time_zone,       default: 'Kuala Lumpur', null: false
       t.string     :weight_unit,     default: 'KG', null: false
       t.integer    :lock_version,    default: 0, null: false
       t.timestamps

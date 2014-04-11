@@ -73,7 +73,7 @@ FactoryGirl.define do
     password "secret"
     password_confirmation "secret"
     is_admin { false }
-    currency { ["USD", "MYR", "EUR", "SGD"][rand(4)] }
+    country { ["US", "Mynmar", "Demark", "Malaysia"][rand(4)] }
     time_zone { ["UTC", "Kuala Lumpur", "London", "Hong Kong"][rand(4)] }
     weight_unit { ["Kg", "lb", "Mt"][rand(3)] }
 
