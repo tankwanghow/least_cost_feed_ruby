@@ -4,23 +4,6 @@ lock '3.1.0'
 set :application, 'least_cost_feed'
 set :repo_url, 'git@github.com:tankwanghow/least_cost_feed.git'
 
-set :fiftyfive_recipes, %w(
-  aptitude
-  crontab
-  dotenv
-  logrotate
-  migrate
-  nginx
-  postgresql
-  rbenv
-  seed
-  ssl
-  ufw
-  unicorn
-  user
-  version
-)
-
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 

@@ -24,10 +24,12 @@ gem 'spring',        group: :development
 
 # Use Capistrano for deployment
 group :development do
-  gem 'capistrano-rails'
-  gem 'capistrano-rbenv'
-  gem 'capistrano-bundler'
+  gem 'capistrano-bundler', :require => false
+  gem 'capistrano-rails', :require => false
+  gem 'capistrano', '~> 3.1.0', :require => false
   gem 'capistrano-fiftyfive', :require => false, :github => '55minutes/capistrano-fiftyfive', :branch => :master
+  gem 'sshkit', github: 'capistrano/sshkit'
+  gem 'highline'
 end
 
 gem 'pg'

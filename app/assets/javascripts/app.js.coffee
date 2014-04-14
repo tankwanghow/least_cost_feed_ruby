@@ -129,3 +129,6 @@ window.app = {
       form.show()
       e.preventDefault()
 }
+
+$ ->
+  ($ 'body .navbar.navbar-inverse.navbar-fixed-top .container form').slideDown(800)

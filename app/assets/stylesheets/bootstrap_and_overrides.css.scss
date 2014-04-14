@@ -5,6 +5,11 @@ $padding-base-vertical: 4px;
 
 @import "bootstrap";
 
+#lcf-brand {
+  font-size: 25px;
+  font-style: italic;
+}
+
 .alert {
   text-align: center;
   position: fixed;
