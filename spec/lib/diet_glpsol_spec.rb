@@ -91,7 +91,7 @@ describe DietGlpsol do
     DietGlpsol.gmpl_for_formula formula3, filename
   end
 
-  it "should only use formula_nutrients of _destroy false and use true" do
+  it "should only use formula_nutrients of _destroy false" do
     filename = "abc#{rand(5000)}xyz.mod"
     expect(DietGlpsol).to receive(:nutrient_expressions_constraints).with(
       [
@@ -99,6 +99,8 @@ describe DietGlpsol do
         formula3_nutrients[1],
         formula3_nutrients[2],
         formula3_nutrients[3],
+        formula3_nutrients[5],
+        formula3_nutrients[6],
       ],
       [
         formula3_ingredients[0], 
@@ -110,15 +112,7 @@ describe DietGlpsol do
     DietGlpsol.gmpl_for_formula formula3, filename
   end
 
-
-
-  it "should ignore destroyed formula_nutrients and formula_ingredients" do
-    filename = "abc#{rand(5000)}xyz.mod"
-    DietGlpsol.gmpl_for_formula formula3, filename
-    DietGlpsol.solution_for_gmpl(filename).should == {
-      formula: ["p_1,0.700000,0.000000", "p_2,0.167552,0.000000", "p_3,0.034230,0.000000", "p_4,0.098219,0.000000", "p_5,0.000000,1.903611"],
-      specs:   ["n_1,2800.000000", "n_2,14.282146", "n_3,3.800000", "n_4,1.663116"] }    
-  end
+  it 'unuse nutrient only calculate actual, use constraint >= 0'
 
   it "should find the solution for formula" do
     filename = "abc#{rand(5000)}xyz.mod"

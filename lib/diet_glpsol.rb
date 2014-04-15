@@ -19,8 +19,8 @@ class DietGlpsol
 
   def self.gmpl_for_formula formula, filename
     f = File.new filename, 'w'
-    formula_ingredients = formula.formula_ingredients.select { |t| t._destroy == false && t.use == true }
-    formula_nutrients   = formula.formula_nutrients.select { |t| t._destroy == false && t.use == true }
+    formula_ingredients = formula.formula_ingredients.select { |t| t._destroy == false && t.use }
+    formula_nutrients   = formula.formula_nutrients.select { |t| t._destroy == false }
     f.puts varibles formula_ingredients
     f.puts objective_function formula_ingredients
     f.puts nutrient_expressions_constraints formula_nutrients, formula_ingredients
@@ -81,10 +81,10 @@ class DietGlpsol
 
   def self.nutrient_expressions_constraint nutrient_spec, formula_ingredients
     exp = constraint(nutrient_spec, nutrient_expressions(nutrient_spec.nutrient, formula_ingredients))
-    if exp != " >= 0;"
+    if nutrient_spec.use
       "n_#{nutrient_spec.nutrient.id}: " + constraint(nutrient_spec, nutrient_expressions(nutrient_spec.nutrient, formula_ingredients))
     else
-      "n_#{nutrient_spec.nutrient.id}: " + formula_ingredients.map { |i| "+p_#{i.id}"}.join(" ") + " >= 0;"
+      "n_#{nutrient_spec.nutrient.id}: " + gt_zero_constraint(nutrient_spec, nutrient_expressions(nutrient_spec.nutrient, formula_ingredients))
     end
   end
 
@@ -111,7 +111,7 @@ class DietGlpsol
 private
 
   def self.constraint object, expression=""
-    if object.max && object.min
+    if object.max && object.min 
       gt_lt_constraint(object, expression)
     elsif object.max && !object.min
       lt_constraint(object, expression)
