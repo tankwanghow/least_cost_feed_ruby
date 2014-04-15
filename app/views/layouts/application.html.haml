@@ -12,11 +12,17 @@
     = csrf_meta_tags
     = yield(:head)
   %body
-    .navbar.navbar-inverse.navbar-fixed-top
-      .container
+    %nav.navbar.navbar-inverse.navbar-fixed-top{role: "navigation"}
+      .container-fluid
         .navbar-header
+          %button.navbar-toggle{ type: "button", data: { toggle: "collapse", target: "#main-navbar-collapse" } }
+            %span.sr-only
+              Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
           = link_to "Least Cost Feed", root_path, class: 'navbar-brand', id: 'lcf-brand'
-        .navbar-collapse.collapse
+        .navbar-collapse.collapse#main-navbar-collapse
           - if current_user
             %ul.nav.navbar-nav
               %li
@@ -30,7 +36,7 @@
                   = link_to 'Users', users_path
           - if !logged_in?
             - if !@user
-              = simple_form_for :session, url: sessions_path, html: { style: "display:none;", class: 'navbar-form navbar-right' } do |f|
+              = simple_form_for :session, url: sessions_path, html: { class: 'navbar-form navbar-right' } do |f|
                 = f.input_field :username, placeholder: 'Username', class: 'form-control'
                 = f.password_field :password, placeholder: 'Password', class: 'form-control'
                 = f.button :submit, "Login", class: "btn btn-success"
