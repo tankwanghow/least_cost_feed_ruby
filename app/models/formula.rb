@@ -23,11 +23,11 @@ class Formula < ActiveRecord::Base
 
   def calculate params=nil
     assign_attributes params if params
+    set_actual_to_zero
     n = User.current ? User.current.username :  random_word
     sol = DietGlpsol.solution_for_formula self, "#{n}_#{self.id}.mod"
     if sol
       put_soultion_to_formula sol
-      set_unused_stuff_actual_to_zero
     else
       put_error_to_formula
     end
@@ -96,9 +96,9 @@ private
     end
   end
 
-  def set_unused_stuff_actual_to_zero
-    self.formula_ingredients.select { |i| i.use == false}.each { |t| t.actual = 0 }
-    self.formula_nutrients.select { |i| i.use == false}.each { |t| t.actual = 0 }
+  def set_actual_to_zero
+    self.formula_ingredients.each { |t| t.actual = 0 }
+    self.formula_nutrients.each { |t| t.actual = 0 }
   end
 
   def random_word
