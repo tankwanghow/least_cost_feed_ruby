@@ -26,7 +26,6 @@ private
     env = Rails.env == 'test' ? '_test' : ''
     if changes["status"] && changes["status"][1] == 'active'
       CSV.foreach(File.expand_path("app/models/sample_data/nutrients#{env}.csv"), headers: true, col_sep: ',') do |d|
-        binding.pry
         Nutrient.create! name: d["Nutrient"], unit: d['Unit'], category: 'sample', user_id: self.id
       end
 
