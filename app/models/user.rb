@@ -34,9 +34,9 @@ private
       end
 
       CSV.foreach(File.expand_path("app/models/sample_data/ingredient_compositions#{env}.csv"), headers: true, col_sep: ',') do |d|
-        i = Ingredient.find_by_name(d['Ingredient'])
+        i = Ingredient.find_by_name_and_user_id(d['Ingredient'], self.id)
         d.each do |t|
-          n = Nutrient.find_by_name(t[0]) if t[0] != "Ingredient"
+          n = Nutrient.find_by_name_and_user_id(t[0], self.id) if t[0] != "Ingredient"
           IngredientComposition.create! nutrient_id: n.id, ingredient_id: i.id, value: t[1] if t[1] && n && i
         end
       end
