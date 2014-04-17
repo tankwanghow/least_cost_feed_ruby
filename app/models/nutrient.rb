@@ -1,7 +1,7 @@
 class Nutrient < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :name, :unit, :user, :category
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, scope: :user_id
   has_many :ingredient_compositions, dependent: :destroy
   has_many :formula_nutrients, dependent: :destroy
     

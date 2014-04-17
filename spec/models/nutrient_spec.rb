@@ -21,7 +21,7 @@ describe Nutrient do
   it { should validate_presence_of :unit }
   it { should validate_presence_of :user }
   it { should validate_presence_of :category }
-  it { n; should validate_uniqueness_of :name }
+  it { n; should validate_uniqueness_of(:name).scoped_to(:user_id) }
 
   it { should belong_to :user }
 
