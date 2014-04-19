@@ -3,10 +3,10 @@
 .col-sm-2
   = f.input :batch_size, label: "Batch (#{current_user.weight_unit})", input_html: { type: :text }
 .col-sm-1
-  = f.input :cost, label: "1 #{current_user.weight_unit} Cost", input_html: { readOnly: true, type: :text }
+  = f.input :cost, label: "#{current_user.weight_unit} Cost", input_html: { readOnly: true, type: :text }
 .col-sm-1
   = f.input :prev_cost, label: "Previous", input_html: { readOnly: true, type: :text, class: :numeric }
 .col-sm-1
   = f.input :savings, label: f.object.savings > 0 ? "Extra" : "Savings", input_html: { readOnly: true, type: :text, class: :numeric }
-.col-sm-4
+.col-sm-3
   = f.input :note, input_html: { rows: 1 }
