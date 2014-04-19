@@ -13,10 +13,11 @@ class NutrientsController < ApplicationController
     fetch_nutrient
     if @nutrient.update(nutrient_params)
       flash[:success] = "Nutrient updated successfully."
+      redirect_to edit_nutrient_path(@nutrient)
     else
       flash[:danger] = "Ooppps, fail to update Nutrient."
+      render :edit
     end
-    render :edit
   end
 
   def new
@@ -28,7 +29,7 @@ class NutrientsController < ApplicationController
     @nutrient.user_id = current_user.id
     if @nutrient.save
       flash[:success] = "Nutrient created successfully."
-      redirect_to nutrients_path
+      redirect_to edit_nutrient_path(@nutrient)
     else
       flash[:danger] = "Ooppps, fail to update Nutrient."
       render :new

@@ -9,11 +9,11 @@ class IngredientsController < ApplicationController
     fetch_ingredient
     if @ingredient.update(ingredient_params)
       flash[:success] = "Ingredient updated successfully."
+      redirect_to edit_ingredient_path(@ingredient)
     else
-      p @ingredient.errors
       flash[:danger] = "Ooppps, fail to update Ingredient."
+      render :edit
     end
-    render :edit
   end
 
   def edit
@@ -29,7 +29,7 @@ class IngredientsController < ApplicationController
     @ingredient.user_id = current_user.id
     if @ingredient.save
       flash[:success] = "Ingredient created successfully."
-      redirect_to ingredients_path
+      redirect_to edit_ingredient_path(@ingredient)
     else
       flash[:danger] = "Ooppps, fail to create Ingredient."
       render :new

@@ -54,7 +54,7 @@ private
     @formula.user_id = current_user.id
     if @formula.save
       flash[:success] = "Formula created successfully."
-      redirect_to formulas_path
+      redirect_to edit_formula_path(@formula)
     else
       flash[:danger] = "Ooppps, fail to update Formula."
       render :new
@@ -64,10 +64,11 @@ private
   def up_date
     if @formula.update(formula_params)
       flash[:success] = "Formula updated successfully."
+      redirect_to edit_formula_path(@formula)
     else
       flash[:danger] = "Ooppps, fail to update Formula."
+      render :edit
     end
-    render :edit
   end
 
   def fetch_formula

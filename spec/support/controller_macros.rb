@@ -35,7 +35,6 @@ module ControllerMacros
           patch :update, params
         end
         it { expect(assign_klass).to eq @klass_instance }
-        it { expect(response).to render_template :edit }
       end
 
       context "PATCH :update, save success" do
@@ -51,6 +50,7 @@ module ControllerMacros
         end        
         it { expect(assign_klass).to eq @klass_instance}
         it { expect(flash[:success]).to include "success" }
+        it { expect(response).to redirect_to "/#{klass_pluralize_sym}/#{@klass_instance.id}/edit" }
       end
 
       context "PATCH :update, save fail" do
@@ -60,13 +60,12 @@ module ControllerMacros
           @klass_instance = create(klass_sym, user_id: user.id)
           @invalid_klass_attributes = attributes_for("invalid_#{klass_sym}")
           login_as user
-          params =  { id: @klass_instance.id, "#{klass_sym}" => @klass_instance.attributes }
-          expect(controller.current_user).to receive(klass_pluralize_sym).and_return dbl
-          expect(dbl).to receive(:find).and_return @klass_instance
+          params =  { id: @klass_instance.id, "#{klass_sym}" => @invalid_klass_attributes }
           patch :update, params
         end        
         it { expect(assign_klass).to eq @klass_instance}
-        it { expect(flash[:success]).to include "success" }
+        it { expect(flash[:danger]).to include "Ooppps" }
+        it { expect(response).to render_template :edit }
       end      
     end
 
@@ -92,7 +91,7 @@ module ControllerMacros
           post :create, params
         end
         it { expect(flash[:success]).to include 'success' }
-        it { expect(response).to redirect_to redirect_to send("#{klass_pluralize_sym.to_s}_path")  }
+        it { expect(response).to redirect_to "/#{klass_pluralize_sym}/#{assign_klass.id}/edit"  }
       end
 
       context "POST :create, save fail" do
