@@ -1,7 +1,7 @@
 %tr.fields.ingredient
   = f.hidden_field :ingredient_id, class: 'ingredient_id'
   = f.hidden_field :_destroy, class: 'destroy'
-  %td.col-sm-4.check-text-box
+  %td.col-xs-4.check-text-box
     = f.check_box :use
     = f.input_field :ingredient_name, disabled: true
   %td= f.input_field :ingredient_cost, type: :text, class: :numeric
