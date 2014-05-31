@@ -41,7 +41,11 @@ private
 
   def calculate
     @formula = Formula.new unless @formula
-    @formula.calculate formula_params
+    begin
+      @formula.calculate formula_params
+    rescue
+      flash[:danger] = "Infesible Error!"
+    end
     if @formula.new_record?
       render :new
     else

@@ -23,13 +23,13 @@ class Formula < ActiveRecord::Base
 
   def calculate params=nil
     assign_attributes params if params
-    set_actual_to_zero
     n = User.current ? User.current.username :  random_word
     sol = DietGlpsol.solution_for_formula self, "#{n}_#{self.id}.mod"
     if sol
+      set_actual_to_zero
       put_soultion_to_formula sol
     else
-      put_error_to_formula
+      raise "Infesible error!"
     end
     count_cost_set_weight
     self.updated_at = DateTime.now
