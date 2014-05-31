@@ -58,12 +58,8 @@ describe User do
   it "after save if status == 'active' should add sample data" do
     a = create :user, status: 'pending'
     a.status = 'active'
+    a.should_receive(:add_sample_nutrients_and_ingredients)
     a.save
-    a.ingredients.count.should > 0
-    a.nutrients.count.should > 0
-    a.ingredients.each do |t|
-      t.ingredient_compositions.count.should > 0
-    end
   end
 
 end

@@ -22,18 +22,16 @@ class User < ActiveRecord::Base
 private
 
   def add_sample_nutrients_and_ingredients
-    path = 'app/models/sample_data/'
-    env = Rails.env == 'test' ? '_test' : ''
-    if changes["status"] && changes["status"][1] == 'active'
-      CSV.foreach(File.expand_path("app/models/sample_data/nutrients#{env}.csv"), headers: true, col_sep: ',') do |d|
+    if changes["status"] && changes["status"][1] == 'active' && Rails.env != 'test'
+      CSV.foreach(File.expand_path("app/models/sample_data/nutrients.csv"), headers: true, col_sep: ',') do |d|
         Nutrient.create! name: d["Nutrient"], unit: d['Unit'], category: 'sample', user_id: self.id
       end
 
-      CSV.foreach(File.expand_path("app/models/sample_data/ingredients#{env}.csv"), headers: true, col_sep: ',') do |d|
+      CSV.foreach(File.expand_path("app/models/sample_data/ingredients.csv"), headers: true, col_sep: ',') do |d|
         Ingredient.create! name: d["Name"], cost: d['Price'], category: 'sample', user_id: self.id
       end
 
-      CSV.foreach(File.expand_path("app/models/sample_data/ingredient_compositions#{env}.csv"), headers: true, col_sep: ',') do |d|
+      CSV.foreach(File.expand_path("app/models/sample_data/ingredient_compositions.csv"), headers: true, col_sep: ',') do |d|
         i = Ingredient.find_by_name_and_user_id(d['Ingredient'], self.id)
         d.each do |t|
           n = Nutrient.find_by_name_and_user_id(t[0], self.id) if t[0] != "Ingredient"
