@@ -1,4 +1,4 @@
-%tr.fields.nutrient
+%tr.fields.nutrient{style: hide_if_destroyed(f.object)}
   = f.hidden_field :nutrient_id, class: 'nutrient_id'
   = f.hidden_field :_destroy, class: 'destroy'
   %td.check-text-box.col-xs-5

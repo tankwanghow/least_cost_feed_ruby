@@ -14,4 +14,13 @@ module ApplicationHelper
     a.html_safe
   end
 
+
+  def hide_if_destroyed obj
+    if obj._destroy
+      "display: none;"
+    else
+      nil
+    end
+  end
+
 end

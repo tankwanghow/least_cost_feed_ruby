@@ -1,4 +1,4 @@
-%tr.fields.ingredient
+%tr.fields.ingredient{style: hide_if_destroyed(f.object)}
   = f.hidden_field :ingredient_id, class: 'ingredient_id'
   = f.hidden_field :_destroy, class: 'destroy'
   %td.col-xs-4.check-text-box
