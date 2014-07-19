@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :ingredients
   has_many :nutrients
   has_many :formulas
+  has_many :premixes
 
   after_save :add_sample_nutrients_and_ingredients
 

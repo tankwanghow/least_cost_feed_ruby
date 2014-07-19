@@ -1,0 +1,5 @@
+%tr.fields.premix_ingredient
+  = f.hidden_field :ingredient_id, class: 'ingredient_id'
+  %td= f.input_field :ingredient_name, disabled: true
+  %td= f.input_field :actual_usage, type: :text, class: :numeric, readOnly: true
+  %td= f.input_field :premix_usage, type: :text, class: 'numeric, premix_usage'

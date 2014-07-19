@@ -37,7 +37,7 @@ table.lcf-table.table tbody tr td {
 }
 
 table.lcf-table {
-  margin-bottom: 2px;
+  margin-bottom: 20px;
 }
 
 table.lcf-select-table.table tbody tr td, table.lcf-select-table.table thead tr th{
@@ -45,13 +45,13 @@ table.lcf-select-table.table tbody tr td, table.lcf-select-table.table thead tr 
   padding-bottom: 2px;
 }
 
-.scrollable {
-  overflow-y: scroll; 
-  height: 400px; 
-  margin-bottom: 10px;
-  border-bottom: 2px solid #cccccc;
-  padding-bottom: 1px;
-}
+// .scrollable {
+//   overflow-y: scroll; 
+//   height: 600px; 
+//   margin-bottom: 10px;
+//   border-bottom: 2px solid #cccccc;
+//   padding-bottom: 1px;
+// }
 
 .scrollable-big {
   overflow-y: scroll; 

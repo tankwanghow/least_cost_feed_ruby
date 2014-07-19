@@ -53,6 +53,14 @@ class Formula < ActiveRecord::Base
     a
   end
 
+  def me
+    formula_nutrients.select { |t| t.nutrient.name == 'Metab. Energy' }.first.actual.round(2)
+  end
+
+  def cp
+    formula_nutrients.select { |t| t.nutrient.name == 'Crude Protein' }.first.actual.round(2)
+  end
+
 private
 
   def count_cost_set_weight

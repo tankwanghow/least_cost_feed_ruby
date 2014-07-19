@@ -17,8 +17,7 @@
   %tbody
     - @formulas.each do |f|
       %tr
-        %td
-          = link_to f.name, edit_formula_path(f.id)
+        %td= link_to f.name, edit_formula_path(f.id)
         %td.numeric= number_with_precision f.batch_size, precision: 4
         %td.numeric= number_with_precision f.cost, precision: 4
         %td= f.updated_at.in_time_zone(current_user.time_zone).to_s(:long)

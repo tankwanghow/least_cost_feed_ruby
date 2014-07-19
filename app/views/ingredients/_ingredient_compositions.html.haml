@@ -2,11 +2,8 @@
   %table.table.lcf-table
     %thead
       %tr
-        %th Nutrient
+        %th= f.link_to_add 'Select Nutrients', :ingredient_compositions, id: 'select_nutrients_button', class: 'btn btn-success'
         %th.col-sm-3 Value
-  .scrollable
-    %table.table.lcf-table
-      %tbody#compositions
-        = f.fields_for :ingredient_compositions, :wrapper => false do |builder|
-          = render 'compositions', f: builder
-  = f.link_to_add 'Select Nutrients', :ingredient_compositions, id: 'select_nutrients_button', class: 'btn btn-success'
+    %tbody#compositions
+      = f.fields_for :ingredient_compositions, :wrapper => false do |builder|
+        = render 'compositions', f: builder

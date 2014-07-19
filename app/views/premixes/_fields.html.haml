@@ -1,0 +1,10 @@
+.col-sm-2
+  = f.input :premix_bag_weight, input_html: { readOnly: true, type: :text, class: :numeric }
+.col-sm-2
+  = f.input :target_bag_weight, input_html: { type: :text, class: :numeric }
+.col-sm-2
+  = f.input :balance_bag_weight, input_html: { readOnly: true, type: :text, class: :numeric }
+.col-sm-2
+  = f.input :bags_of_premix, input_html: { type: :text, class: :numeric }
+.col-sm-2
+  = f.input :total_premix_weight, input_html: { readOnly: true, type: :text, class: :numeric }

@@ -1,5 +1,27 @@
 window.app = {
 
+  initPremix: ->
+    ($ 'form').on 'blur', '#premix_target_bag_weight',  ->
+      target = ($ this).val()
+      current = ($ '#premix_premix_bag_weight').val()
+      ($ '#premix_balance_bag_weight').val((target - current).toFixed(4))
+      ($ '#print_premix').hide()
+
+    ($ 'form').on 'blur', '#premix_bags_of_premix', ->
+      bags = ($ this).val()
+      current = ($ '#premix_premix_bag_weight').val()
+      ($ '#premix_total_premix_weight').val((bags * current).toFixed(4))
+      ($ '#print_premix').hide()
+
+    ($ 'form').on 'blur', '.premix_usage', ->
+      sum_premix_usage = 0
+      ($ '.premix_usage').each (index, elm) ->
+        val = ($ elm).val()
+        sum_premix_usage = sum_premix_usage + +val
+      ($ '#premix_premix_bag_weight').val(sum_premix_usage.toFixed(4))
+      ($ '#premix_target_bag_weight').blur()
+      ($ '#premix_bags_of_premix').blur()
+
   unselectIngredient: ->
     ($ 'table#select_ingredients input[type=checkbox]').each (i, e) ->
       ($ e).prop('checked', false)

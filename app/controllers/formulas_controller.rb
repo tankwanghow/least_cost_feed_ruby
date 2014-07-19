@@ -43,6 +43,7 @@ private
     @formula = Formula.new unless @formula
     begin
       @formula.calculate formula_params
+      flash[:info] = "Optimized."
     rescue
       flash[:danger] = "Infesible Error!"
     end
@@ -59,6 +60,7 @@ private
     if @formula.save
       flash[:success] = "Formula created successfully."
       redirect_to edit_formula_path(@formula)
+      session[:should_reset_premix?] = true
     else
       flash[:danger] = "Ooppps, fail to update Formula."
       render :new
@@ -69,6 +71,7 @@ private
     if @formula.update(formula_params)
       flash[:success] = "Formula updated successfully."
       redirect_to edit_formula_path(@formula)
+      session[:should_reset_premix?] = true
     else
       flash[:danger] = "Ooppps, fail to update Formula."
       render :edit

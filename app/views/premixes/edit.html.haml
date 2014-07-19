@@ -1,0 +1,10 @@
+= render_flash
+= simple_nested_form_for @premix do |f|
+  %legend Edit Premix
+  = render 'fields', f: f
+  .col-sm-12
+    = f.button :submit, 'Save Changes', class: 'btn btn-primary'    
+    = link_to 'Cancel Changes', edit_premix_path(@premix), class: 'btn btn-warning'
+    = link_to 'Back to Formula', edit_formula_path(@premix), class: 'btn btn-info'
+    = link_to 'Print', premix_path(@premix, format: :pdf), target: '_blank', class: 'btn btn-info', id: 'print_premix'
+  = render 'formula_premix_ingredients', f: f

@@ -1,0 +1,10 @@
+.col-sm-6
+  %table.table.lcf-table
+    %thead
+      %tr
+        %th Ingredient
+        %th Use Quantity
+        %th Premix Quantity
+    %tbody#premix_ingredients
+      = f.fields_for :premix_ingredients, f.object.premix_ingredients.sort_by { |t| -t.actual_usage }, :wrapper => false do |builder|
+        = render 'premix_ingredients', f: builder 

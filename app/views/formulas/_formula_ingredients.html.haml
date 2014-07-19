@@ -2,16 +2,13 @@
   %table.table.lcf-table
     %thead
       %tr
-        %th.col-sm-4 Ingredient
+        %th.col-sm-4= f.link_to_add 'Select Ingredients', :formula_ingredients, id: 'select_ingredients_button', class: 'btn btn-success'
         %th Cost
         %th Min %
         %th Max %
         %th Actual %
         %th Weight
         %th Shadow
-  .scrollable
-    %table.table.lcf-table
-      %tbody#ingredients
-        = f.fields_for :formula_ingredients, f.object.formula_ingredients.sort_by { |t| -t.actual }, :wrapper => false do |builder|
-          = render 'ingredients', f: builder
-  = f.link_to_add 'Select Ingredients', :formula_ingredients, id: 'select_ingredients_button', class: 'btn btn-success'
+    %tbody#ingredients
+      = f.fields_for :formula_ingredients, f.object.formula_ingredients.sort_by { |t| -t.actual }, :wrapper => false do |builder|
+        = render 'ingredients', f: builder 

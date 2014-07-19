@@ -2,7 +2,7 @@
   .col-sm-6
     = f.input :name, autofocus: true
   .col-sm-3
-    = f.input :package_weight, input_html: { type: :text }
+    = f.input :package_weight, label: "Weight Per Bag (#{current_user.weight_unit})", input_html: { type: :text }
   .col-sm-3
     = f.input :cost, label: "Cost(#{current_user.weight_unit})", input_html: { type: :text }
 .row

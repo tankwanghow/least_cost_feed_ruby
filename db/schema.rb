@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140325092233) do
+ActiveRecord::Schema.define(version: 20140714035721) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(version: 20140325092233) do
     t.decimal "min",           precision: 12, scale: 6
     t.decimal "actual",        precision: 12, scale: 6, default: 0.0,  null: false
     t.decimal "weight",        precision: 12, scale: 6
-    t.boolean "use",                                    default: true, null: false
     t.decimal "shadow",        precision: 12, scale: 6, default: 0.0,  null: false
+    t.boolean "use",                                    default: true, null: false
   end
 
   add_index "formula_ingredients", ["ingredient_id", "formula_id"], name: "index_formula_ingredients_on_ingredient_id_and_formula_id", unique: true, using: :btree
@@ -41,14 +41,16 @@ ActiveRecord::Schema.define(version: 20140325092233) do
   add_index "formula_nutrients", ["nutrient_id", "formula_id"], name: "index_formula_nutrients_on_nutrient_id_and_formula_id", unique: true, using: :btree
 
   create_table "formulas", force: true do |t|
-    t.integer  "user_id",                                             null: false
-    t.string   "name",                                                null: false
-    t.decimal  "batch_size",   precision: 12, scale: 4, default: 0.0, null: false
-    t.decimal  "cost",         precision: 12, scale: 4, default: 0.0, null: false
+    t.integer  "user_id",                                                  null: false
+    t.string   "name",                                                     null: false
+    t.decimal  "batch_size",        precision: 12, scale: 4, default: 0.0, null: false
+    t.decimal  "cost",              precision: 12, scale: 4, default: 0.0, null: false
     t.text     "note"
-    t.integer  "lock_version",                          default: 0,   null: false
+    t.integer  "lock_version",                               default: 0,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "premix_bag_weight"
+    t.integer  "bags_of_premix"
   end
 
   add_index "formulas", ["user_id", "name"], name: "index_formulas_on_user_id_and_name", unique: true, using: :btree
@@ -89,6 +91,19 @@ ActiveRecord::Schema.define(version: 20140325092233) do
 
   add_index "nutrients", ["user_id", "name"], name: "index_nutrients_on_user_id_and_name", unique: true, using: :btree
 
+  create_table "premix_ingredients", force: true do |t|
+    t.integer  "formula_id",                              null: false
+    t.integer  "ingredient_id",                           null: false
+    t.decimal  "package_weight", precision: 12, scale: 6
+    t.decimal  "actual_usage",   precision: 12, scale: 6
+    t.integer  "premix_usage"
+    t.decimal  "premix_perc",    precision: 6,  scale: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "premix_ingredients", ["ingredient_id", "formula_id"], name: "index_premix_ingredients_on_ingredient_id_and_formula_id", unique: true, using: :btree
+
   create_table "users", force: true do |t|
     t.string   "username",                                 null: false
     t.string   "email"
@@ -96,7 +111,7 @@ ActiveRecord::Schema.define(version: 20140325092233) do
     t.string   "password_digest",                          null: false
     t.string   "status",          default: "pending",      null: false
     t.boolean  "is_admin",        default: false,          null: false
-    t.string   "currency",        default: "MYR",          null: false
+    t.string   "country",         default: "Malaysia",     null: false
     t.string   "time_zone",       default: "Kuala Lumpur", null: false
     t.string   "weight_unit",     default: "KG",           null: false
     t.integer  "lock_version",    default: 0,              null: false
