@@ -1,6 +1,6 @@
 = render_flash
 = simple_nested_form_for @premix do |f|
-  %legend Edit Premix
+  %legend= "Edit Premix #{@premix.name}"
   = render 'fields', f: f
   .col-sm-12
     = f.button :submit, 'Save Changes', class: 'btn btn-primary'    

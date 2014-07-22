@@ -17,7 +17,7 @@ class Premix < Formula
     premix_ingredients.destroy_all
     formula_ingredients.each do |t|
       if (t.actual * self.batch_size) > 0
-        w = ((t.actual * self.batch_size) <= 4.0 ? (t.actual * self.batch_size) : 0)
+        w = ((t.actual * self.batch_size) <= 5.0 ? (t.actual * self.batch_size) : 0)
         premix_ingredients.create(ingredient_id: t.ingredient_id, actual_usage: (t.actual * self.batch_size), premix_usage: w)
       end
     end

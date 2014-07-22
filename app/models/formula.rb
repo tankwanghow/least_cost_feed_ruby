@@ -40,7 +40,7 @@ class Formula < ActiveRecord::Base
   end
 
   def self.create_like id
-    like = find id
+    like = Premix.find id
     a = like.dup
     a.name = like.name + " Copy #{DateTime.now.in_time_zone(User.current.time_zone).strftime('%Y%m%d%H%M%S')}"
     like.formula_ingredients.each do |t|
@@ -48,6 +48,9 @@ class Formula < ActiveRecord::Base
     end
     like.formula_nutrients.each do |t|
       a.formula_nutrients.build nutrient: t.nutrient, max: t.max, min: t.min, actual: t.actual, use: t.use
+    end
+    like.premix_ingredients.each do |t|
+      a.premix_ingredients.build ingredient: t.ingredient, actual_usage: t.actual_usage, premix_usage: t.premix_usage
     end
     a.save!
     a
