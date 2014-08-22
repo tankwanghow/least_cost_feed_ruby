@@ -31,7 +31,7 @@ class PremixPdf < Prawn::Document
       draw_text "#{User.current.weight_unit}", size: 12, style: :bold, at: [108.mm, 263.mm], style: :bold_italic
 
       @premix.premix_ingredients.select { |t| t.actual_usage - t.premix_usage > 0 }.sort_by { |t| -(t.actual_usage - t.premix_usage) }.each do |i|
-        bounding_box [5.mm, @py], height: @detail_height, width: 55.mm do
+        bounding_box [5.mm, @py], height: @detail_height, width: 65.mm do
           font("#{Prawn::DATADIR}/fonts/DroidSansFallbackFull.ttf") do
             text i.ingredient_name, size: 12, overflow: :shrink_to_fit, valign: :center
           end
@@ -87,7 +87,7 @@ class PremixPdf < Prawn::Document
         perc = i.premix_usage/@premix.premix_bag_weight * 100
         weight = perc / 100 * @premix.total_premix_weight
         bags = (weight/i.ingredient.package_weight).to_i
-        bounding_box [5.mm, @py], height: @detail_height, width: 55.mm do
+        bounding_box [5.mm, @py], height: @detail_height, width: 65.mm do
           font("#{Prawn::DATADIR}/fonts/DroidSansFallbackFull.ttf") do
             text "#{i.ingredient_name} (#{i.ingredient.package_weight} #{User.current.weight_unit})", size: 12, overflow: :shrink_to_fit, valign: :center
           end

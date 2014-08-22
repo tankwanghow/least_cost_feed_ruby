@@ -33,7 +33,7 @@ class FormulaPdf < Prawn::Document
       draw_text "%", size: 12, style: :bold_italic, at: [88.mm, 262.mm]
       draw_text "#{User.current.weight_unit}", size: 12, style: :bold_italic, at: [108.mm, 262.mm]
       @formula.formula_ingredients.select { |t| t.actual > 0 }.each do |i|
-        bounding_box [5.mm, @py], height: @detail_height, width: 55.mm do
+        bounding_box [5.mm, @py], height: @detail_height, width: 53.mm do
           font("#{Prawn::DATADIR}/fonts/DroidSansFallbackFull.ttf") do
             text i.ingredient_name, size: 12, overflow: :shrink_to_fit, valign: :center
           end
