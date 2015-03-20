@@ -6,8 +6,6 @@ class FormulaIngredient < ActiveRecord::Base
   validates_numericality_of :actual, greater_than_or_equal_to: 0.0, allow_nil: true
   validates_numericality_of :shadow, greater_than_or_equal_to: 0.0, allow_nil: true
 
-  after_save :save_ingredient_cost
-
   def min_perc
     perc :min
   end
@@ -41,7 +39,10 @@ class FormulaIngredient < ActiveRecord::Base
   end
 
   def ingredient_cost= value
-    ingredient.cost = value
+    if ingredient.cost - value.to_d != 0
+      ingredient.cost = value.to_d
+      ingredient.save
+    end
   end
 
 private
@@ -56,10 +57,6 @@ private
     else
       send("#{attr}=", nil)
     end
-  end
-
-  def save_ingredient_cost
-    ingredient.save if ingredient.changed?
   end
 
 end
