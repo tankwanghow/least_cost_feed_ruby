@@ -6,11 +6,11 @@ class Premix < Formula
   accepts_nested_attributes_for :premix_ingredients
 
   def total_premix_weight
-    self.premix_bag_weight * self.bags_of_premix
+    self.premix_weight * self.bags_of_premix
   end
 
   def balance_bag_weight
-    self.target_bag_weight - self.premix_bag_weight
+    (self.target_bag_weight/self.usage_bags) - self.premix_weight
   end
 
   def set_premix_ingredients
@@ -23,7 +23,7 @@ class Premix < Formula
     end
   end
 
-  def premix_bag_weight
+  def premix_weight
     premix_ingredients.sum(:premix_usage)
   end
 

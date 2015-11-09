@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140729024027) do
+ActiveRecord::Schema.define(version: 20150819064430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20140729024027) do
     t.datetime "updated_at"
     t.float    "target_bag_weight"
     t.integer  "bags_of_premix"
+    t.integer  "usage_bags"
   end
 
   create_table "ingredient_compositions", force: true do |t|

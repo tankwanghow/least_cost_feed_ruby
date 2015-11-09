@@ -1,16 +1,24 @@
 window.app = {
-
   initPremix: ->
+    ($ 'form').on 'blur', '#premix_usage_bags',  ->
+      usage = ($ this).val()
+      target = ($ '#premix_target_bag_weight').val()
+      premix_weight = ($ '#premix_premix_weight').val()
+      ($ '#premix_balance_bag_weight').val((target - premix_weight/usage).toFixed(4))
+      ($ '#print_premix').hide()
+
     ($ 'form').on 'blur', '#premix_target_bag_weight',  ->
+      usage = ($ '#premix_usage_bags').val()
       target = ($ this).val()
-      current = ($ '#premix_premix_bag_weight').val()
-      ($ '#premix_balance_bag_weight').val((target - current).toFixed(4))
+      premix_weight = ($ '#premix_premix_weight').val()
+      ($ '#premix_balance_bag_weight').val((target - premix_weight/usage).toFixed(4))
       ($ '#print_premix').hide()
 
     ($ 'form').on 'blur', '#premix_bags_of_premix', ->
+      usage = ($ '#premix_usage_bags').val()
       bags = ($ this).val()
-      current = ($ '#premix_premix_bag_weight').val()
-      ($ '#premix_total_premix_weight').val((bags * current).toFixed(4))
+      premix_weight = ($ '#premix_premix_weight').val()
+      ($ '#premix_total_premix_weight').val((bags * premix_weight/usage).toFixed(4))
       ($ '#print_premix').hide()
 
     ($ 'form').on 'blur', '.premix_usage', ->
@@ -18,7 +26,7 @@ window.app = {
       ($ '.premix_usage').each (index, elm) ->
         val = ($ elm).val()
         sum_premix_usage = sum_premix_usage + +val
-      ($ '#premix_premix_bag_weight').val(sum_premix_usage.toFixed(4))
+      ($ '#premix_premix_weight').val(sum_premix_usage.toFixed(4))
       ($ '#premix_target_bag_weight').blur()
       ($ '#premix_bags_of_premix').blur()
 

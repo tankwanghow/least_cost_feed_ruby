@@ -49,10 +49,10 @@ class PremixPdf < Prawn::Document
         text "#{@premix.name} Premix", size: 12, overflow: :shrink_to_fit, valign: :center
       end
       bounding_box [80.mm, @py], height: @detail_height, width: 20.mm do
-        text @view.number_with_precision(@premix.premix_bag_weight/@premix.batch_size * 100, precision: 2), size: 12, overflow: :shrink_to_fit, valign: :center, align: :right
+        text @view.number_with_precision(@premix.premix_weight/@premix.batch_size * 100, precision: 2), size: 12, overflow: :shrink_to_fit, valign: :center, align: :right
       end
       bounding_box [100.mm, @py], height: @detail_height, width: 20.mm do
-        text @view.number_with_precision(@premix.premix_bag_weight, precision: 2), size: 12, overflow: :shrink_to_fit, valign: :center, align: :right
+        text @view.number_with_precision(@premix.premix_weight, precision: 2), size: 12, overflow: :shrink_to_fit, valign: :center, align: :right
       end
 
       @py = @py - @detail_height
@@ -68,7 +68,7 @@ class PremixPdf < Prawn::Document
       @py = @py - @detail_height
 
       draw_text "Bag Weight:", size: 12, at: [10.mm, @py], style: :bold
-      draw_text "#{@premix.premix_bag_weight} #{User.current.weight_unit}", size: 12, at: [37.mm, @py], style: :italic
+      draw_text "#{@premix.premix_weight} #{User.current.weight_unit}", size: 12, at: [37.mm, @py], style: :italic
       
       draw_text "Total Bags:", size: 12, at: [105.mm, @py], style: :bold
       draw_text "#{@premix.bags_of_premix}", size: 12, at: [139.mm, @py], style: :italic
@@ -84,8 +84,9 @@ class PremixPdf < Prawn::Document
       @py = @py - 2.mm
       premix_bag_cost = 0
       @premix.premix_ingredients.select { |t| t.premix_usage > 0 }.sort_by { |t| -t.premix_usage }.each do |i|
-        perc = i.premix_usage/@premix.premix_bag_weight * 100
+        perc = i.premix_usage/@premix.premix_weight * 100
         weight = perc / 100 * @premix.total_premix_weight
+        binding.pry
         bags = (weight/i.ingredient.package_weight).to_i
         premix_bag_cost = premix_bag_cost + (i.ingredient.cost * i.premix_usage)
         bounding_box [10.mm, @py], height: @detail_height, width: 65.mm do
@@ -108,7 +109,7 @@ class PremixPdf < Prawn::Document
         @py = @py - @detail_height
       end
       draw_text "Cost per #{User.current.weight_unit}:", size: 12, at: [10.mm, @py - 5.mm], style: :bold
-      draw_text "#{(premix_bag_cost/@premix.premix_bag_weight).round(4)}", size: 12, at: [37.mm, @py - 5.mm], style: :italic
+      draw_text "#{(premix_bag_cost/@premix.premix_weight).round(4)}", size: 12, at: [37.mm, @py - 5.mm], style: :italic
       draw_text "Cost per bag:", size: 12, at: [60.mm,   @py - 5.mm], style: :bold
       draw_text "#{premix_bag_cost.round(4)}", size: 12, at: [89.mm, @py - 5.mm], style: :italic
     end

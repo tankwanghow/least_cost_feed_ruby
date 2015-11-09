@@ -34,7 +34,7 @@ private
 
   def premix_params
     params.require(:premix).
-      permit(:target_bag_weight, :bags_of_premix,
+      permit(:target_bag_weight, :bags_of_premix, :usage_bags, 
         premix_ingredients_attributes: [:id, :ingredient_id, :actual_usage, :premix_usage])
   end
 end
