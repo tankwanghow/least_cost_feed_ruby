@@ -86,7 +86,6 @@ class PremixPdf < Prawn::Document
       @premix.premix_ingredients.select { |t| t.premix_usage > 0 }.sort_by { |t| -t.premix_usage }.each do |i|
         perc = i.premix_usage/@premix.premix_weight * 100
         weight = perc / 100 * @premix.total_premix_weight
-        binding.pry
         bags = (weight/i.ingredient.package_weight).to_i
         premix_bag_cost = premix_bag_cost + (i.ingredient.cost * i.premix_usage)
         bounding_box [10.mm, @py], height: @detail_height, width: 65.mm do
