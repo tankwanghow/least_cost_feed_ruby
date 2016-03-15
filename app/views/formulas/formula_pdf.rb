@@ -18,7 +18,7 @@ class FormulaPdf < Prawn::Document
     @total_pages = 0
     new_page
     draw_premix
-    draw_formula
+    #draw_formula
     self
   end
 
@@ -156,10 +156,10 @@ class FormulaPdf < Prawn::Document
       end
       @py = @py - @detail_height
     end
-    draw_text "Cost per #{User.current.weight_unit}:", size: 12, at: [10.mm, @py - 5.mm], style: :bold
-    draw_text "#{(premix_bag_cost/@premix.premix_weight).round(4)}", size: 12, at: [37.mm, @py - 5.mm], style: :italic
-    draw_text "Cost per bag:", size: 12, at: [60.mm,   @py - 5.mm], style: :bold
-    draw_text "#{premix_bag_cost.round(4)}", size: 12, at: [89.mm, @py - 5.mm], style: :italic
+    # draw_text "Cost per #{User.current.weight_unit}:", size: 12, at: [10.mm, @py - 5.mm], style: :bold
+    # draw_text "#{(premix_bag_cost/@premix.premix_weight).round(4)}", size: 12, at: [37.mm, @py - 5.mm], style: :italic
+    # draw_text "Cost per bag:", size: 12, at: [60.mm,   @py - 5.mm], style: :bold
+    # draw_text "#{premix_bag_cost.round(4)}", size: 12, at: [89.mm, @py - 5.mm], style: :italic
     @py = @py - (@detail_height * 2)
   end
 
