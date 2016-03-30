@@ -4,15 +4,15 @@
   = render 'fields', f: f
   .col-sm-12
     = f.button :submit, 'Calculate', class: 'btn btn-info'
-    = f.button :submit, 'Save Changes', class: 'btn btn-primary'    
+    = f.button :submit, 'Save Changes', class: 'btn btn-primary'
     = link_to 'Cancel Changes', edit_formula_path(@formula), class: 'btn btn-warning'
     = link_to 'Back to Index', formulas_path, class: 'btn btn-info'
     - if !@formula.changed?
       = link_to 'Print', formula_path(@formula, format: :pdf), target: '_blank', class: 'btn btn-info'
-      - if !session[:should_reset_premix?]
-        = link_to 'Edit Premix', edit_premix_path(@formula.id), class: 'btn btn-info'  
+      - if Premix.find(@formula.id).premix_ingredients.count > 0
+        = link_to 'Edit Premix', edit_premix_path(@formula.id), class: 'btn btn-info'
       - else
-        = link_to 'Create Premix', new_premix_path(id: @formula.id), class: 'btn btn-info'  
+        = link_to 'Create Premix', new_premix_path(id: @formula.id), class: 'btn btn-info'
   = render 'formula_ingredients', f: f
   = render 'formula_nutrients', f: f
 = render 'nutrients/select_nutrients'

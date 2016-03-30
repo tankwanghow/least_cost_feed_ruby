@@ -19,7 +19,6 @@ class PremixesController < ApplicationController
     if @premix.update(premix_params)
       flash[:success] = "Premix updated successfully."
       redirect_to edit_premix_path(@premix)
-      session[:should_reset_premix?] = false
     else
       flash[:danger] = "Ooppps, fail to update Premix."
       render :edit
@@ -34,7 +33,7 @@ private
 
   def premix_params
     params.require(:premix).
-      permit(:target_bag_weight, :bags_of_premix, :usage_bags, 
+      permit(:target_bag_weight, :bags_of_premix, :usage_bags,
         premix_ingredients_attributes: [:id, :ingredient_id, :actual_usage, :premix_usage])
   end
 end

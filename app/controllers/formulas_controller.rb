@@ -24,8 +24,8 @@ class FormulasController < ApplicationController
 
   def create
     if params[:commit] == 'Calculate'
-      calculate 
-    else 
+      calculate
+    else
       kreate
     end
   end
@@ -60,7 +60,6 @@ private
     if @formula.save
       flash[:success] = "Formula created successfully."
       redirect_to edit_formula_path(@formula)
-      session[:should_reset_premix?] = true
     else
       flash[:danger] = "Ooppps, fail to update Formula."
       render :new
@@ -70,8 +69,8 @@ private
   def up_date
     if @formula.update(formula_params)
       flash[:success] = "Formula updated successfully."
+      @premix.premix_ingredients.destroy_all
       redirect_to edit_formula_path(@formula)
-      session[:should_reset_premix?] = true
     else
       flash[:danger] = "Ooppps, fail to update Formula."
       render :edit
@@ -80,11 +79,12 @@ private
 
   def fetch_formula
     @formula = current_user.formulas.find params[:id]
+    @premix = Premix.find @formula.id
   end
 
   def formula_params
     params.require(:formula).
-      permit(:name, :batch_size, :note, :cost, 
+      permit(:name, :batch_size, :note, :cost,
         formula_nutrients_attributes: [:id, :_destroy, :nutrient_id, :max, :min, :actual, :use],
         formula_ingredients_attributes: [:id, :_destroy, :ingredient_id, :ingredient_cost, :max_perc, :min_perc, :actual_perc, :shadow, :weight, :use])
   end
