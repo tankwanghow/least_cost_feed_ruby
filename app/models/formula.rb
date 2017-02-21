@@ -3,6 +3,7 @@ class Formula < ActiveRecord::Base
   validates_presence_of :user_id, :name, :batch_size, :cost
   validates_numericality_of :batch_size, greater_than_or_equal_to: 0.0
   validates_numericality_of :cost, greater_than_or_equal_to: 0.0
+  validates_numericality_of :usage_per_day, greater_than_or_equal_to: 0.0
   validates_uniqueness_of :name, scope: :user_id
 
   has_many :formula_ingredients, -> { includes(:ingredient).order("actual desc") }, dependent: :destroy
@@ -77,7 +78,7 @@ private
   end
 
   def put_error_to_formula
-    self.formula_ingredients.each do |t| 
+    self.formula_ingredients.each do |t|
       t.actual = -1
       t.shadow = -1
     end
@@ -114,7 +115,7 @@ private
 
   def random_word
     a = ""
-    rand(10).times do 
+    rand(10).times do
       a += %w(a b c d e f g h i j k l m n o p q r s t u v w x y z)[rand(26)]
     end
     a

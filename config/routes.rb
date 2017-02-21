@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :nutrients
   resources :users
   resource :sessions, only: [:new, :create, :destroy]
+  resources :ingredient_usages, only: [:index]
 
 
   # The priority is based upon order of creation: first created -> highest priority.

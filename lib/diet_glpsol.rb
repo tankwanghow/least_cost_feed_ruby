@@ -111,7 +111,7 @@ class DietGlpsol
 private
 
   def self.constraint object, expression=""
-    if object.max && object.min 
+    if object.max && object.min
       gt_lt_constraint(object, expression)
     elsif object.max && !object.min
       lt_constraint(object, expression)

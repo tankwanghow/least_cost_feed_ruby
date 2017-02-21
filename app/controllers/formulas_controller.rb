@@ -84,7 +84,7 @@ private
 
   def formula_params
     params.require(:formula).
-      permit(:name, :batch_size, :note, :cost,
+      permit(:name, :batch_size, :note, :cost, :usage_per_day,
         formula_nutrients_attributes: [:id, :_destroy, :nutrient_id, :max, :min, :actual, :use],
         formula_ingredients_attributes: [:id, :_destroy, :ingredient_id, :ingredient_cost, :max_perc, :min_perc, :actual_perc, :shadow, :weight, :use])
   end

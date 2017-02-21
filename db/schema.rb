@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150819064430) do
+ActiveRecord::Schema.define(version: 20170221070911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "formula_ingredients", force: true do |t|
+  create_table "formula_ingredients", force: :cascade do |t|
     t.integer "formula_id",                   null: false
     t.integer "ingredient_id",                null: false
     t.float   "max"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20150819064430) do
 
   add_index "formula_ingredients", ["ingredient_id", "formula_id"], name: "index_formula_ingredients_on_ingredient_id_and_formula_id", unique: true, using: :btree
 
-  create_table "formula_nutrients", force: true do |t|
+  create_table "formula_nutrients", force: :cascade do |t|
     t.integer "formula_id",                 null: false
     t.integer "nutrient_id",                null: false
     t.float   "max"
@@ -40,21 +40,22 @@ ActiveRecord::Schema.define(version: 20150819064430) do
 
   add_index "formula_nutrients", ["nutrient_id", "formula_id"], name: "index_formula_nutrients_on_nutrient_id_and_formula_id", unique: true, using: :btree
 
-  create_table "formulas", force: true do |t|
-    t.integer  "user_id",                         null: false
-    t.string   "name",                            null: false
-    t.float    "batch_size",        default: 0.0, null: false
-    t.float    "cost",              default: 0.0, null: false
+  create_table "formulas", force: :cascade do |t|
+    t.integer  "user_id",                                     null: false
+    t.string   "name",              limit: 255,               null: false
+    t.float    "batch_size",                    default: 0.0, null: false
+    t.float    "cost",                          default: 0.0, null: false
     t.text     "note"
-    t.integer  "lock_version",      default: 0,   null: false
+    t.integer  "lock_version",                  default: 0,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "target_bag_weight"
     t.integer  "bags_of_premix"
     t.integer  "usage_bags"
+    t.integer  "usage_per_day",                 default: 0
   end
 
-  create_table "ingredient_compositions", force: true do |t|
+  create_table "ingredient_compositions", force: :cascade do |t|
     t.integer "ingredient_id",               null: false
     t.integer "nutrient_id",                 null: false
     t.float   "value",         default: 0.0, null: false
@@ -62,35 +63,35 @@ ActiveRecord::Schema.define(version: 20150819064430) do
 
   add_index "ingredient_compositions", ["ingredient_id", "nutrient_id"], name: "index_ingredient_compositions_on_ingredient_id_and_nutrient_id", unique: true, using: :btree
 
-  create_table "ingredients", force: true do |t|
-    t.integer  "user_id",                            null: false
-    t.string   "name",                               null: false
-    t.float    "package_weight", default: 0.1
-    t.float    "cost",           default: 0.0,       null: false
-    t.string   "status",         default: "using",   null: false
-    t.string   "category",       default: "private", null: false
+  create_table "ingredients", force: :cascade do |t|
+    t.integer  "user_id",                                        null: false
+    t.string   "name",           limit: 255,                     null: false
+    t.float    "package_weight",             default: 0.1
+    t.float    "cost",                       default: 0.0,       null: false
+    t.string   "status",         limit: 255, default: "using",   null: false
+    t.string   "category",       limit: 255, default: "private", null: false
     t.text     "note"
-    t.integer  "lock_version",   default: 0,         null: false
+    t.integer  "lock_version",               default: 0,         null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "ingredients", ["user_id", "name"], name: "index_ingredients_on_user_id_and_name", unique: true, using: :btree
 
-  create_table "nutrients", force: true do |t|
-    t.integer  "user_id",                          null: false
-    t.string   "name",                             null: false
-    t.string   "unit",                             null: false
+  create_table "nutrients", force: :cascade do |t|
+    t.integer  "user_id",                                      null: false
+    t.string   "name",         limit: 255,                     null: false
+    t.string   "unit",         limit: 255,                     null: false
     t.text     "note"
-    t.string   "category",     default: "private", null: false
-    t.integer  "lock_version", default: 0,         null: false
+    t.string   "category",     limit: 255, default: "private", null: false
+    t.integer  "lock_version",             default: 0,         null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "nutrients", ["user_id", "name"], name: "index_nutrients_on_user_id_and_name", unique: true, using: :btree
 
-  create_table "premix_ingredients", force: true do |t|
+  create_table "premix_ingredients", force: :cascade do |t|
     t.integer "formula_id",    null: false
     t.integer "ingredient_id", null: false
     t.float   "actual_usage"
@@ -99,17 +100,17 @@ ActiveRecord::Schema.define(version: 20150819064430) do
 
   add_index "premix_ingredients", ["ingredient_id", "formula_id"], name: "index_premix_ingredients_on_ingredient_id_and_formula_id", unique: true, using: :btree
 
-  create_table "users", force: true do |t|
-    t.string   "username",                                 null: false
-    t.string   "email"
-    t.string   "name"
-    t.string   "password_digest",                          null: false
-    t.string   "status",          default: "pending",      null: false
-    t.boolean  "is_admin",        default: false,          null: false
-    t.string   "country",         default: "Malaysia",     null: false
-    t.string   "time_zone",       default: "Kuala Lumpur", null: false
-    t.string   "weight_unit",     default: "KG",           null: false
-    t.integer  "lock_version",    default: 0,              null: false
+  create_table "users", force: :cascade do |t|
+    t.string   "username",        limit: 255,                          null: false
+    t.string   "email",           limit: 255
+    t.string   "name",            limit: 255
+    t.string   "password_digest", limit: 255,                          null: false
+    t.string   "status",          limit: 255, default: "pending",      null: false
+    t.boolean  "is_admin",                    default: false,          null: false
+    t.string   "country",         limit: 255, default: "Malaysia",     null: false
+    t.string   "time_zone",       limit: 255, default: "Kuala Lumpur", null: false
+    t.string   "weight_unit",     limit: 255, default: "KG",           null: false
+    t.integer  "lock_version",                default: 0,              null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,0 +1,20 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th Ingredient
+      %th.right-align= "Daily(#{current_user.weight_unit})"
+      %th.right-align= "7 days(#{current_user.weight_unit})"
+      %th.right-align= "14 days(#{current_user.weight_unit})"
+      %th.right-align= "21 days(#{current_user.weight_unit})"
+      %th.right-align= "28 days(#{current_user.weight_unit})"
+      %th.right-align= "28 days Cost"
+  %tbody
+    - @usages.each do |r|
+      %tr
+        %td= r["name"]
+        %td.numeric= number_with_precision r["qty"].to_f     , precision: 2, delimiter: ","
+        %td.numeric= number_with_precision r["qty"].to_f *  7, precision: 2, delimiter: ","
+        %td.numeric= number_with_precision r["qty"].to_f * 14, precision: 2, delimiter: ","
+        %td.numeric= number_with_precision r["qty"].to_f * 21, precision: 2, delimiter: ","
+        %td.numeric= number_with_precision r["qty"].to_f * 28, precision: 2, delimiter: ","
+        %td.numeric= number_with_precision r["qty"].to_f * r["cost"].to_f * 28, precision: 2, delimiter: ","
