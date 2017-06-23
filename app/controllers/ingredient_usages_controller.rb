@@ -7,8 +7,10 @@ class IngredientUsagesController < ApplicationController
           " where f.usage_per_day > 0" +
           "   and fi.actual > 0" +
           " group by i.name, i.cost" +
-          " order by 2 desc"
+          " order by sum(fi.actual * f.usage_per_day) * i.cost desc"
     @usages = ActiveRecord::Base.connection.execute(sql)
+    @weight = @usages.inject(0) { |sum, hash| sum + hash["qty"].to_f }
+    @cost = @usages.inject(0) { |sum, hash| sum + (hash["qty"].to_f * hash["cost"].to_f) }
   end
 
   def formula_params

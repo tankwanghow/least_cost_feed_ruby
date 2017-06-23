@@ -2,19 +2,28 @@
   %thead
     %tr
       %th Ingredient
+      %th.right-align= "Cost per #{current_user.weight_unit}"
       %th.right-align= "Daily(#{current_user.weight_unit})"
-      %th.right-align= "7 days(#{current_user.weight_unit})"
-      %th.right-align= "14 days(#{current_user.weight_unit})"
-      %th.right-align= "21 days(#{current_user.weight_unit})"
-      %th.right-align= "28 days(#{current_user.weight_unit})"
-      %th.right-align= "28 days Cost"
+      %th.right-align= "Daily cost"
+      %th.right-align= "30 days(#{current_user.weight_unit})"
+      %th.right-align= "30 days Cost"
+      %th.right-align= "Cost %"
   %tbody
     - @usages.each do |r|
       %tr
         %td= r["name"]
-        %td.numeric= number_with_precision r["qty"].to_f     , precision: 2, delimiter: ","
-        %td.numeric= number_with_precision r["qty"].to_f *  7, precision: 2, delimiter: ","
-        %td.numeric= number_with_precision r["qty"].to_f * 14, precision: 2, delimiter: ","
-        %td.numeric= number_with_precision r["qty"].to_f * 21, precision: 2, delimiter: ","
-        %td.numeric= number_with_precision r["qty"].to_f * 28, precision: 2, delimiter: ","
-        %td.numeric= number_with_precision r["qty"].to_f * r["cost"].to_f * 28, precision: 2, delimiter: ","
+        %td.numeric= number_with_precision r["cost"].to_f, precision: 2, delimiter: ","
+        %td.numeric= number_with_precision r["qty"].to_f, precision: 2, delimiter: ","
+        %td.numeric= number_with_precision r["qty"].to_f * r["cost"].to_f, precision: 2, delimiter: ","
+        %td.numeric= number_with_precision r["qty"].to_f * 30, precision: 2, delimiter: ","
+        %td.numeric= number_with_precision r["qty"].to_f * r["cost"].to_f * 30, precision: 2, delimiter: ","
+        %td.numeric= number_with_precision((r["qty"].to_f * r["cost"].to_f * 30) / (@cost * 30) * 100, precision: 2, delimiter: ",")
+  %tfoot
+    %tr
+      %th
+      %th
+      %th.numeric= number_with_precision @weight, precision: 2, delimiter: ","
+      %th.numeric= number_with_precision @cost, precision: 2, delimiter: ","
+      %th.numeric= number_with_precision @weight * 30, precision: 2, delimiter: ","
+      %th.numeric= number_with_precision @cost * 30, precision: 2, delimiter: ","
+      %th
