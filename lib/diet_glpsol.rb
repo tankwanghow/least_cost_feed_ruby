@@ -12,7 +12,7 @@ class DietGlpsol
     if formula.empty? or specs.empty?
       nil
     else
-      `rm #{filename}`
+      #`rm #{filename}`
       { formula: formula.flatten[0].split('|').compact, specs: specs.flatten[0].split('|').compact }
     end
   end
