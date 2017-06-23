@@ -26,6 +26,7 @@
         %td.numeric= number_with_precision f.usage_per_day, precision: 0
         %td= f.updated_at.in_time_zone(current_user.time_zone).to_s(:long)
         %td
-          = link_to "Delete", f, method: :delete, data: { confirm: 'Are You Sure!' }, class: 'label label-danger'
-          = link_to "Copy", copy_create_path(id: f.id, klass: f.class), method: :post, class: 'label label-success'
+          = link_to "Print", formula_path(f, format: :pdf), target: '_blank', class: 'btn btn-info'
+          = link_to "Delete", f, method: :delete, data: { confirm: 'Are You Sure!' }, class: 'btn btn-danger'
+          = link_to "Copy", copy_create_path(id: f.id, klass: f.class), method: :post, class: 'btn btn-success'
 = paginate @formulas, params: { search: params[:search] }, theme: 'twitter-bootstrap-3'
