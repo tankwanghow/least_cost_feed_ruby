@@ -7,14 +7,14 @@ class DietGlpsol
 
   def self.solution_for_gmpl filename, solver=Rails.root.to_s + '/lib/bin/glpsol --math'
     a = `#{solver + " " + filename}`
-    formula = a.scan(/FORMULA_START(.+?)FORMULA_END/)
-    specs = a.scan(/SPECS_START(.+?)SPECS_END/)
-    if formula.empty? or specs.empty?
-      nil
-    else
-      #`rm #{filename}`
-      { formula: formula.flatten[0].split('|').compact, specs: specs.flatten[0].split('|').compact }
+    return [false, '!!Not Feasible!!'] if a.scan(/HAS NO PRIMAL FEASIBLE SOLUTION/).count > 0
+    if a.scan(/OPTIMAL LP SOLUTION FOUND/).count > 0
+      formula = a.scan(/FORMULA_START(.+?)FORMULA_END/)
+      specs = a.scan(/SPECS_START(.+?)SPECS_END/)
+      `rm #{filename}`
+      return [true, { formula: formula.flatten[0].split('|').compact, specs: specs.flatten[0].split('|').compact }]
     end
+    return [false, a]
   end
 
   def self.gmpl_for_formula formula, filename

@@ -41,11 +41,11 @@ private
 
   def calculate
     @formula = Formula.new unless @formula
-    begin
-      @formula.calculate formula_params
-      flash[:info] = "Optimized."
-    rescue
-      flash[:danger] = "Infesible Error!"
+    @formula.calculate formula_params
+    if @formula.formula_status == "Optimized"
+      flash[:info] = @formula.formula_status
+    else
+      flash[:danger] = @formula.formula_status
     end
     if @formula.new_record?
       render :new

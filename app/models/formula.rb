@@ -12,7 +12,7 @@ class Formula < ActiveRecord::Base
   accepts_nested_attributes_for :formula_ingredients, allow_destroy: true
   accepts_nested_attributes_for :formula_nutrients, allow_destroy: true
 
-  attr_reader :prev_cost
+  attr_reader :prev_cost, :formula_status
 
   def self.find_formulas terms=nil, page=1
     if terms.blank?
@@ -26,11 +26,11 @@ class Formula < ActiveRecord::Base
     assign_attributes params if params
     n = User.current ? User.current.username :  random_word
     sol = DietGlpsol.solution_for_formula self, "#{n}_#{self.id}.mod"
-    if sol
+    if sol[0]
       set_actual_to_zero
-      put_soultion_to_formula sol
+      put_soultion_to_formula sol[1]
     else
-      raise "Infesible error!"
+      @formula_status = 'Error' + sol[1]
     end
     count_cost_set_weight
     self.updated_at = DateTime.now
@@ -106,6 +106,7 @@ private
       formula_nutrient = self.formula_nutrients.find { |t| t.nutrient_id == nutrient_id }
       formula_nutrient.actual = actual
     end
+    @formula_status = 'Optimized'
   end
 
   def set_actual_to_zero
