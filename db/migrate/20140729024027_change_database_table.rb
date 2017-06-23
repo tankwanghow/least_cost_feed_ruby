@@ -1,4 +1,4 @@
-class ChangeDatabaseTable < ActiveRecord::Migration
+class ChangeDatabaseTable < ActiveRecord::Migration[4.2]
 
   def up
     remove_column :premix_ingredients, :created_at
@@ -49,5 +49,5 @@ class ChangeDatabaseTable < ActiveRecord::Migration
   def down
     add_column :premix_ingredients, :created_at, :datetime
     add_column :premix_ingredients, :updated_at, :datetime
-  end 
+  end
 end

@@ -1,4 +1,4 @@
-class CreateFormulaIngredients < ActiveRecord::Migration
+class CreateFormulaIngredients < ActiveRecord::Migration[4.2]
   def change
     create_table :formula_ingredients do |t|
       t.belongs_to :formula, null: false

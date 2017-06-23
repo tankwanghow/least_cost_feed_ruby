@@ -1,4 +1,4 @@
-class CreatePremixIngredients < ActiveRecord::Migration
+class CreatePremixIngredients < ActiveRecord::Migration[4.2]
   def change
     create_table :premix_ingredients do |t|
 	    t.belongs_to :formula, null: false

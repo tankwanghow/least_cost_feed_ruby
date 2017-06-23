@@ -1,4 +1,4 @@
-class CreateNutrients < ActiveRecord::Migration
+class CreateNutrients < ActiveRecord::Migration[4.2]
   def change
     create_table :nutrients do |t|
       t.belongs_to :user,  null: false

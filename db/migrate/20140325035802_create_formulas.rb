@@ -1,4 +1,4 @@
-class CreateFormulas < ActiveRecord::Migration
+class CreateFormulas < ActiveRecord::Migration[4.2]
   def change
     create_table :formulas do |t|
       t.belongs_to :user, null: false
@@ -10,5 +10,5 @@ class CreateFormulas < ActiveRecord::Migration
       t.timestamps
     end
     add_index :formulas, [:user_id, :name], unique: true
-  end   
+  end
 end
