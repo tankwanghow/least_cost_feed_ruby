@@ -77,9 +77,9 @@ class FormulaPdf < Prawn::Document
     draw_text "Batch Size:", size: 12, at: [105.mm, 275.mm], style: :bold
     draw_text "#{@premix.batch_size} #{User.current.weight_unit}", size: 12, at: [139.mm, 275.mm], style: :italic
 
-    draw_text "Ingredient", size: 12, style: :bold, at: [10.mm, 269.mm], style: :bold_italic
-    draw_text "%", size: 12, style: :bold, at: [93.mm, 269.mm], style: :bold_italic
-    draw_text "#{User.current.weight_unit}", size: 12, style: :bold, at: [113.mm, 269.mm], style: :bold_italic
+    draw_text "Ingredient", size: 12, at: [10.mm, 269.mm], style: :bold_italic
+    draw_text "%", size: 12, at: [93.mm, 269.mm], style: :bold_italic
+    draw_text "#{User.current.weight_unit}", size: 12, at: [113.mm, 269.mm], style: :bold_italic
 
     @premix.premix_ingredients.select { |t| t.actual_usage - t.premix_usage > 0 }.sort_by { |t| -(t.actual_usage - t.premix_usage) }.each do |i|
       bounding_box [10.mm, @py], height: @detail_height, width: 65.mm do
