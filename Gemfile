@@ -27,7 +27,7 @@ group :development do
   gem 'capistrano-bundler', :require => false
   gem 'capistrano-rails', :require => false
   gem 'capistrano', :require => false
-  gem 'capistrano-fiftyfive', :require => false
+  gem 'capistrano-mb', :require => false
   gem 'sshkit', github: 'capistrano/sshkit'
   gem 'highline'
 end
@@ -45,6 +45,7 @@ gem 'haml-rails'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 gem 'country_select'
+gem 'dotenv-rails', '>= 2.0.0'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby'

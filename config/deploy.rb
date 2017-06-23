@@ -1,6 +1,3 @@
-# config valid only for Capistrano 3.1
-lock '3.1.0'
-
 set :application, 'least_cost_feed'
 set :repo_url, 'git@github.com:tankwanghow/least_cost_feed.git'
 
