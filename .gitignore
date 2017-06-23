@@ -19,4 +19,4 @@ pickle-email-*.html
 config/initializers/secret_token.rb
 /doc/api/*
 /doc/guides/*
-least_cost_feed_production.dmp
+least_cost_feed_production.dmp 
