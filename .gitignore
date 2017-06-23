@@ -19,4 +19,3 @@ pickle-email-*.html
 config/initializers/secret_token.rb
 /doc/api/*
 /doc/guides/*
-/lib/bin/glpsol
