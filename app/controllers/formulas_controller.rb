@@ -42,10 +42,10 @@ private
   def calculate
     @formula = Formula.new unless @formula
     @formula.calculate formula_params
-    if @formula.formula_status == "Optimized"
-      flash[:info] = @formula.formula_status
+    if @formula.status == "Optimized"
+      flash[:info] = @formula.status
     else
-      flash[:danger] = @formula.formula_status
+      flash[:danger] = @formula.status
     end
     if @formula.new_record?
       render :new
