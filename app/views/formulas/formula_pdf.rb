@@ -36,7 +36,7 @@ class FormulaPdf < Prawn::Document
     @py = @py - 2.mm
     @formula.formula_ingredients.select { |t| t.actual > 0 }.each do |i|
       bounding_box [10.mm, @py], height: @detail_height, width: 53.mm do
-        font("#{Prawn::DATADIR}/fonts/DroidSansFallbackFull.ttf") do
+        font("#{Rails.root}/vendor/assets/fonts/DroidSansFallbackFull.ttf") do
           text i.ingredient_name, size: 12, overflow: :shrink_to_fit, valign: :center
         end
       end
@@ -56,7 +56,7 @@ class FormulaPdf < Prawn::Document
 
     @formula.formula_nutrients.select { |t| t.actual > 0 }.each do |i|
       bounding_box [130.mm, @py], height: @detail_height, width: 50.mm do
-        font("#{Prawn::DATADIR}/fonts/DroidSansFallbackFull.ttf") do
+        font("#{Rails.root}/vendor/assets/fonts/DroidSansFallbackFull.ttf") do
           text i.nutrient_name_unit, size: 12, overflow: :shrink_to_fit, valign: :center
         end
       end
@@ -83,7 +83,7 @@ class FormulaPdf < Prawn::Document
 
     @premix.premix_ingredients.select { |t| t.actual_usage - t.premix_usage > 0 }.sort_by { |t| -(t.actual_usage - t.premix_usage) }.each do |i|
       bounding_box [10.mm, @py], height: @detail_height, width: 65.mm do
-        font("#{Prawn::DATADIR}/fonts/DroidSansFallbackFull.ttf") do
+        font("#{Rails.root}/vendor/assets/fonts/DroidSansFallbackFull.ttf") do
           text i.ingredient_name, size: 12, overflow: :shrink_to_fit, valign: :center
         end
       end
@@ -138,7 +138,7 @@ class FormulaPdf < Prawn::Document
       bags = (weight/i.ingredient.package_weight).round(2).to_i
       premix_bag_cost = premix_bag_cost + (i.ingredient.cost * i.premix_usage)
       bounding_box [10.mm, @py], height: @detail_height, width: 65.mm do
-        font("#{Prawn::DATADIR}/fonts/DroidSansFallbackFull.ttf") do
+        font("#{Rails.root}/vendor/assets/fonts/DroidSansFallbackFull.ttf") do
           text "#{i.ingredient_name} (#{i.ingredient.package_weight} #{User.current.weight_unit})", size: 12, overflow: :shrink_to_fit, valign: :center
         end
       end
