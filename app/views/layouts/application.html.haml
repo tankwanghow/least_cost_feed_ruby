@@ -21,7 +21,7 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          = link_to "Least Cost Feed", root_path, class: 'navbar-brand', id: 'lcf-brand'
+          = link_to "Least Cost Feed", current_user ? dashboard_path : root_path, class: 'navbar-brand', id: 'lcf-brand'
         .navbar-collapse.collapse#main-navbar-collapse
           - if current_user
             %ul.nav.navbar-nav
@@ -48,9 +48,9 @@
                   = current_user.name
                   %b.caret
                 %ul.dropdown-menu
-                  %li 
+                  %li
                     = link_to "Edit Profile", edit_user_path(current_user)
-                  %li 
+                  %li
                     = link_to 'Logout', logout_path, method: :delete
     .container
       = yield
