@@ -17,6 +17,7 @@ class SessionsController < ApplicationController
           else
             session[:user_id] = @user.id
             Time.zone = @user.time_zone
+            @user.logged_in
             flash[:success] = "Logged in successfully."
             redirect_to_target_or_default :dashboard
           end

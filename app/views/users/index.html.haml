@@ -1,6 +1,6 @@
 = render_flash
 = simple_form_for :search, url: users_path, html: { class: 'form-horizontal', method: :get } do |f|
-  = content_tag :div, class: 'col-sm-5' do  
+  = content_tag :div, class: 'col-sm-5' do
     = f.input_field :terms, autofocus: true, value: @terms, placeholder: 'Search Terms...'
   = f.button :submit, 'Search', class: 'btn btn-primary'
 %table.table
@@ -10,6 +10,7 @@
       %th Email
       %th Username
       %th Formulas
+      %th Last Login
       %th Status
       %th Admin
   %tbody
@@ -19,6 +20,7 @@
         %td= u.email
         %td= u.username
         %td= u.formulas.count
+        %td= u.last_login_at
         %td= u.status
         %td= u.is_admin
 = paginate @users, params: { search: params[:search] }, theme: 'twitter-bootstrap-3'

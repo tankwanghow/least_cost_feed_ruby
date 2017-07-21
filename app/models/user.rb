@@ -20,6 +20,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def logged_in
+    self.last_login_at = DateTime.now
+    self.save
+  end
+
 private
 
   def add_sample_nutrients_and_ingredients
