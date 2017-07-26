@@ -4,13 +4,13 @@ class User < ActiveRecord::Base
   has_secure_password
   include SentientUser
   validates :username, uniqueness: true
-  validates :name, :username, :time_zone, :country, :weight_unit, :status, :email , presence: true
+  validates :name, :username, :time_zone, :country, :weight_unit, :status, :email, presence: true
   has_many :ingredients, dependent: :destroy
   has_many :nutrients, dependent: :destroy
   has_many :formulas, dependent: :destroy
   has_many :premixes
 
-  after_save :add_sample_nutrients_and_ingredients
+  after_create :add_sample_nutrients_and_ingredients
 
   def self.find_users terms=nil, page=1
     if terms.blank?

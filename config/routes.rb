@@ -13,7 +13,10 @@ Rails.application.routes.draw do
   resources :formulas
   resources :premixes
   resources :nutrients
-  resources :users
+  resources :users do
+    put 'lock'
+    put 'activate'
+  end
   resource :sessions, only: [:new, :create, :destroy]
   resources :ingredient_usages, only: [:index]
 

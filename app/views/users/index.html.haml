@@ -13,6 +13,7 @@
       %th Last Login
       %th Status
       %th Admin
+      %th
   %tbody
     - @users.each do |u|
       %tr
@@ -23,4 +24,11 @@
         %td= time_ago_in_words(u.last_login_at || u.updated_at)
         %td= u.status
         %td= u.is_admin
+        %td
+          - if u.status != 'active'
+            = link_to "Activate", user_activate_path(u), method: :put, class: 'btn btn-info'
+          - else
+            = link_to "Lock", user_lock_path(u), method: :put, class: 'btn btn-warning'
+          - if u.status == 'locked'
+            = link_to "Delete", u, method: :delete, data: { confirm: 'Are You Sure!' }, class: 'btn btn-danger'
 = paginate @users, params: { search: params[:search] }, theme: 'twitter-bootstrap-3'

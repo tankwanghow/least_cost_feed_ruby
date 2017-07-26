@@ -14,6 +14,8 @@ class SessionsController < ApplicationController
         else
           if @user.status == 'pending'
             redirect_pending_user
+          elsif @user.status == 'locked'
+            redirect_locked_user
           else
             session[:user_id] = @user.id
             Time.zone = @user.time_zone
@@ -40,6 +42,10 @@ class SessionsController < ApplicationController
 
   def redirect_pending_user
     redirect_to :root, flash: { warning: "Your account is pending approval." }
+  end
+
+  def redirect_locked_user
+    redirect_to :root, flash: { info: "Your account is has been locked. Inactive more than 60 days. Please email administrator to activate your account again." }
   end
 
   def redirect_invalid_user

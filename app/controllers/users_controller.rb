@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :login_required, only: [:new, :create]
-  
+
   def index
     if current_user.is_admin
       @terms = params[:search] ? params[:search][:terms] : nil
@@ -48,12 +48,41 @@ class UsersController < ApplicationController
       render :new
     end
   end
-  
+
+  def lock
+    fetch_user params[:user_id]
+    @user.status = 'locked'
+    if @user.save
+      flash[:warning] = "Locked #{@user.name}"
+    else
+      flash[:danger] = "Fail to Lock #{@user.name}. #{@user.errors}"
+    end
+    redirect_to users_path
+  end
+
+  def activate
+    fetch_user params[:user_id]
+    @user.status = 'active'
+    if @user.save
+      flash[:success] = "Activated #{@user.name}"
+    else
+      flash[:danger] = "Fail to Activate #{@user.name}. #{@user.errors}"
+    end
+    redirect_to users_path
+  end
+
+  def destroy
+    fetch_user
+    @user.destroy
+    flash[:success] = "User destroyed successfully."
+    redirect_to users_path
+  end
+
 private
 
-  def fetch_user
-    if params[:id].to_i == current_user.try(:id) || current_user.is_admin
-      @user = User.find(params[:id].to_i)
+  def fetch_user id=params[:id]
+    if id.to_i == current_user.try(:id) || current_user.is_admin
+      @user = User.find(id.to_i)
     else
       redirect_to :back, flash: { danger: "Cannot edit other user." }
     end

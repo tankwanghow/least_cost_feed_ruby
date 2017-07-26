@@ -15,4 +15,4 @@
     = f.input :status, collection: ['active', 'pending', 'locked'], include_blank: false
   %div.col-lg-offset-1
     = f.button :submit, 'Save', class: 'btn btn-primary'
-    = link_to 'Cancel', session[:return_to] || root_path, class: 'btn btn-success'
+    = link_to 'Cancel', session[:return_to] || dashboard_path, class: 'btn btn-success'
