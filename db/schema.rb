@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170721084938) do
+ActiveRecord::Schema.define(version: 20171103034121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,20 @@ ActiveRecord::Schema.define(version: 20170721084938) do
     t.float "shadow", default: 0.0, null: false
     t.boolean "use", default: true, null: false
     t.index ["ingredient_id", "formula_id"], name: "index_formula_ingredients_on_ingredient_id_and_formula_id", unique: true
+  end
+
+  create_table "formula_ingredients_histories", force: :cascade do |t|
+    t.bigint "formula_id", null: false
+    t.bigint "ingredient_id", null: false
+    t.decimal "max", precision: 12, scale: 6
+    t.decimal "min", precision: 12, scale: 6
+    t.decimal "actual", precision: 12, scale: 6, default: "0.0", null: false
+    t.decimal "weight", precision: 12, scale: 6
+    t.boolean "use", default: true, null: false
+    t.datetime "logged_at"
+    t.index ["formula_id"], name: "index_formula_ingredients_histories_on_formula_id"
+    t.index ["ingredient_id", "formula_id", "logged_at"], name: "by_ing_id_for_id_log_at", unique: true
+    t.index ["ingredient_id"], name: "index_formula_ingredients_histories_on_ingredient_id"
   end
 
   create_table "formula_nutrients", id: :serial, force: :cascade do |t|

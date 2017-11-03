@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   post 'copy/create'
+  post 'formulas/log'
+  get 'formulas/set_history'
+  delete 'formulas/delete_history'
 
   # You can have the root of your site routed with "root"
   root 'welcome#index'

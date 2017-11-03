@@ -8,6 +8,7 @@ class Formula < ActiveRecord::Base
 
   has_many :formula_ingredients, -> { includes(:ingredient).order("actual desc") }, dependent: :destroy
   has_many :formula_nutrients, -> { includes(:nutrient).order("actual desc") }, dependent: :destroy
+  has_many :formula_ingredients_histories, -> { includes(:ingredient).order("actual desc") }, dependent: :destroy
 
   accepts_nested_attributes_for :formula_ingredients, allow_destroy: true
   accepts_nested_attributes_for :formula_nutrients, allow_destroy: true
@@ -65,6 +66,33 @@ class Formula < ActiveRecord::Base
     formula_nutrients.select { |t| t.nutrient.name == 'Crude Protein' }.first.actual.round(2)
   end
 
+  def log_to_history
+    log_datetime = DateTime.now.to_s(:number)
+    formula_ingredients.each do |t|
+      formula_ingredients_histories.create! ingredient: t.ingredient, actual: t.actual, use: t.use, logged_at: log_datetime
+    end
+  end
+
+  def set_current_formula_ingredients_from_history logged_at
+    max = formula_ingredients_histories.where(logged_at: logged_at, formula: self).map { |t| t[:actual] }.max
+    formula_ingredients_histories.where(logged_at: logged_at, formula: self).each do |t|
+      f = formula_ingredients.find { |k| k.ingredient_id == t.ingredient_id }
+      if t.actual == max
+        f.min = t.actual - 0.000005
+      else
+        f.min = t.actual
+      end
+      f.use = t.use
+      f.max = t.actual if t.actual <= 0.01
+    end
+    formula_nutrients.each { |t| t.use = false }
+    self.cost = 0
+  end
+
+  def delete_history logged_at
+    formula_ingredients_histories.where(logged_at: logged_at, formula: self).each { |t| t.destroy }
+  end
+
 private
 
   def count_cost_set_weight
@@ -120,5 +148,10 @@ private
       a += %w(a b c d e f g h i j k l m n o p q r s t u v w x y z)[rand(26)]
     end
     a
+  end
+
+  def floor(number, exp = 0)
+    multiplier = 10 ** exp
+    ((number * multiplier).floor).to_f/multiplier.to_f
   end
 end

@@ -5,6 +5,8 @@ class Ingredient < ActiveRecord::Base
   validates_numericality_of :cost, greater_than_or_equal_to: 0
   validates_numericality_of :package_weight, greater_than_or_equal_to: 0, allow_nil: true
   has_many :ingredient_compositions, -> { includes(:nutrient).order("nutrients.name") }, dependent: :destroy
+  has_many :formula_ingredients, dependent: :restrict_with_exception
+  has_many :formula_ingredients_histories, dependent: :restrict_with_exception
 
   accepts_nested_attributes_for :ingredient_compositions, allow_destroy: true
 

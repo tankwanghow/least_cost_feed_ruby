@@ -1,5 +1,33 @@
 class FormulasController < ApplicationController
 
+  def delete_history
+    fetch_formula
+    @formula.delete_history params[:logged_at]
+    flash[:danger] = "Formula deleted #{params[:logged_at]}"
+    render :edit
+  end
+
+  def log
+    fetch_formula
+    if @formula
+      @formula.log_to_history
+      redirect_to edit_formula_path(@formula)
+    else
+      flash[:danger] = "Ooppps, fail to log Formula."
+      redirect_to edit_formula_path(@formula)
+    end
+  end
+
+  def set_history
+    fetch_formula
+    if @formula
+      @formula.set_current_formula_ingredients_from_history params[:logged_at]
+      flash.now[:success] = "Formula changed to #{params[:logged_at]}"
+      render :edit
+    end
+  end
+
+
   def show
     fetch_formula
   end
