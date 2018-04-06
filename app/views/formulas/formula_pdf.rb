@@ -34,7 +34,7 @@ class FormulaPdf < Prawn::Document
     draw_text "#{@premix.name}", size: 12, at: [30.mm, 275.mm], style: :italic
 
     draw_text "Cost:", size: 12, at: [90.mm, 275.mm], style: :bold
-    draw_text @view.number_with_precision("#{@premix.cost*1000}/1000#{User.current.weight_unit}", precision: 2), size: 12, at: [105.mm, 275.mm], style: :italic
+    draw_text "#{@premix.cost}/#{User.current.weight_unit}", size: 12, at: [105.mm, 275.mm], style: :italic
 
     draw_text "Batch Size:", size: 12, at: [140.mm, 275.mm], style: :bold
     draw_text "#{@premix.batch_size} #{User.current.weight_unit}", size: 12, at: [170.mm, 275.mm], style: :italic
