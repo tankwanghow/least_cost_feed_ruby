@@ -6,5 +6,9 @@
     = f.button :submit, 'Save Changes', class: 'btn btn-primary'
     = link_to 'Cancel Changes', edit_ingredient_path(@ingredient), class: 'btn btn-warning'
     = link_to 'Back to Index', ingredients_path, class: 'btn btn-info'
+    - if @ingredient.used_in_formulas.count > 0
+      %h3 Used in Formulas
+    - @ingredient.used_in_formulas.each do |t|
+      %h4= link_to t.formula.name, edit_formula_path(t.formula.id)
   = render 'ingredient_compositions', f: f
-= render 'nutrients/select_nutrients' 
+= render 'nutrients/select_nutrients'
