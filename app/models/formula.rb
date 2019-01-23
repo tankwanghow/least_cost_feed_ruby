@@ -15,6 +15,11 @@ class Formula < ActiveRecord::Base
 
   attr_reader :prev_cost, :status
 
+  def formula_code
+    name.match(/\((.*)\)/).to_s.gsub("(", '').gsub(")", '').blank? ?
+      id : name.match(/\((.*)\)/).to_s.gsub("(", '').gsub(")", '')
+  end
+
   def self.find_formulas terms=nil, page=1
     if terms.blank?
       User.current.formulas.page(page).order(:name)
