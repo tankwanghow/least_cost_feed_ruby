@@ -5,9 +5,9 @@ class User < ActiveRecord::Base
   include SentientUser
   validates :username, uniqueness: true
   validates :name, :username, :time_zone, :country, :weight_unit, :status, :email, presence: true
+  has_many :formulas, dependent: :destroy
   has_many :ingredients, dependent: :destroy
   has_many :nutrients, dependent: :destroy
-  has_many :formulas, dependent: :destroy
   has_many :premixes
 
   after_create :add_sample_nutrients_and_ingredients
