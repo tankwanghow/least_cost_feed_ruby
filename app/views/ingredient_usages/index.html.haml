@@ -2,6 +2,7 @@
   %thead
     %tr
       %th Ingredient
+      %th Formulas
       %th.right-align= "Cost per #{current_user.weight_unit}"
       %th.right-align= "Daily(#{current_user.weight_unit})"
       %th.right-align= "Daily cost"
@@ -11,7 +12,10 @@
   %tbody
     - @usages.each do |r|
       %tr
-        %td= r["name"]
+        %td= link_to r["name"], edit_ingredient_path(r["id"])
+        %td
+          - Ingredient.find(r["id"]).used_in_formulas.each do |t|
+            = link_to t.formula.formula_code, edit_formula_path(t.formula.id)
         %td.numeric= number_with_precision r["cost"].to_f, precision: 2, delimiter: ","
         %td.numeric= number_with_precision r["qty"].to_f, precision: 2, delimiter: ","
         %td.numeric= number_with_precision r["qty"].to_f * r["cost"].to_f, precision: 2, delimiter: ","
@@ -20,6 +24,7 @@
         %td.numeric= number_with_precision((r["qty"].to_f * r["cost"].to_f * 30) / (@cost * 30) * 100, precision: 2, delimiter: ",")
   %tfoot
     %tr
+      %th
       %th
       %th
       %th.numeric= number_with_precision @weight, precision: 2, delimiter: ","
