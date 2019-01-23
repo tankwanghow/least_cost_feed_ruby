@@ -10,6 +10,10 @@ class Ingredient < ActiveRecord::Base
 
   accepts_nested_attributes_for :ingredient_compositions, allow_destroy: true
 
+  def used_in_formulas
+    formula_ingredients.where("actual > 0").includes(:formula).order("formulas.name")
+  end
+
   def self.find_ingredients terms=nil, page=1
     if terms.blank?
       User.current.ingredients.page(page).order(:name)
