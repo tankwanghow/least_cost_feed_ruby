@@ -7,7 +7,7 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
-server "106.186.124.38",
+server "139.162.126.77",
        :user => "deployer",
        :roles => %w(app backup cron db web)
 
