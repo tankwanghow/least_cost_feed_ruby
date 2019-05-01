@@ -19,7 +19,7 @@ $padding-base-vertical: 4px;
 }
 
 body {
-  padding-top: 65px; 
+  padding-top: 65px;
 }
 
 input[type='checkbox'].form-control {
@@ -46,16 +46,16 @@ table.lcf-select-table.table tbody tr td, table.lcf-select-table.table thead tr 
 }
 
 // .scrollable {
-//   overflow-y: scroll; 
-//   height: 600px; 
+//   overflow-y: scroll;
+//   height: 600px;
 //   margin-bottom: 10px;
 //   border-bottom: 2px solid #cccccc;
 //   padding-bottom: 1px;
 // }
 
 .scrollable-big {
-  overflow-y: scroll; 
-  height: 550px; 
+  overflow-y: scroll;
+  height: 550px;
   margin-bottom: 10px;
   border-bottom: 2px solid #cccccc;
   padding-bottom: 1px;
@@ -79,4 +79,8 @@ table.lcf-select-table.table tbody tr td, table.lcf-select-table.table thead tr 
   float: none;
   margin-left: auto;
   margin-right: auto;
+}
+
+input[type=text][name*=shadow_price] {
+  border-color: #9d9d9d;
 }

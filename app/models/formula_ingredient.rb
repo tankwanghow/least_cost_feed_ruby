@@ -45,6 +45,14 @@ class FormulaIngredient < ActiveRecord::Base
     end
   end
 
+  def shadow_price
+    if shadow > 0
+      ingredient ? ingredient.cost - shadow : 0
+    else
+      0
+    end
+  end
+
 private
 
   def perc attr
