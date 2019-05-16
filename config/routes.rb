@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   post 'formulas/log'
   get 'formulas/set_history'
   delete 'formulas/delete_history'
+  put 'formulas/update_daily_usage'
 
   # You can have the root of your site routed with "root"
   root 'welcome#index'

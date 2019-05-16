@@ -27,6 +27,10 @@ class FormulasController < ApplicationController
     end
   end
 
+  def update_daily_usage
+    fetch_formula
+    @formula.update_attributes(usage_per_day: params[:usage]) if @formula
+  end
 
   def show
     fetch_formula

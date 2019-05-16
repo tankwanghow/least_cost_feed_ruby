@@ -1,4 +1,14 @@
 window.app = {
+  updateDailyUsage: ->
+    ($ 'table').on 'change', 'input.formula_usage_per_day', (evt)->
+      obj = evt.currentTarget
+      formula_id = obj.id.split('_')[0]
+      if $.isNumeric(obj.value)
+        obj.parentNode.className = obj.parentNode.className.replace(' has-error', '')
+        $.ajax { url: 'formulas/update_daily_usage', data: {id: formula_id, usage: obj.value }, type: 'put' }
+      else
+        obj.parentNode.className += ' has-error'
+
   initPremix: ->
     ($ 'form').on 'blur', '#premix_usage_bags',  ->
       usage = ($ this).val()
@@ -63,9 +73,9 @@ window.app = {
     return rtnval
 
   destroyFormIngredients: ->
-    $('.ingredient_id ~ .destroy').each (i, e) -> 
+    $('.ingredient_id ~ .destroy').each (i, e) ->
       ($ e).attr('value', true)
-    $('.ingredient_id').parent('tr').each (i, e) -> 
+    $('.ingredient_id').parent('tr').each (i, e) ->
       ($ e).hide()
 
   initSelectIngredients: (ingredient_container, replace_string) ->
@@ -88,7 +98,7 @@ window.app = {
       form.hide()
       e.preventDefault()
 
-    ($ '#done_selecting_ingredients').click (e) ->  
+    ($ '#done_selecting_ingredients').click (e) ->
       app.destroyFormIngredients()
       app.setFormIngredients $('table#select_ingredients input[type=checkbox]:checked'), ingredient_container, bp_element_data, replace_string
       form.show()
@@ -127,16 +137,16 @@ window.app = {
 
 
   destroyFormNutrients: ->
-    $('.nutrient_id ~ .destroy').each (i, e) -> 
+    $('.nutrient_id ~ .destroy').each (i, e) ->
       ($ e).attr('value', true)
-    $('.nutrient_id').parent('tr').each (i, e) -> 
+    $('.nutrient_id').parent('tr').each (i, e) ->
       ($ e).hide()
 
   initSelectNutrients: (nutrient_container, replace_string) ->
     bp_element = null
     bp_element_data = null
     form = null
-    
+
     ($ '#cancel_selecting_nutrients').click (e) ->
       ($ '#scrollable_nutrients').hide()
       form.show()
@@ -152,7 +162,7 @@ window.app = {
       ($ '#scrollable_nutrients').show()
       e.preventDefault()
 
-    ($ '#done_selecting_nutrients').click (e) ->  
+    ($ '#done_selecting_nutrients').click (e) ->
       app.destroyFormNutrients()
       app.setFormNutrients $('table#select_nutrients input[type=checkbox]:checked'), nutrient_container, bp_element_data, replace_string
       ($ '#scrollable_nutrients').hide()

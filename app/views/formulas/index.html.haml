@@ -13,7 +13,7 @@
         = "Batch Size(#{current_user.weight_unit})"
       %th.right-align
         = "Cost(#{current_user.weight_unit})"
-      %th.right-align
+      %th.right-align.col-lg-1
         = "Usage Daily(#{current_user.weight_unit})"
       %th Changed Date
       %th
@@ -23,7 +23,7 @@
         %td= link_to f.name, edit_formula_path(f.id)
         %td.numeric= number_with_precision f.batch_size, precision: 4
         %td.numeric= number_with_precision f.cost, precision: 4
-        %td.numeric= number_with_precision f.usage_per_day, precision: 0
+        %td.form-group= text_field_tag :usage_per_day, f.usage_per_day, class: "formula_usage_per_day form-control numeric", id: "#{f.id}_usage_per_day", name: "#{f.id}_usage_per_day"
         %td= f.updated_at.in_time_zone(current_user.time_zone).to_s(:long)
         %td
           = link_to "Print", formula_path(f, format: :pdf), target: '_blank', class: 'btn btn-info'
