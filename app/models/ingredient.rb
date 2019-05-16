@@ -11,7 +11,7 @@ class Ingredient < ActiveRecord::Base
   accepts_nested_attributes_for :ingredient_compositions, allow_destroy: true
 
   def used_in_formulas
-    formula_ingredients.where("actual > 0").includes(:formula).order("formulas.name")
+    formula_ingredients.where("actual > 0").includes(:formula).where("usage_per_day > 0").order("formulas.name")
   end
 
   def self.find_ingredients terms=nil, page=1
