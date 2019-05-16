@@ -79,16 +79,13 @@ class Formula < ActiveRecord::Base
   end
 
   def set_current_formula_ingredients_from_history logged_at
-    max = formula_ingredients_histories.where(logged_at: logged_at, formula: self).map { |t| t[:actual] }.max
+    clear_formula_ingredients_mix_max
     formula_ingredients_histories.where(logged_at: logged_at, formula: self).each do |t|
-      f = formula_ingredients.find { |k| k.ingredient_id == t.ingredient_id }
-      if t.actual == max
-        f.min = t.actual - 0.000005
-      else
-        f.min = t.actual
-      end
-      f.use = t.use
-      f.max = t.actual if t.actual <= 0.01
+      f = formula_ingredients.find { |k| k.ingredient_id == t.ingredient_id } || formula_ingredients.build(ingredient_id: t.ingredient_id)
+      f.min = t.actual
+      f.max = t.actual if t.actual <= 0.001
+      f.actual = t.actual
+      f.use  = true
     end
     formula_nutrients.each { |t| t.use = false }
     self.cost = 0
@@ -99,6 +96,15 @@ class Formula < ActiveRecord::Base
   end
 
 private
+
+  def clear_formula_ingredients_mix_max
+    formula_ingredients.each do |t|
+      t.use = false
+      t.min = nil
+      t.max = nil
+      t.actual = 0
+    end
+  end
 
   def count_cost_set_weight
     amt = 0
