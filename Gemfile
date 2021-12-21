@@ -26,8 +26,10 @@ group :development do
   gem 'capistrano-bundler', :require => false
   gem 'capistrano-rails', :require => false
   gem 'capistrano', :require => false
-  gem 'capistrano-mb', :require => false
-  gem 'sshkit', github: 'capistrano/sshkit'
+  gem 'capistrano3-puma',   require: false
+  gem 'capistrano-rvm',     require: false
+  # gem 'capistrano-mb', :require => false
+  # gem 'sshkit', github: 'capistrano/sshkit'
   gem 'highline'
 end
 
@@ -37,7 +39,7 @@ gem 'monetize'
 gem 'money'
 gem 'sentient_user'
 gem 'nested_form'
-gem 'prawn'
+gem "prawn-rails"
 gem 'simple_form'
 gem 'haml'
 gem 'haml-rails'
@@ -50,7 +52,7 @@ gem 'dotenv-rails'
 gem 'bcrypt-ruby'
 
 # Use unicorn as the web server
-gem 'unicorn'
+gem 'puma'
 
 gem 'therubyracer', :platforms => :ruby
 gem 'bootstrap-sass'

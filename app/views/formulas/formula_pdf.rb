@@ -4,7 +4,7 @@ class FormulaPdf < Prawn::Document
     super(page_size: [210.mm, 297.mm], margin: [0.mm, 0.mm, 0.mm, 0.mm], skip_page_creation: true)
     @view = view
     @formula = formula
-    @premix = Premix.find formula.id
+    @premix = Premix.find @formula.id
     reset_page_properties
     draw
   end

@@ -1,3 +1,5 @@
+require './app/views/formulas/formula_pdf.rb'
+
 class FormulasController < ApplicationController
 
   def delete_history
@@ -34,6 +36,14 @@ class FormulasController < ApplicationController
 
   def show
     fetch_formula
+    respond_to do |format|
+      format.pdf do
+        pdf = FormulaPdf.new(@formula, view_context)
+        send_data pdf.render, filename: "formula_#{@formula.name}",
+                              type: "application/pdf",
+                              disposition: "inline"
+      end
+    end
   end
 
   def index

@@ -1,7 +1,17 @@
+require './app/views/premixes/premix_pdf.rb'
+
 class PremixesController < ApplicationController
 
   def show
     fetch_premix
+    respond_to do |format|
+      format.pdf do
+        pdf = PremixPdf.new(@premix, view_context)
+        send_data pdf.render, filename: "formula_#{@premix.name}",
+                              type: "application/pdf",
+                              disposition: "inline"
+      end
+    end
   end
 
   def new
