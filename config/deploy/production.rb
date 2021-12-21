@@ -1,3 +1,8 @@
+server "leastcostfeed.com",
+       :user => "deployer",
+       :roles => %w(app backup cron db web)
+
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
