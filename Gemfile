@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-# gem 'rails', '4.1.0.rc1'
 gem 'rails'
 # Use SCSS for stylesheets
 gem 'sass-rails'
@@ -45,7 +44,7 @@ gem 'haml-rails'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 gem 'country_select'
-gem 'dotenv-rails', '>= 2.0.0'
+gem 'dotenv-rails'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby'
