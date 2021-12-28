@@ -5,6 +5,7 @@ set :application, "least_cost_feed"
 set :repo_url, "git@github.com:tankwanghow/least_cost_feed.git"
 
 set :user, 'deployer'
+set :rbenv_ruby, "3.0.3"
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
 
