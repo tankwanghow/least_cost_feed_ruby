@@ -5,3 +5,5 @@ require 'prawn/measurement_extensions'
 # Add new mime types for use in respond_to blocks:
 Mime::Type.register "application/pdf", :pdf
 # Mime::Type.register_alias "text/html", :iphone
+
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
