@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
 private
 
   def add_sample_nutrients_and_ingredients
-    if changes["status"] && changes["status"][1] == 'active' && Rails.env != 'test'
+    if Rails.env != 'test'
       seed_sample_nutrients
       seed_sample_ingredients
       seed_sample_ingredient_nutrients
