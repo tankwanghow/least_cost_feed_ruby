@@ -41,8 +41,9 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
-  # config.ssl_options = { redirect: false, secure_cookies: false, hsts: false }
+  config.force_ssl = false
+  config.ssl_options = { hsts: false, redirect: false, secure_cookies: false }
+  config.action_dispatch.ssl_default_redirect_status = 301
 
   # Set to :debug to see everything in the log.
   config.log_level = :debug
