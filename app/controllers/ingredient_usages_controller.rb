@@ -6,6 +6,7 @@ class IngredientUsagesController < ApplicationController
           " inner join ingredients i on i.id = fi.ingredient_id" +
           " where f.usage_per_day > 0" +
           "   and fi.actual > 0" +
+          "   and i.user_id = #{current_user.id}" +
           " group by i.id, i.name, i.cost" +
           " order by sum(fi.actual * f.usage_per_day) * i.cost desc"
     @usages = ActiveRecord::Base.connection.execute(sql)
